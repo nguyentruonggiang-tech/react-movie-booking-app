@@ -1,17 +1,14 @@
-import "./App.css";
-import { Button } from "flowbite-react";
+import { BrowserRouter, Routes} from "react-router-dom";
+import { renderRoutes } from "./routes/index.jsx";  
 
 function App() {
-    return (
-        <main className="min-h-screen flex items-center justify-center bg-slate-100">
-            <div className="text-center space-y-4">
-                <h1 className="text-3xl font-bold text-slate-800">
-                    Tailwind + Flowbite OK
-                </h1>
-                <Button color="purple">Flowbite Button</Button>
-            </div>
-        </main>
-    );
+  return (
+    <BrowserRouter>
+        <Routes>
+            { renderRoutes() }
+        </Routes>
+    </BrowserRouter>
+  )
 }
 
-export default App;
+export default App

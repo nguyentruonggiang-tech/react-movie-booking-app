@@ -23,11 +23,11 @@ The main goal is simple: build the app step by step from a clean React foundatio
 
 ## Current Status
 
-`T00 (1/2)` in progress.
+`T00 (2/2)` completed.
 
 - Step 1 completed: base setup (dependencies + Tailwind + Flowbite verified)
-- Step 2 pending: base folder structure + route skeleton
-- Current UI is a temporary Tailwind/Flowbite verification screen
+- Step 2 completed: base folder structure + route skeleton
+- Current UI uses HomeTemplate/AdminTemplate layout placeholders
 
 ## Roadmap
 
@@ -46,9 +46,10 @@ The main goal is simple: build the app step by step from a clean React foundatio
   12. T11 - review and refactor
   13. T12 - deploy and release
 - **Current Focus**
-  - T00 (1/2 done)
+  - T00 (2/2 done)
     - [x] Step 1: Base setup
-    - [ ] Step 2: Create base folder structure + route skeleton
+    - [x] Step 2: Create base folder structure + route skeleton
+  - T01 (next): App core setup
 
 ## Repository Structure (at this milestone)
 
@@ -58,6 +59,10 @@ react-movie-booking-app/
     App.jsx
     main.jsx
     index.css
+    routes/
+    pages/
+    store/
+    services/
   public/
   package.json
 ```
@@ -72,7 +77,15 @@ Commands:
 
 ```bash
 npm install
+cp .env.example .env
 npm run dev
+```
+
+Environment variables (`.env`):
+
+```bash
+VITE_API_BASE_URL=https://domain.xyz/api/
+VITE_TOKEN_CYBERSOFT=YOUR_TOKEN_CYBERSOFT_HERE
 ```
 
 Then open the URL shown in terminal (usually `http://localhost:5173`).
