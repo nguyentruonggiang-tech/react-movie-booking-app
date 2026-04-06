@@ -21,35 +21,32 @@ The main goal is simple: build the app step by step from a clean React foundatio
 - Flowbite + Flowbite React
 - ESLint
 
-## Current Status
-
-`T00 (2/2)` completed.
-
-- Step 1 completed: base setup (dependencies + Tailwind + Flowbite verified)
-- Step 2 completed: base folder structure + route skeleton
-- Current UI uses HomeTemplate/AdminTemplate layout placeholders
-
 ## Roadmap
 
+Planned milestones (T00–T12) and **Current Focus** for work in progress:
+
 - **Overall Tasks**
-  1. T00 - project setup
-  2. T01 - app core setup
-  3. T02 - routing and templates
-  4. T03 - home UI + API
-  5. T04 - detail UI + API
-  6. T05 - booking UI + API
-  7. T06 - auth/profile UI + API
-  8. T07 - route guards and auth flow hardening
-  9. T08 - admin films UI + API
-  10. T09 - admin showtime UI + API
-  11. T10 - admin users UI + API
-  12. T11 - review and refactor
-  13. T12 - deploy and release
+  1. T00 — project setup
+  2. T01 — app-core-setup
+  3. T02 — routing and templates
+  4. T03 — home UI + API
+  5. T04 — detail UI + API
+  6. T05 — booking UI + API
+  7. T06 — auth/profile UI + API
+  8. T07 — route guards and auth flow hardening
+  9. T08 — admin films UI + API
+  10. T09 — admin showtime UI + API
+  11. T10 — admin users UI + API
+  12. T11 — review and refactor
+  13. T12 — deploy and release
 - **Current Focus**
   - T00 (2/2 done)
     - [x] Step 1: Base setup
     - [x] Step 2: Create base folder structure + route skeleton
-  - T01 (next): App core setup
+  - T01 — app-core-setup (1/3 steps, in progress)
+    - [x] Step 1: API client + constants + localStorage helpers
+    - [ ] Step 2: Response interceptor + basic 401 handling
+    - [ ] Step 3: Redux store skeleton + optional API self-test
 
 ## Repository Structure (at this milestone)
 
@@ -59,10 +56,14 @@ react-movie-booking-app/
     App.jsx
     main.jsx
     index.css
+    constants/
     routes/
     pages/
     store/
     services/
+      api.js
+    utils/
+      storage.js
   public/
   package.json
 ```
@@ -81,11 +82,12 @@ cp .env.example .env
 npm run dev
 ```
 
-Environment variables (`.env`):
+Environment variables (copy from `.env.example` and fill values):
 
 ```bash
-VITE_API_BASE_URL=https://domain.xyz/api/
+VITE_API_BASE_URL=https://movienew.cybersoft.edu.vn/api/
 VITE_TOKEN_CYBERSOFT=YOUR_TOKEN_CYBERSOFT_HERE
+VITE_MA_NHOM=YOUR_MA_NHOM_HERE
 ```
 
 Then open the URL shown in terminal (usually `http://localhost:5173`).
