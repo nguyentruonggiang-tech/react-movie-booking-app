@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import { HOME_HEADER_BAR_CLASS } from "../../layout";
 
 const navDesktopUnderline =
     "md:relative md:inline-block md:pb-2 md:transition-colors md:duration-200 " +
@@ -87,8 +88,10 @@ export default function Header() {
     }, [pathname]);
 
     return (
-        <nav className="relative z-30 w-full border-b border-white/10 bg-slate-950 font-sans">
-            <div className="relative mx-auto flex w-full flex-wrap items-center justify-between px-4 py-3.5 md:px-8">
+        <nav
+            className={`fixed top-0 left-0 right-0 z-[100] w-full border-b border-white/10 bg-slate-950/95 font-sans shadow-sm backdrop-blur-md ${HOME_HEADER_BAR_CLASS}`}
+        >
+            <div className="relative mx-auto flex h-full w-full items-center justify-between px-4 md:px-8">
                 <NavLink to="/" end className="relative z-20 flex shrink-0 items-center">
                     <span className="text-2xl font-black uppercase text-red-600">Movie Booking</span>
                 </NavLink>
@@ -122,10 +125,10 @@ export default function Header() {
                 <div
                     id="navbar-main"
                     className={
-                        "order-3 w-full basis-full px-0 py-3 max-md:border-t max-md:border-white/10 max-md:bg-transparent " +
-                        "md:order-2 md:absolute md:left-1/2 md:top-1/2 md:z-10 md:w-max md:max-w-[min(100%,calc(100%-12rem))] md:-translate-x-1/2 md:-translate-y-1/2 " +
+                        "max-md:absolute max-md:top-full max-md:left-0 max-md:right-0 max-md:z-[101] max-md:border-t max-md:border-white/10 max-md:bg-slate-950/98 max-md:px-4 max-md:py-3 max-md:shadow-lg max-md:backdrop-blur-md " +
+                        "md:absolute md:left-1/2 md:top-1/2 md:z-10 md:w-max md:max-w-[min(100%,calc(100%-12rem))] md:-translate-x-1/2 md:-translate-y-1/2 " +
                         "md:border-0 md:bg-transparent md:p-0 " +
-                        (menuOpen ? "block" : "hidden") +
+                        (menuOpen ? "max-md:block" : "max-md:hidden") +
                         " md:block"
                     }
                 >

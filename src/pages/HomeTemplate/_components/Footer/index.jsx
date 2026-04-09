@@ -13,7 +13,7 @@ export default function Footer() {
     const year = new Date().getFullYear();
 
     return (
-        <footer className="fixed bottom-0 left-0 z-20 w-full border-t border-white/10 bg-slate-950/95 p-4 text-sm font-medium shadow-sm backdrop-blur-sm md:flex md:items-center md:justify-between md:p-6">
+        <footer className="fixed bottom-0 left-0 right-0 z-[90] w-full border-t border-white/10 bg-slate-950/95 p-4 text-sm font-medium shadow-sm backdrop-blur-sm md:flex md:items-center md:justify-between md:p-6">
             <span className="text-slate-400 sm:text-center">
                 © {year}{" "}
                 <NavLink to="/" end className="text-red-600 hover:underline">

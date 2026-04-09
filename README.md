@@ -59,13 +59,13 @@ Planned milestones **T00–T11**. Route skeleton and layout templates belong to 
 
 - **T00** (2/2 done): base setup; base folders + route skeleton
 - **T01** (1/1 done): API client + constants + `localStorage` helpers
-- **T02** (1/4 steps, in progress)
+- **T02** (2/4 steps, in progress)
   - [x] **Step 1:** `HomeTemplate` — Header / Footer (English copy), mobile nav, Sign in / Sign up; fixed footer; static pages wired: `AboutUs`, `PrivacyPolicy`, `TermsOfService`, `Contact`, `News`
-  - [ ] **Step 2:** Banner — API + Redux + UI
+  - [x] **Step 2:** Banner — `fetchBannerList` in `bannerSlice`, `BannerCarousel` on Home (loading / error / empty, autoplay, link to `/detail/:maPhim` when available)
   - [ ] **Step 3:** Movie list — API + Redux + UI
   - [ ] **Step 4:** Home polish — compose sections, links to `/detail/:maPhim`, UX polish
 
-**Next:** T02 Step 2 — Banner (`bannerSlice`, carousel, Cybersoft banner API).
+**Next:** T02 Step 3 — Movie list (`movieSlice`, grid/cards on Home).
 
 ## Repository structure (snapshot)
 
@@ -81,7 +81,8 @@ react-movie-booking-app/
     pages/
       HomeTemplate/
         _components/     # Header, Footer
-        Home/            
+        Home/
+          _components/   # BannerCarousel (T02)
         AboutUs/
         PrivacyPolicy/
         TermsOfService/

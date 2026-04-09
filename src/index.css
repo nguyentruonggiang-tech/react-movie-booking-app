@@ -2,6 +2,7 @@
 @import "flowbite/src/themes/default";
 @plugin "flowbite/plugin";
 @source "../node_modules/flowbite";
+@source "../node_modules/flowbite-react/dist";
 
 /* theme/home: headline/navigation use Be Vietnam Pro as default font*/
 @theme {
@@ -11,5 +12,12 @@
 @layer base {
     html {
         font-family: var(--font-sans);
+    }
+}
+
+/* theme/home: accent headline glow on hero title */
+@layer utilities {
+    .text-glow-primary {
+        text-shadow: 0 0 15px rgba(248, 113, 113, 0.45);
     }
 }
