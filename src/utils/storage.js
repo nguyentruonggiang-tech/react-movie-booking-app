@@ -6,7 +6,9 @@ export function setLocalStorage(key, value) {
             key,
             typeof value === "string" ? value : JSON.stringify(value),
         );
-    } catch { }
+    } catch {
+        /* ignore: quota / private mode */
+    }
 }
 
 export function getLocalStorage(key) {
@@ -20,7 +22,9 @@ export function getLocalStorage(key) {
 export function deleteLocalStorage(key) {
     try {
         localStorage.removeItem(key);
-    } catch {}
+    } catch {
+        /* ignore: quota / private mode */
+    }
 }
 
 export function getAccessTokenFromLocalStorage(key = STORAGE_KEY_USER) {

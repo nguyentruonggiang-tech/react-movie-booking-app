@@ -59,13 +59,14 @@ Planned milestones **T00–T11**. Route skeleton and layout templates belong to 
 
 - **T00** (2/2 done): base setup; base folders + route skeleton
 - **T01** (1/1 done): API client + constants + `localStorage` helpers
-- **T02** (3/4 steps, in progress)
+- **T02** (4/5 steps, in progress)
   - [x] **Step 1:** `HomeTemplate` — Header / Footer (English copy), mobile nav, Sign in / Sign up; fixed footer; static pages wired: `AboutUs`, `PrivacyPolicy`, `TermsOfService`, `Contact`, `News`
   - [x] **Step 2:** Banner — `fetchBannerList` in `bannerSlice`, `BannerCarousel` on Home (loading / error / empty, autoplay, link to `/detail/:maPhim` when available)
   - [x] **Step 3:** Movie list — `fetchMovieList` in `movieSlice`, `MovieList` on Home (tabs Now showing / Coming soon, grid + `MovieCard`, loading / error / empty, links to `/detail/:maPhim`)
-  - [ ] **Step 4:** Home polish — compose sections, links to `/detail/:maPhim`, UX polish
+  - [x] **Step 4:** Theater systems — `Theater/slice.js` + reducers in `store`, `Home/Theater/` (logos, clusters, showtimes by cluster; loading / error / empty; links `/detail/:maPhim`, `/ticketroom/:maLichChieu`)
+  - [ ] **Step 5:** Home polish — compose / unify messaging, final UX
 
-**Next:** T02 Step 4 — Home polish (unify loading/error messaging if needed).
+**Next:** T02 Step 5 — Home polish (optional pass over loading/error copy and spacing).
 
 ## Repository structure (snapshot)
 
@@ -82,6 +83,9 @@ react-movie-booking-app/
       HomeTemplate/
         _components/     # Header, Footer
         Home/
+          bannerSlice.js
+          movieSlice.js
+          Theater/         # T02: slice.js, index.jsx, _components/ (theater UI)
           _components/   # BannerCarousel, MovieList (T02)
         AboutUs/
         PrivacyPolicy/
