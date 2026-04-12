@@ -18,7 +18,7 @@ export default function MovieInfo({ data }) {
 
     return (
         <div className="relative z-10 w-full text-[#f6f6fc]">
-            <div className="mx-auto max-w-7xl px-8 pb-16 pt-4 md:pb-24">
+            <div className="mx-auto max-w-7xl px-8 py-4 md:py-6">
                 <nav
                     aria-label="Breadcrumb"
                     className="mb-6 border-b border-white/10 pb-4 text-sm text-zinc-300"

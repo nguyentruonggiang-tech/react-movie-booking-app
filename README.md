@@ -66,11 +66,11 @@ Planned milestones **T00–T11**. Route skeleton and layout templates belong to 
   - [x] **Step 4:** Theater systems — `Theater/slice.js` + reducers in `store`, `Home/Theater/` (logos, clusters, showtimes by cluster; loading / error / empty; links `/detail/:maPhim`, `/ticketroom/:maLichChieu`)
   - [x] **Step 5:** Home polish — vertical spacing on `Home/index.jsx` (`flex` + `gap-3`); `MovieList` section padding tightened; `Theater` keeps original `pb-24` section (stable grid vs. `feat(t02): home theather system` commit `d4c05ff`).
 
-- **T03** (in progress): Detail UI + API
+- **T03** (in progress, 2/3 steps): Detail UI + API
   - [x] **Step 1:** Movie detail — `fetchMovieDetail` in `Detail/MovieDetail/slice.js` (`QuanLyPhim/LayThongTinPhim`), `movieDetailReducer` in `store`; `/detail/:maPhim` + `useParams`, cleanup on leave; loading skeleton, error + retry, not-found; `Backdrop` + `MovieInfo` (breadcrumb, poster, title, rating, status badges, synopsis, release date, trailer link when available).
-  - [ ] **Step 2:** Showtimes on the detail page + booking links (`/ticketroom/:maLichChieu`).
+  - [x] **Step 2:** Showtimes — `fetchMovieShowtimes` in `Detail/ShowtimeSection/slice.js` (`QuanLyRap/LayThongTinLichChieuPhim`), `movieShowtimesReducer` in `store`; `Detail/ShowtimeSection/` (theater systems, date tabs, clusters, session chips); loading / error + retry / empty; `NavLink` to `/ticketroom/:maLichChieu`; wired from `Detail/index.jsx` below `MovieDetail`.
 
-**Next:** T03 — Step 2.
+**Next:** T03 — Step 3 (QA, edge cases, lint, README/ROADMAP when closing T03).
 
 ## Repository structure (snapshot)
 
@@ -97,7 +97,7 @@ react-movie-booking-app/
         News/
         Login/
         Register/
-        Detail/            # T03: slice.js, index.jsx, _components/ (Backdrop, MovieInfo, Loading, ErrorBox, NotFound)
+        Detail/            # T03: index.jsx; MovieDetail/ + ShowtimeSection/ (slices, UI, _components)
         TicketRoom/
         Profile/
       AdminTemplate/
