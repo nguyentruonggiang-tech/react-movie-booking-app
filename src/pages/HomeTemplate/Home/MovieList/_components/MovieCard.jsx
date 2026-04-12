@@ -1,6 +1,6 @@
 import { memo, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { InfoIcon, PlayIcon } from "../../icons";
+import { InfoIcon, PlayIcon } from "@pages/HomeTemplate/_components/icons";
 
 const movieCardActionIconClassName = "h-5 w-5 shrink-0";
 

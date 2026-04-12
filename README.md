@@ -64,9 +64,13 @@ Planned milestones **T00–T11**. Route skeleton and layout templates belong to 
   - [x] **Step 2:** Banner — `fetchBannerList` in `Home/BannerCarousel/slice.js`, `Home/BannerCarousel/` (loading / error / empty, autoplay, link to `/detail/:maPhim` when available)
   - [x] **Step 3:** Movie list — `fetchMovieList` in `Home/MovieList/slice.js`, `Home/MovieList/` (tabs Now showing / Coming soon, grid + `MovieCard`, loading / error / empty, links to `/detail/:maPhim`)
   - [x] **Step 4:** Theater systems — `Theater/slice.js` + reducers in `store`, `Home/Theater/` (logos, clusters, showtimes by cluster; loading / error / empty; links `/detail/:maPhim`, `/ticketroom/:maLichChieu`)
-  - [x] **Step 5:** Home polish — vertical spacing between Banner / Movie list / Theater on `Home/index.jsx` (`flex` + `gap-3`; `MovieList` / `Theater` section padding tightened)
+  - [x] **Step 5:** Home polish — vertical spacing on `Home/index.jsx` (`flex` + `gap-3`); `MovieList` section padding tightened; `Theater` keeps original `pb-24` section (stable grid vs. `feat(t02): home theather system` commit `d4c05ff`).
 
-**Next:** T03 — Detail UI + API.
+- **T03** (in progress): Detail UI + API
+  - [x] **Step 1:** Movie detail — `fetchMovieDetail` in `Detail/slice.js` (`QuanLyPhim/LayThongTinPhim`), `movieDetailReducer` in `store`; `/detail/:maPhim` + `useParams`, cleanup on leave; loading skeleton, error + retry, not-found; `Backdrop` + `MovieInfo` (breadcrumb, poster, title, rating, status badges, synopsis, release date, trailer link when available).
+  - [ ] **Step 2:** Showtimes on the detail page + booking links (`/ticketroom/:maLichChieu`).
+
+**Next:** T03 — Step 2.
 
 ## Repository structure (snapshot)
 
@@ -81,9 +85,8 @@ react-movie-booking-app/
       index.jsx
     pages/
       HomeTemplate/
-        _components/     # Header, Footer
+        _components/     # Header, Footer, icons.jsx (shared SVGs: Home + Detail)
         Home/
-          icons.jsx        # T02: PlayIcon, InfoIcon (Banner + Movie list)
           BannerCarousel/  # T02: slice.js, index.jsx, constants, _components/
           MovieList/       # T02: slice.js, index.jsx, _components/ (MovieCard)
           Theater/         # T02: slice.js, index.jsx, _components/
@@ -94,7 +97,7 @@ react-movie-booking-app/
         News/
         Login/
         Register/
-        Detail/
+        Detail/            # T03: slice.js, index.jsx, _components/ (Backdrop, MovieInfo, Loading, ErrorBox, NotFound)
         TicketRoom/
         Profile/
       AdminTemplate/
