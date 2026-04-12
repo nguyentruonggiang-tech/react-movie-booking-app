@@ -1,4 +1,4 @@
-export default function Loading() {
+export default function MovieDetailSkeleton() {
     return (
         <div
             className="min-h-screen w-full bg-[#0c0e12]"

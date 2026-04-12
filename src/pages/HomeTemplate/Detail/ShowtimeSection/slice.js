@@ -2,7 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "@services/api";
 
 const initialState = {
-    data: [],
+    /** Schedule payload (`heThongRapChieu` …) or `null` when idle / loading / error. */
+    data: null,
     loading: false,
     error: null,
 };
@@ -15,7 +16,7 @@ export const fetchMovieShowtimes = createAsyncThunk(
                 `QuanLyRap/LayThongTinLichChieuPhim?MaPhim=${maPhim}`,
             );
 
-            return data.content;
+            return data?.content ?? null;
         } catch (error) {
             const message =
                 error.response?.data?.message ??
@@ -37,7 +38,7 @@ const movieShowtimesSlice = createSlice({
             .addCase(fetchMovieShowtimes.pending, (state) => {
                 state.loading = true;
                 state.error = null;
-                state.data = [];
+                state.data = null;
             })
             .addCase(fetchMovieShowtimes.fulfilled, (state, action) => {
                 state.loading = false;
@@ -47,7 +48,7 @@ const movieShowtimesSlice = createSlice({
             .addCase(fetchMovieShowtimes.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
-                state.data = [];
+                state.data = null;
             });
     },
 });

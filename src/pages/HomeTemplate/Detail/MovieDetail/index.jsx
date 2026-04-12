@@ -4,9 +4,9 @@ import { useParams } from "react-router-dom";
 import { clearMovieDetail, fetchMovieDetail } from "./slice";
 
 import Backdrop from "./_components/Backdrop";
-import Loading from "./_components/Loading";
-import ErrorBox from "./_components/ErrorBox";
-import NotFound from "./_components/NotFound";
+import MovieDetailSkeleton from "./_components/MovieDetailSkeleton";
+import ErrorBox from "../_components/ErrorBox";
+import NotFound from "../_components/NotFound";
 import MovieInfo from "./_components/MovieInfo";
 
 export default function MovieDetail() {
@@ -27,21 +27,31 @@ export default function MovieDetail() {
         };
     }, [maPhim, dispatch]);
 
-    if (loading) return <Loading />;
+    if (loading) return <MovieDetailSkeleton />;
 
     if (error) {
-        return (
+        return ( 
             <ErrorBox
+                title="Movie Detail Error"
                 message={error}
                 onRetry={() => dispatch(fetchMovieDetail(maPhim))}
             />
         );
     }
 
-    if (!data) return <NotFound />;
+    if (!data) {
+        return (
+            <div className="w-full max-w-xl mx-auto">
+                <NotFound
+                    title="Movie not found"
+                    message="No movie data was returned for this id."
+                />
+            </div>
+        );
+    }
 
     return (
-        <div className="relative min-h-screen overflow-hidden bg-[#0c0e12]">
+        <div className="relative overflow-hidden bg-[#0c0e12]">
             <Backdrop posterUrl={data.hinhAnh} />
             <MovieInfo data={data} />
         </div>

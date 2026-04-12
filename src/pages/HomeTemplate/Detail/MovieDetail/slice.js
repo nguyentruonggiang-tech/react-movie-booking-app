@@ -2,7 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "@services/api";
 
 const initialState = {
-    data: [],
+    /** Movie object from API, or `null` when idle / loading / error / empty. */
+    data: null,
     loading: false,
     error: null,
 };
@@ -15,7 +16,7 @@ export const fetchMovieDetail = createAsyncThunk(
                 `QuanLyPhim/LayThongTinPhim?maPhim=${maPhim}`,
             );
 
-            return data.content ?? [];
+            return data?.content ?? null;
         } catch (error) {
             const message =
                 error.response?.data?.message ??
@@ -37,7 +38,7 @@ const movieDetailSlice = createSlice({
             .addCase(fetchMovieDetail.pending, (state) => {
                 state.loading = true;
                 state.error = null;
-                state.data = [];
+                state.data = null;
             })
             .addCase(fetchMovieDetail.fulfilled, (state, action) => {
                 state.loading = false;
@@ -47,7 +48,7 @@ const movieDetailSlice = createSlice({
             .addCase(fetchMovieDetail.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
-                state.data = [];
+                state.data = null;
             });
     },
 });
