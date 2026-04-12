@@ -1,7 +1,11 @@
+import MovieDetail from "./MovieDetail";
+import ShowtimeSection from "./ShowtimeSection";
+
 export default function Detail() {
-  return (
-    <div>
-        <h1>Detail</h1>
-    </div>
-  )
+    return (
+        <div className="relative bg-[#0c0e12]">
+            <MovieDetail />
+            <ShowtimeSection/>
+        </div>
+    );
 }
