@@ -70,7 +70,7 @@ Planned milestones **T00–T11**. Route skeleton and layout templates belong to 
   - [x] **Step 1:** Movie detail — `fetchMovieDetail` in `Detail/MovieDetail/slice.js` (`QuanLyPhim/LayThongTinPhim`), `movieDetailReducer` in `store`; `/detail/:maPhim` + `useParams`, cleanup on leave; loading skeleton, error + retry, not-found; `Backdrop` + `MovieInfo` (breadcrumb, poster, title, rating, status badges, synopsis, release date, trailer link when available).
   - [x] **Step 2:** Showtimes — `fetchMovieShowtimes` in `Detail/ShowtimeSection/slice.js` (`QuanLyRap/LayThongTinLichChieuPhim`), `movieShowtimesReducer` in `store`; `Detail/ShowtimeSection/` (theater systems, date tabs, clusters, session chips); loading / error + retry / empty; `NavLink` to `/ticketroom/:maLichChieu`; wired from `Detail/index.jsx` below `MovieDetail`.
   - [x] **Step 3:** Detail polish + structure (follow-up commits for steps 1–2; changelog-style notes kept here)
-    - **Shared `Detail/_components`:** `ErrorBox.jsx` and `NotFound.jsx` used by both `MovieDetail` and `ShowtimeSection`; neither accepts `className` — parent wraps layout (`max-width`, `mt-*`, …); `z-index` on wrappers so messages are not hidden behind the backdrop when needed.
+    - **Shared `HomeTemplate/_components`:** `ErrorBox.jsx` and `NotFound.jsx` for Detail (`MovieDetail`, `ShowtimeSection`) and Home (`BannerCarousel`, `MovieList`, `Theater`). **`HomeTemplate/constants/index.js`:** shell layout tokens (`HOME_HEADER_BAR_CLASS`, `HOME_MAIN_PADDING_TOP_CLASS`) and banner hero `BTN_PRIMARY` / `BTN_SECONDARY`. Neither `ErrorBox` nor `NotFound` accepts `className` — parent wraps layout; `z-index` on wrappers when needed vs. backdrop.
     - **Movie detail (step 1 follow-ups):** slice `data` nullable (`null` when idle/loading/error); thunk returns safe payload (`?? null`); skeleton at `MovieDetail/_components/MovieDetailSkeleton.jsx`.
     - **Showtimes (step 2 follow-ups):** thunk `data?.content ?? null`; `clearMovieShowtimes` on unmount; UI split into `ShowtimeSection/_components/` (`TheaterSystemRail`, `ShowingDateStrip`, `TheaterClusterSessions`, `ShowtimeVerifiedImg`, `ShowtimeSectionSkeleton`); section + grid layout stays in `ShowtimeSection/index.jsx`; `useMemo` / `useCallback` for derived lists and retry; `React.memo` on presenter blocks; `constants.js` + `utils.js` (days/sessions, Maps URL, image probe); `SHOWTIME_NO_IMAGE_URL` from `src/assets/noimage.svg`.
 
@@ -91,7 +91,10 @@ react-movie-booking-app/
       index.jsx
     pages/
       HomeTemplate/
-        _components/     # Header, Footer, icons.jsx (shared SVGs: Home + Detail)
+        index.jsx        # layout shell (Header / Outlet / Footer)
+        constants/
+          index.js       # header/main spacing + banner BTN_* classes
+        _components/     # Header/, Footer/, icons.jsx; ErrorBox, NotFound
         Home/
           BannerCarousel/  # T02: slice.js, index.jsx, constants, _components/
           MovieList/       # T02: slice.js, index.jsx, _components/ (MovieCard)
@@ -105,7 +108,6 @@ react-movie-booking-app/
         Register/
         Detail/            # T03
           index.jsx        # MovieDetail + ShowtimeSection
-          _components/     # ErrorBox, NotFound (shared by MovieDetail + ShowtimeSection)
           MovieDetail/
             slice.js
             index.jsx

@@ -5,8 +5,8 @@ import { clearMovieDetail, fetchMovieDetail } from "./slice";
 
 import Backdrop from "./_components/Backdrop";
 import MovieDetailSkeleton from "./_components/MovieDetailSkeleton";
-import ErrorBox from "../_components/ErrorBox";
-import NotFound from "../_components/NotFound";
+import ErrorBox from "@pages/HomeTemplate/_components/ErrorBox";
+import NotFound from "@pages/HomeTemplate/_components/NotFound";
 import MovieInfo from "./_components/MovieInfo";
 
 export default function MovieDetail() {

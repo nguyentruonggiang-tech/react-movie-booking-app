@@ -1,6 +1,6 @@
 import { Outlet, useLocation } from "react-router-dom";
 import Header from "./_components/Header";
-import { HOME_MAIN_PADDING_TOP_CLASS } from "./layout";
+import { HOME_MAIN_PADDING_TOP_CLASS } from "./constants";
 import Footer from "./_components/Footer";
 
 /** Movie detail uses a full-viewport poster backdrop; opaque shell bg would hide it. */

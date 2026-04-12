@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import ErrorBox from "@pages/HomeTemplate/_components/ErrorBox";
+import NotFound from "@pages/HomeTemplate/_components/NotFound";
 import { fetchMovieList } from "./slice";
 import MovieCard from "./_components/MovieCard";
 
@@ -93,21 +95,21 @@ export default function MovieList() {
             {loading ? (
                 <MovieListSkeleton />
             ) : error ? (
-                <div className="flex flex-col items-center justify-center gap-4 rounded-xl border border-white/10 bg-zinc-900/50 py-16">
-                    <p className="text-center text-sm text-zinc-400">{String(error)}</p>
-                    <button
-                        type="button"
-                        className="rounded-full bg-red-600 px-6 py-2 text-sm font-semibold text-white hover:bg-red-500"
-                        onClick={() => refetch()}
-                    >
-                        Retry
-                    </button>
-                </div>
+                <ErrorBox
+                    title="Movie list"
+                    message={error}
+                    onRetry={refetch}
+                />
             ) : visible.length === 0 ? (
-                <div className="rounded-xl border border-white/10 bg-zinc-900/40 py-16 text-center text-sm text-zinc-400">
-                    {tab === TAB_UPCOMING
-                        ? "No upcoming movies yet."
-                        : "No movies in the list."}
+                <div className="mx-auto w-full max-w-xl">
+                    <NotFound
+                        title="Movie list"
+                        message={
+                            tab === TAB_UPCOMING
+                                ? "No upcoming movies yet."
+                                : "No movies in the list."
+                        }
+                    />
                 </div>
             ) : (
                 <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">

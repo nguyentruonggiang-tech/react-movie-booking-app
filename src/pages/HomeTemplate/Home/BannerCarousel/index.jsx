@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Carousel } from "flowbite-react";
 import { WRAPPER_CLASS } from "./constants";
 import { fetchBannerList } from "./slice";
+import ErrorBox from "@pages/HomeTemplate/_components/ErrorBox";
 import BannerSlide from "./_components/BannerSlide";
 import BannerOverlay from "./_components/BannerOverlay";
 import BannerLoading from "./_components/BannerLoading";
-import BannerError from "./_components/BannerError";
 import BannerEmpty from "./_components/BannerEmpty";
 
 const carouselTheme = {
@@ -92,7 +92,17 @@ export default function BannerCarousel() {
     }
 
     if (error) {
-        return <BannerError error={error} onRetry={refetch} />;
+        return (
+            <div className={WRAPPER_CLASS}>
+                <div className="flex h-full w-full items-center justify-center">
+                    <ErrorBox
+                        title="Banner"
+                        message={error}
+                        onRetry={refetch}
+                    />
+                </div>
+            </div>
+        );
     }
 
     if (banners.length === 0) {

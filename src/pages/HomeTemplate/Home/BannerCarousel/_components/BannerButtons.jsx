@@ -1,6 +1,9 @@
 import { memo } from "react";
 import { NavLink } from "react-router-dom";
-import { BTN_PRIMARY, BTN_SECONDARY } from "../constants";
+import {
+    BTN_PRIMARY,
+    BTN_SECONDARY,
+} from "@pages/HomeTemplate/constants";
 import { InfoIcon, PlayIcon } from "@pages/HomeTemplate/_components/icons";
 
 function BannerButtons({ movieId }) {

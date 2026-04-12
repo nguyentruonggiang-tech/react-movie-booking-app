@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { HOME_HEADER_BAR_CLASS } from "../../layout";
+import { HOME_HEADER_BAR_CLASS } from "../../constants";
 
 const navDesktopUnderline =
     "md:relative md:inline-block md:pb-2 md:transition-colors md:duration-200 " +

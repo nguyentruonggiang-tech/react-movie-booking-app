@@ -7,8 +7,8 @@ import ShowingDateStrip from "./_components/ShowingDateStrip";
 import ShowtimeSectionSkeleton from "./_components/ShowtimeSectionSkeleton";
 import TheaterClusterSessions from "./_components/TheaterClusterSessions";
 import TheaterSystemRail from "./_components/TheaterSystemRail";
-import ErrorBox from "../_components/ErrorBox";
-import NotFound from "../_components/NotFound";
+import ErrorBox from "@pages/HomeTemplate/_components/ErrorBox";
+import NotFound from "@pages/HomeTemplate/_components/NotFound";
 import { SHOWTIME_COLUMN_CLASS } from "./constants";
 import { sortedDayKeys } from "./utils";
 

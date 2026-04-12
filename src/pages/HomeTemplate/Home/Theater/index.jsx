@@ -5,10 +5,10 @@ import {
     fetchTheaterClusters,
     fetchTheaterShowtimes,
 } from "./slice";
+import ErrorBox from "@pages/HomeTemplate/_components/ErrorBox";
 import TheaterSystemList from "./_components/TheaterSystemList";
 import TheaterClusterList from "./_components/TheaterClusterList";
 import ShowtimeList from "./_components/ShowtimeList";
-import ErrorBox from "./_components/ErrorBox";
 import ColumnSkeleton from "./_components/ColumnSkeleton";
 import ColumnEmpty from "./_components/ColumnEmpty";
 
@@ -102,6 +102,7 @@ export default function Theater() {
                         />
                     ) : theaterSystemsState?.error ? (
                         <ErrorBox
+                            title="Theater systems"
                             message={theaterSystemsState.error}
                             onRetry={() => dispatch(fetchTheaterSystems())}
                         />
@@ -130,6 +131,7 @@ export default function Theater() {
                         />
                     ) : theaterClustersState?.error ? (
                         <ErrorBox
+                            title="Theater clusters"
                             message={theaterClustersState.error}
                             onRetry={() =>
                                 dispatch(
@@ -168,6 +170,7 @@ export default function Theater() {
                         />
                     ) : theaterShowtimesState?.error ? (
                         <ErrorBox
+                            title="Showtimes"
                             message={theaterShowtimesState.error}
                             onRetry={() =>
                                 dispatch(
