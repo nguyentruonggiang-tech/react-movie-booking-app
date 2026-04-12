@@ -37,7 +37,7 @@ const movieDetailSlice = createSlice({
             .addCase(fetchMovieDetail.pending, (state) => {
                 state.loading = true;
                 state.error = null;
-                state.data = null;
+                state.data = [];
             })
             .addCase(fetchMovieDetail.fulfilled, (state, action) => {
                 state.loading = false;
@@ -47,7 +47,7 @@ const movieDetailSlice = createSlice({
             .addCase(fetchMovieDetail.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
-                state.data = null;
+                state.data = [];
             });
     },
 });

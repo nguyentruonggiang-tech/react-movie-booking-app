@@ -6,7 +6,7 @@ import {
     theaterClustersReducer,
     theaterShowtimesReducer,
 } from "@pages/HomeTemplate/Home/Theater/slice";
-import movieDetailReducer from "@pages/HomeTemplate/Detail/slice";
+import movieDetailReducer from "@pages/HomeTemplate/Detail/MovieDetail/slice";
 
 const store = configureStore({
     reducer: {
