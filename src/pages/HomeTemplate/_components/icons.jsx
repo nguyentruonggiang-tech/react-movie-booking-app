@@ -21,6 +21,23 @@ export function PlayIcon({ className }) {
     );
 }
 
+export function TicketIcon({ className }) {
+    return (
+        <svg
+            className={className}
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            aria-hidden
+        >
+            <path
+                fillRule="evenodd"
+                d="M1.5 6.75A2.25 2.25 0 0 1 3.75 4.5h16.5a2.25 2.25 0 0 1 2.25 2.25v.75a.75.75 0 0 1-.75.75H21a3 3 0 0 0 0 6h.75a.75.75 0 0 1 .75.75v.75a2.25 2.25 0 0 1-2.25 2.25H3.75a2.25 2.25 0 0 1-2.25-2.25v-.75a.75.75 0 0 1 .75-.75H3a3 3 0 0 0 0-6h-.25a.75.75 0 0 1-.75-.75v-.75Z"
+                clipRule="evenodd"
+            />
+        </svg>
+    );
+}
+
 export function InfoIcon({ className }) {
     return (
         <svg

@@ -59,22 +59,25 @@ Planned milestones **T00–T11**. Route skeleton and layout templates belong to 
 
 - **T00** (2/2 done): base setup; base folders + route skeleton
 - **T01** (1/1 done): API client + constants + `localStorage` helpers
-- **T02** (5/5 done)
-  - [x] **Step 1:** `HomeTemplate` — Header / Footer (English copy), mobile nav, Sign in / Sign up; fixed footer; static pages wired: `AboutUs`, `PrivacyPolicy`, `TermsOfService`, `Contact`, `News`
-  - [x] **Step 2:** Banner — `fetchBannerList` in `Home/BannerCarousel/slice.js`, `Home/BannerCarousel/` (loading / error / empty, autoplay, link to `/detail/:maPhim` when available)
-  - [x] **Step 3:** Movie list — `fetchMovieList` in `Home/MovieList/slice.js`, `Home/MovieList/` (tabs Now showing / Coming soon, grid + `MovieCard`, loading / error / empty, links to `/detail/:maPhim`)
-  - [x] **Step 4:** Theater systems — `Theater/slice.js` + reducers in `store`, `Home/Theater/` (logos, clusters, showtimes by cluster; loading / error / empty; links `/detail/:maPhim`, `/ticketroom/:maLichChieu`)
-  - [x] **Step 5:** Home polish — vertical spacing on `Home/index.jsx` (`flex` + `gap-3`); `MovieList` section padding tightened; `Theater` keeps original `pb-24` section (stable grid vs. `feat(t02): home theather system` commit `d4c05ff`).
+- **T02** (5/5 done): Home UI + API
+  - [x] **Step 1:** `HomeTemplate` — header/footer, mobile nav, static routes (`AboutUs`, `News`, …).
+  - [x] **Step 2:** `Home/BannerCarousel/` — `fetchBannerList` in `slice.js`; loading / error / empty; links to `/detail/:maPhim`.
+  - [x] **Step 3:** `Home/MovieList/` — `fetchMovieList` in `slice.js`; tabs + grid; `/detail/:maPhim`.
+  - [x] **Step 4:** `Home/Theater/` — `Theater/slice.js` in `store`; clusters + showtimes; `/detail/:maPhim`, `/ticketroom/:maLichChieu`.
+  - [x] **Step 5:** `Home/index.jsx` layout spacing + section padding polish.
 
-- **T03** (3/3 steps): Detail UI + API
-  - [x] **Step 1:** Movie detail — `fetchMovieDetail` in `Detail/MovieDetail/slice.js` (`QuanLyPhim/LayThongTinPhim`), `movieDetailReducer` in `store`; `/detail/:maPhim` + `useParams`, cleanup on leave; loading skeleton, error + retry, not-found; `Backdrop` + `MovieInfo` (breadcrumb, poster, title, rating, status badges, synopsis, release date, trailer link when available).
-  - [x] **Step 2:** Showtimes — `fetchMovieShowtimes` in `Detail/ShowtimeSection/slice.js` (`QuanLyRap/LayThongTinLichChieuPhim`), `movieShowtimesReducer` in `store`; `Detail/ShowtimeSection/` (theater systems, date tabs, clusters, session chips); loading / error + retry / empty; `NavLink` to `/ticketroom/:maLichChieu`; wired from `Detail/index.jsx` below `MovieDetail`.
-  - [x] **Step 3:** Detail polish + structure (follow-up commits for steps 1–2; changelog-style notes kept here)
-    - **Shared `HomeTemplate/_components`:** `ErrorBox.jsx` and `NotFound.jsx` for Detail (`MovieDetail`, `ShowtimeSection`) and Home (`BannerCarousel`, `MovieList`, `Theater`). **`HomeTemplate/constants/index.js`:** shell layout tokens (`HOME_HEADER_BAR_CLASS`, `HOME_MAIN_PADDING_TOP_CLASS`) and banner hero `BTN_PRIMARY` / `BTN_SECONDARY`. Neither `ErrorBox` nor `NotFound` accepts `className` — parent wraps layout; `z-index` on wrappers when needed vs. backdrop.
-    - **Movie detail (step 1 follow-ups):** slice `data` nullable (`null` when idle/loading/error); thunk returns safe payload (`?? null`); skeleton at `MovieDetail/_components/MovieDetailSkeleton.jsx`.
-    - **Showtimes (step 2 follow-ups):** thunk `data?.content ?? null`; `clearMovieShowtimes` on unmount; UI split into `ShowtimeSection/_components/` (`TheaterSystemRail`, `ShowingDateStrip`, `TheaterClusterSessions`, `ShowtimeVerifiedImg`, `ShowtimeSectionSkeleton`); section + grid layout stays in `ShowtimeSection/index.jsx`; `useMemo` / `useCallback` for derived lists and retry; `React.memo` on presenter blocks; `constants.js` + `utils.js` (days/sessions, Maps URL, image probe); `SHOWTIME_NO_IMAGE_URL` from `src/assets/noimage.svg`.
+- **T03** (3/3 done): Detail UI + API
+  - [x] **Step 1:** `Detail/MovieDetail/` — `fetchMovieDetail` (`QuanLyPhim/LayThongTinPhim`), `/detail/:maPhim`, skeleton + error + not-found.
+  - [x] **Step 2:** `Detail/ShowtimeSection/` — `fetchMovieShowtimes` (`QuanLyRap/LayThongTinLichChieuPhim`); dates / clusters / chips → `/ticketroom/:maLichChieu`.
+  - [x] **Step 3:** Shared `ErrorBox` / `NotFound`; `ShowtimeSection/_components/` split + `constants.js` / `utils.js` polish.
 
-**Next:** T04 — Booking UI + API (`TicketRoom`, …).
+- **T04** (in progress): Booking — scope & steps: [`docs/T04_IMPLEMENTATION_GUIDE.md`](docs/T04_IMPLEMENTATION_GUIDE.md). Step 1 commit message: `feat(ticketroom): ticketroom page and seat list by showtime`.
+  - [x] **Step 1:** `/ticketroom/:maLichChieu` — `TicketRoom/slice.js` (`fetchTicketRoom`, `QuanLyDatVe/LayDanhSachPhongVe`), `ticketRoomReducer` in `store/index.js`, `TicketRoom/index.jsx` + `SeatMap` / `seatStyles.js` (read-only map; summary mock for later steps).
+  - [ ] **Step 2:** Seat selection + pricing
+  - [ ] **Step 3:** Booking submit + feedback UI
+  - [ ] **Step 4:** QA + lint polish
+
+**Next:** T04 Step 2: Seat selection + pricing.
 
 ## Repository structure (snapshot)
 
@@ -85,20 +88,20 @@ react-movie-booking-app/
     main.jsx
     index.css
     assets/
-      noimage.svg        # ShowtimeSection: fallback when theater/cluster image URL fails
+      noimage.svg
     constants/
     routes/
       index.jsx
     pages/
       HomeTemplate/
-        index.jsx        # layout shell (Header / Outlet / Footer)
+        index.jsx
         constants/
-          index.js       # header/main spacing + banner BTN_* classes
-        _components/     # Header/, Footer/, icons.jsx; ErrorBox, NotFound
+          index.js
+        _components/
         Home/
-          BannerCarousel/  # T02: slice.js, index.jsx, constants, _components/
-          MovieList/       # T02: slice.js, index.jsx, _components/ (MovieCard)
-          Theater/         # T02: slice.js, index.jsx, _components/
+          BannerCarousel/
+          MovieList/
+          Theater/
         AboutUs/
         PrivacyPolicy/
         TermsOfService/
@@ -106,25 +109,24 @@ react-movie-booking-app/
         News/
         Login/
         Register/
-        Detail/            # T03
-          index.jsx        # MovieDetail + ShowtimeSection
+        Detail/ 
+          index.jsx
           MovieDetail/
             slice.js
             index.jsx
-            _components/   # Backdrop, MovieInfo, MovieDetailSkeleton
+            _components/
           ShowtimeSection/
             slice.js
             index.jsx
             constants.js
             utils.js
-            _components/   # ShowtimeSectionSkeleton, TheaterSystemRail, ShowingDateStrip,
-                           # TheaterClusterSessions, ShowtimeVerifiedImg
+            _components/
         TicketRoom/
         Profile/
       AdminTemplate/
       PageNotFound/
     store/
-      index.js             # movieDetailReducer, movieShowtimesReducer, …
+      index.js 
     services/
       api.js
     utils/
