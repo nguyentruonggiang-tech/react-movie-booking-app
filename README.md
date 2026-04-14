@@ -71,13 +71,13 @@ Planned milestones **T00–T11**. Route skeleton and layout templates belong to 
   - [x] **Step 2:** `Detail/ShowtimeSection/` — `fetchMovieShowtimes` (`QuanLyRap/LayThongTinLichChieuPhim`); dates / clusters / chips → `/ticketroom/:maLichChieu`.
   - [x] **Step 3:** Shared `ErrorBox` / `NotFound`; `ShowtimeSection/_components/` split + `constants.js` / `utils.js` polish.
 
-- **T04** (in progress): Booking — scope & steps: [`docs/T04_IMPLEMENTATION_GUIDE.md`](docs/T04_IMPLEMENTATION_GUIDE.md). Step 1 commit message: `feat(ticketroom): ticketroom page and seat list by showtime`.
-  - [x] **Step 1:** `/ticketroom/:maLichChieu` — `TicketRoom/slice.js` (`fetchTicketRoom`, `QuanLyDatVe/LayDanhSachPhongVe`), `ticketRoomReducer` in `store/index.js`, `TicketRoom/index.jsx` + `SeatMap` / `seatStyles.js` (read-only map; summary mock for later steps).
-  - [ ] **Step 2:** Seat selection + pricing
+- **T04** (in progress): Booking — scope & steps: [`docs/T04_IMPLEMENTATION_GUIDE.md`](docs/T04_IMPLEMENTATION_GUIDE.md).
+  - [x] **Step 1:** `/ticketroom/:maLichChieu` — `TicketRoom/slice.js` (`fetchTicketRoom`, `QuanLyDatVe/LayDanhSachPhongVe`), `ticketRoomReducer` in `store/index.js`, `TicketRoom/index.jsx` + `SeatMap` / `seatStyles.js` / `seatDisplay.js`: load film + seat rows from API (`content.danhSachGhe`, map `giaVe` → `gia` per seat), loading / error / not-found.
+  - [x] **Step 2:** Seat selection + pricing — `toggleSeat` / `removeSeat`, `selectedSeats` persisted (`STORAGE_KEY_SELECTED_SEATS`), merge selection into rows for `dangChon`; `TicketRoomSummary` (per-seat `gia`, total, selected table); booked / held / VIP vs standard styling + legend (`SEAT_LEGEND_ITEMS`); Book CTA disabled until seats chosen (submit = Step 3).
   - [ ] **Step 3:** Booking submit + feedback UI
   - [ ] **Step 4:** QA + lint polish
 
-**Next:** T04 Step 2: Seat selection + pricing.
+**Next:** T04 Step 3: booking submit API + confirm / success / error UI.
 
 ## Repository structure (snapshot)
 
@@ -122,6 +122,15 @@ react-movie-booking-app/
             utils.js
             _components/
         TicketRoom/
+          index.jsx
+          slice.js
+          seatStyles.js
+          seatDisplay.js
+          mockSelectedSeats.js
+          _components/
+            SeatMap.jsx
+            Seat.jsx
+            TicketRoomSummary.jsx
         Profile/
       AdminTemplate/
       PageNotFound/

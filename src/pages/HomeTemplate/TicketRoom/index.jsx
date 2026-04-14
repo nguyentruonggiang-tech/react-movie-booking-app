@@ -1,9 +1,9 @@
-import { useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation, useParams } from "react-router-dom";
 import SeatMap from "./_components/SeatMap";
 import TicketRoomSummary from "./_components/TicketRoomSummary";
-import { clearTicketRoom, fetchTicketRoom } from "./slice";
+import { clearTicketRoom, fetchTicketRoom, toggleSeat } from "./slice";
 import ErrorBox from "@pages/HomeTemplate/_components/ErrorBox";
 import NotFound from "@pages/HomeTemplate/_components/NotFound";
 
@@ -100,13 +100,45 @@ function SeatMapSkeleton() {
     );
 }
 
+function mergeSelectedIntoSeatRows(seatRows, selectedSeats) {
+    if (!Array.isArray(seatRows) || seatRows.length === 0) {
+        return seatRows;
+    }
+
+    const selectedSeatIds = new Set(
+        selectedSeats.map((selectedSeat) =>
+            String(selectedSeat?.maGhe ?? ""),
+        ),
+    );
+
+    return seatRows.map((row) => ({
+        ...row,
+        danhSachGhe: row.danhSachGhe.map((seat) => ({
+            ...seat,
+            dangChon: selectedSeatIds.has(String(seat?.maGhe ?? "")),
+        })),
+    }));
+}
+
 export default function TicketRoom() {
     const { maLichChieu } = useParams();
     const location = useLocation();
     const dispatch = useDispatch();
 
-    const { data, loading, error } = useSelector(
+    const { data, loading, error, selectedSeats } = useSelector(
         (state) => state.ticketRoomReducer,
+    );
+
+    const seatRowsForMap = useMemo(
+        () => mergeSelectedIntoSeatRows(data?.seatRows, selectedSeats),
+        [data?.seatRows, selectedSeats],
+    );
+
+    const handleToggleSeat = useCallback(
+        (seat) => {
+            dispatch(toggleSeat(seat));
+        },
+        [dispatch],
     );
 
     useEffect(() => {
@@ -148,11 +180,15 @@ export default function TicketRoom() {
 
                 {!loading && !error && film && (
                     <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-12">
-                        <div className="flex min-w-0 flex-1 justify-center">
-                            <SeatMap seatRows={data?.seatRows} readOnly />
+                        <div className="flex min-h-0 min-w-0 flex-1 justify-center">
+                            <SeatMap
+                                seatRows={seatRowsForMap}
+                                readOnly={false}
+                                onToggleSeat={handleToggleSeat}
+                            />
                         </div>
 
-                        <aside className="w-full lg:sticky lg:top-24 lg:max-w-[420px]">
+                        <aside className="flex w-full min-h-0 max-h-[calc(100dvh-10rem)] flex-col overflow-hidden self-start lg:sticky lg:top-24 lg:max-h-[calc(100dvh-9rem)] lg:max-w-[420px]">
                             <TicketRoomSummary film={film} />
                         </aside>
                     </div>

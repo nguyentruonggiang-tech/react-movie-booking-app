@@ -3,20 +3,9 @@ import {
     SEAT_COLUMN_HEADER_CLASS,
     SEAT_LEGEND_ITEMS,
 } from "../seatStyles";
+import { getSeatLabel } from "../seatDisplay";
 
-function getSeatLabel(ghe) {
-    if (ghe?.tenGhe != null && String(ghe.tenGhe).trim() !== "") {
-        return String(ghe.tenGhe);
-    }
-
-    if (typeof ghe?.soGhe === "string") {
-        return ghe.soGhe;
-    }
-
-    return "";
-}
-
-function SeatItem({ ghe, row, readOnly }) {
+function SeatItem({ seat, row, readOnly, onToggleSeat }) {
     const isHeader = row === "";
 
     if (isHeader) {
@@ -26,35 +15,44 @@ function SeatItem({ ghe, row, readOnly }) {
                 disabled
                 className={SEAT_COLUMN_HEADER_CLASS}
             >
-                {ghe.soGhe}
+                {seat.soGhe}
             </button>
         );
     }
 
-    const daDat = ghe?.daDat === true;
-    const daCoNguoiChon = ghe?.daCoNguoiChon === true;
-    const displayLabel = daDat ? "X" : getSeatLabel(ghe);
+    const isBooked = seat?.daDat === true;
+    const isHeldByOther = seat?.daCoNguoiChon === true;
+    const isSelectableSeat =
+        !isBooked &&
+        !isHeldByOther &&
+        Number(seat?.gia) > 0 &&
+        !readOnly;
+    const displayLabel = isBooked ? "X" : getSeatLabel(seat);
 
     return (
         <button
             type="button"
-            disabled={daDat || daCoNguoiChon}
-            className={getSeatCellClassName(ghe)}
+            disabled={isBooked || isHeldByOther}
+            className={getSeatCellClassName(seat)}
             aria-disabled={readOnly ? true : undefined}
             tabIndex={readOnly ? -1 : undefined}
             onClick={(event) => {
                 if (readOnly) {
                     event.preventDefault();
+                    return;
+                }
+                if (isSelectableSeat) {
+                    onToggleSeat?.(seat);
                 }
             }}
-            aria-label={`Seat ${ghe.soGhe || ghe.tenGhe || ""}`}
+            aria-label={`Seat ${seat.soGhe || seat.tenGhe || ""}`}
         >
             {displayLabel}
         </button>
     );
 }
 
-function SeatRow({ seatRow, readOnly }) {
+function SeatRow({ seatRow, readOnly, onToggleSeat }) {
     return (
         <div className="mb-4 flex w-max max-w-full flex-nowrap items-center gap-4">
             {seatRow.row ? (
@@ -65,12 +63,13 @@ function SeatRow({ seatRow, readOnly }) {
                 <span className="inline-block min-w-9 shrink-0" />
             )}
 
-            {seatRow.danhSachGhe.map((ghe) => (
+            {seatRow.danhSachGhe.map((seat) => (
                 <SeatItem
-                    key={ghe.maGhe ?? ghe.soGhe}
-                    ghe={ghe}
+                    key={seat.maGhe ?? seat.soGhe}
+                    seat={seat}
                     row={seatRow.row}
                     readOnly={readOnly}
+                    onToggleSeat={onToggleSeat}
                 />
             ))}
         </div>
@@ -112,7 +111,11 @@ function Legend() {
 const SEAT_BODY_VISIBLE_ROW_COUNT = 10;
 const SEAT_BODY_SCROLL_MAX = "max-h-[calc(10.4*(2.375rem+1rem))]";
 
-export default function SeatMap({ seatRows, readOnly = true }) {
+export default function SeatMap({
+    seatRows,
+    readOnly = true,
+    onToggleSeat,
+}) {
     if (!seatRows?.length) {
         return null;
     }
@@ -128,7 +131,11 @@ export default function SeatMap({ seatRows, readOnly = true }) {
             <div className="mx-auto flex w-full max-w-[760px] flex-col items-center">
                 {headerRow ? (
                     <div className="flex w-full shrink-0 justify-center">
-                        <SeatRow seatRow={headerRow} readOnly={readOnly} />
+                        <SeatRow
+                            seatRow={headerRow}
+                            readOnly={readOnly}
+                            onToggleSeat={onToggleSeat}
+                        />
                     </div>
                 ) : null}
 
@@ -143,6 +150,7 @@ export default function SeatMap({ seatRows, readOnly = true }) {
                                 key={seatRow.row}
                                 seatRow={seatRow}
                                 readOnly={readOnly}
+                                onToggleSeat={onToggleSeat}
                             />
                         ))}
                     </div>

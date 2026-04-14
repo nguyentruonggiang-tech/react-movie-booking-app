@@ -8,3 +8,5 @@ export const USER_ROLE_ADMIN = "QuanTri";
 
 /** localStorage keys for persisted user JSON. */
 export const STORAGE_KEY_USER = "USER_INFO";
+
+export const STORAGE_KEY_SELECTED_SEATS = "SELECTED_SEATS";
