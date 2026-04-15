@@ -38,21 +38,6 @@ Defined in `src/routes/index.jsx` (code-split with `lazy()`).
 | Admin | `/admin`, `/admin/films`, … (see routes file) |
 | `*` | Page not found |
 
-## Authentication — T05
-
-T05 is defined as **4 steps** in `docs/T05_IMPLEMENTATION_GUIDE.md` (login → post-login redirect → register → logout).
-
-| Piece | Role |
-|-------|------|
-| `src/pages/Auth/slice.js` | `actLogin` + `authLoginReducer`, `actRegister` + `authRegisterReducer` (same file pattern as `Theater/slice.js`), hydrate login from `USER_INFO` |
-| `src/store/index.js` | Registers `authLoginReducer`, `authRegisterReducer` |
-| `src/pages/Auth/Login/index.jsx` | Form, `useSearchParams` → `redirect`, `getPathAfterLogin` after success |
-| `src/pages/Auth/Register/index.jsx` | Register form (`taiKhoan`, `matKhau`, `confirmPassword`, `email`, `soDt`, `hoTen`), manual validation, loading/error UI, success toast + delayed redirect to `/login` |
-| `src/pages/HomeTemplate/_components/Header/index.jsx` | Auth-aware user menu + `Sign out` action (dispatches logout thunk, redirects to `/`, shows success toast) |
-| `src/utils/authRedirect.js` | `getSafeRedirectURL`, `getPathAfterLogin(redirectURL, userRole)` |
-| `src/services/api.js` | `Authorization` + `TokenCybersoft` when token exists |
-| `src/pages/HomeTemplate/TicketRoom/index.jsx` | Optional: “Book tickets” → `/login?redirect=…` if guest |
-
 ## Roadmap
 
 Planned milestones **T00–T11**. Route skeleton and layout templates belong to **T00** (not a separate milestone).
