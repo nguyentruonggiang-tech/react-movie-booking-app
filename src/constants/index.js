@@ -9,4 +9,8 @@ export const USER_ROLE_ADMIN = "QuanTri";
 /** localStorage keys for persisted user JSON. */
 export const STORAGE_KEY_USER = "USER_INFO";
 
+/** Client-side session length for access token (ms). Optional: `VITE_ACCESS_TOKEN_TTL_MS`; default 1 hour. */
+export const ACCESS_TOKEN_TTL_MS =
+    Number(import.meta.env.VITE_ACCESS_TOKEN_TTL_MS) || 60 * 60 * 1000;
+
 export const STORAGE_KEY_SELECTED_SEATS = "SELECTED_SEATS";
