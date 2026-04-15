@@ -1,5 +1,8 @@
-import { useEffect, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { actLogout } from "@pages/Auth/slice";
 import { HOME_HEADER_BAR_CLASS } from "../../constants";
 
 const navDesktopUnderline =
@@ -10,50 +13,101 @@ const navDesktopUnderline =
 const authBtnDesktopSize =
     "md:box-border md:h-10 md:min-h-10 md:w-28 md:shrink-0 md:px-2 md:py-0";
 
-function authDesktopLoginClass(isActive) {
+function authDesktopSignInClass(isActive) {
     const base =
-        "hidden md:inline-flex md:items-center md:justify-center md:rounded-md md:text-sm md:font-semibold " +
-        `${authBtnDesktopSize} md:transition-colors md:duration-200 `;
+        "inline-flex items-center justify-center rounded-md text-sm font-semibold " +
+        `${authBtnDesktopSize} transition-colors duration-200 `;
     if (isActive) {
         return (
             base +
-            "md:border md:border-red-600 md:bg-red-600 md:text-white md:shadow-none " +
-            "md:hover:bg-red-500 md:hover:border-red-500 md:hover:text-white"
+            "border border-red-600 bg-red-600 text-white shadow-none " +
+            "hover:border-red-500 hover:bg-red-500 hover:text-white"
         );
     }
     return (
         base +
-        "md:border md:border-red-600/55 md:bg-transparent md:text-red-600 " +
-        "md:hover:border-red-600 md:hover:bg-red-600 md:hover:text-white md:hover:shadow-none"
+        "border border-red-600/55 bg-transparent text-red-600 " +
+        "hover:border-red-600 hover:bg-red-600 hover:text-white hover:shadow-none"
     );
 }
 
-function authDesktopRegisterClass(isActive, pathname) {
+function authDesktopSignUpClass(isActive) {
     const base =
-        "hidden md:inline-flex md:items-center md:justify-center md:rounded-md md:text-sm md:font-semibold " +
-        `${authBtnDesktopSize} `;
-
+        "inline-flex items-center justify-center rounded-md text-sm font-semibold " +
+        `${authBtnDesktopSize} transition-colors duration-200 `;
     if (isActive) {
         return (
             base +
-            "md:border md:border-transparent md:bg-red-600 md:text-white md:transition-all md:duration-200 " +
-            "md:shadow-[0_0_20px_rgba(220,38,38,0.45)] " +
-            "md:hover:bg-red-500 md:hover:shadow-[0_0_24px_rgba(220,38,38,0.55)]"
+            "border border-white/25 bg-white/10 text-white " +
+            "hover:border-white/40 hover:bg-white/15"
         );
     }
-
-    if (pathname === "/login") {
-        return (
-            base +
-            "md:border md:border-red-600/55 md:bg-transparent md:text-red-600 md:transition-colors md:duration-200 " +
-            "md:hover:border-red-600 md:hover:bg-red-600 md:hover:text-white md:hover:shadow-none"
-        );
-    }
-
     return (
         base +
-        "md:border md:border-transparent md:bg-red-600 md:text-white md:transition-all md:duration-200 " +
-        "md:hover:bg-red-500 md:hover:shadow-[0_0_22px_rgba(220,38,38,0.5)]"
+        "border border-white/15 bg-transparent text-slate-200 " +
+        "hover:border-white/30 hover:bg-white/5 hover:text-white"
+    );
+}
+
+function userMenuAvatarInitials(displayLabel, loginName) {
+    const fromName = String(displayLabel || "").trim();
+    if (fromName && fromName !== "My account") {
+        const parts = fromName.split(/\s+/).filter(Boolean);
+        if (parts.length >= 2) {
+            return `${parts[0][0] ?? ""}${parts[parts.length - 1][0] ?? ""}`.toUpperCase();
+        }
+        return fromName.slice(0, 2).toUpperCase();
+    }
+    const fromLogin = String(loginName || "").trim();
+    if (fromLogin) return fromLogin.slice(0, 2).toUpperCase();
+    return "UN";
+}
+
+/* Flowbite-style dropdown rows (semantic tokens from docs → slate/red in this build) */
+const userDropdownLinkClass =
+    "inline-flex w-full items-center rounded-md p-2 text-slate-200 transition-colors hover:bg-white/10 hover:text-white";
+const userDropdownSignOutClass =
+    "inline-flex w-full cursor-pointer items-center rounded-md p-2 text-left text-red-300 transition-colors hover:bg-red-600/15 hover:text-red-200";
+const LOGOUT_SUCCESS_TOAST_ID = "logout-success";
+
+function UserAccountDropdownPanel({
+    displayName,
+    accountEmail,
+    menuLabelledById,
+    onAccountInfoNavigate,
+    onSignOutClick,
+}) {
+    return (
+        <>
+            <div className="border-b border-white/10 px-4 py-3 text-sm">
+                <span className="block font-medium text-white">{displayName}</span>
+                {accountEmail ? (
+                    <span className="mt-0.5 block truncate text-sm text-slate-400">{accountEmail}</span>
+                ) : null}
+            </div>
+            <ul className="p-2 text-sm font-medium" aria-labelledby={menuLabelledById}>
+                <li>
+                    <NavLink
+                        to="/profile"
+                        onClick={onAccountInfoNavigate}
+                        className={userDropdownLinkClass}
+                        role="menuitem"
+                    >
+                        Account Info
+                    </NavLink>
+                </li>
+                <li>
+                    <button
+                        type="button"
+                        onClick={onSignOutClick}
+                        className={userDropdownSignOutClass}
+                        role="menuitem"
+                    >
+                        Sign out
+                    </button>
+                </li>
+            </ul>
+        </>
     );
 }
 
@@ -78,61 +132,258 @@ function navMainLinkClass(isActive) {
 }
 
 export default function Header() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const authUser = useSelector((state) => state.authLoginReducer?.data);
     const { pathname } = useLocation();
     const [menuOpen, setMenuOpen] = useState(false);
+    const [userMenuOpen, setUserMenuOpen] = useState(false);
+    /** Desktop only: show dropdown on hover without pinning open (pin uses userMenuOpen). */
+    const [desktopUserHovered, setDesktopUserHovered] = useState(false);
+    const mobileUserMenuRef = useRef(null);
+    const desktopUserMenuRef = useRef(null);
+    const userMenuOpenRef = useRef(userMenuOpen);
+    const desktopUserHoveredRef = useRef(desktopUserHovered);
+    const mainNavPanelRef = useRef(null);
+    const hamburgerRef = useRef(null);
+
+    const isAuthenticated = Boolean(authUser?.accessToken || authUser?.taiKhoan);
+    const displayName = authUser?.hoTen?.trim() || "My account";
+    const accountEmail = authUser?.email?.trim() || authUser?.taiKhoan?.trim() || "";
+    const avatarInitials = userMenuAvatarInitials(displayName, authUser?.taiKhoan);
+
+    const handleSignOut = () => {
+        setUserMenuOpen(false);
+        setDesktopUserHovered(false);
+        setMenuOpen(false);
+        dispatch(actLogout());
+        toast.success("Signed out successfully.", {
+            toastId: LOGOUT_SUCCESS_TOAST_ID,
+        });
+        navigate("/", { replace: true });
+    };
 
     // Close mobile menu after route change without synchronous setState in effect body (react-hooks/set-state-in-effect).
     useEffect(() => {
-        const id = requestAnimationFrame(() => setMenuOpen(false));
+        const id = requestAnimationFrame(() => {
+            setMenuOpen(false);
+            setUserMenuOpen(false);
+            setDesktopUserHovered(false);
+        });
         return () => cancelAnimationFrame(id);
     }, [pathname]);
 
+    useEffect(() => {
+        userMenuOpenRef.current = userMenuOpen;
+        desktopUserHoveredRef.current = desktopUserHovered;
+    }, [userMenuOpen, desktopUserHovered]);
+
+    // Close menus when pointer happens outside the menu / its toggle (bubble phase).
+    useEffect(() => {
+        if (!userMenuOpen && !menuOpen && !desktopUserHovered) return undefined;
+
+        const handlePointerDown = (event) => {
+            const target = event.target;
+            if (userMenuOpen || desktopUserHovered) {
+                const inMobile = mobileUserMenuRef.current?.contains(target) ?? false;
+                const inDesktop = desktopUserMenuRef.current?.contains(target) ?? false;
+                if (!inMobile && !inDesktop) {
+                    setUserMenuOpen(false);
+                    setDesktopUserHovered(false);
+                }
+            }
+            if (menuOpen) {
+                const panel = mainNavPanelRef.current;
+                const burger = hamburgerRef.current;
+                if (panel && burger && !panel.contains(target) && !burger.contains(target)) {
+                    setMenuOpen(false);
+                }
+            }
+        };
+
+        document.addEventListener("mousedown", handlePointerDown);
+        document.addEventListener("touchstart", handlePointerDown);
+        return () => {
+            document.removeEventListener("mousedown", handlePointerDown);
+            document.removeEventListener("touchstart", handlePointerDown);
+        };
+    }, [userMenuOpen, menuOpen, desktopUserHovered]);
+
     return (
         <nav
-            className={`fixed top-0 left-0 right-0 z-[100] w-full border-b border-white/10 bg-slate-950/95 font-sans shadow-sm backdrop-blur-md ${HOME_HEADER_BAR_CLASS}`}
+            className={`fixed start-0 top-0 z-[100] w-full border-b border-white/10 bg-slate-950/95 font-sans shadow-sm backdrop-blur-md ${HOME_HEADER_BAR_CLASS}`}
         >
-            <div className="relative mx-auto flex h-full w-full items-center justify-between px-4 md:px-8">
-                <NavLink to="/" end className="relative z-20 flex shrink-0 items-center">
-                    <span className="text-2xl font-black uppercase text-red-600">Movie Booking</span>
+            <div className="relative mx-auto flex h-full w-full max-w-screen-xl flex-wrap items-center justify-between gap-y-2 px-4 md:px-8">
+                <NavLink
+                    to="/"
+                    end
+                    className="relative z-20 flex shrink-0 items-center space-x-3 rtl:space-x-reverse"
+                >
+                    <span className="self-center whitespace-nowrap text-2xl font-black uppercase text-red-600">
+                        Movie Booking
+                    </span>
                 </NavLink>
 
-                <div className="relative z-20 ms-auto flex shrink-0 items-center gap-2 md:gap-3">
-                    <NavLink to="/login" end className={({ isActive }) => authDesktopLoginClass(isActive)}>
-                        Sign in
-                    </NavLink>
-                    <NavLink to="/register" end className={({ isActive }) => authDesktopRegisterClass(isActive, pathname)}>
-                        Sign up
-                    </NavLink>
+                <div className="relative z-20 flex shrink-0 items-center space-x-2 md:order-2 md:space-x-3 rtl:space-x-reverse">
+                    {isAuthenticated ? (
+                        <>
+                            <div ref={mobileUserMenuRef} className="relative flex items-center md:hidden">
+                                <button
+                                    type="button"
+                                    className="box-border flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-slate-800 text-sm [-webkit-tap-highlight-color:transparent] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-red-500/50 active:bg-slate-800/90 md:me-0"
+                                    id="user-menu-button-mobile"
+                                    aria-expanded={userMenuOpen}
+                                    aria-haspopup="menu"
+                                    onClick={() => {
+                                        setMenuOpen(false);
+                                        setDesktopUserHovered(false);
+                                        setUserMenuOpen((open) => !open);
+                                    }}
+                                >
+                                    <span className="sr-only">Open user menu</span>
+                                    <span
+                                        className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-red-600 to-red-800 text-xs font-semibold text-white"
+                                        aria-hidden
+                                    >
+                                        {avatarInitials}
+                                    </span>
+                                </button>
+                                {userMenuOpen ? (
+                                    <div
+                                        className="absolute end-0 top-full z-50 mt-1.5 w-44 rounded-base border border-white/15 bg-slate-950/98 shadow-lg backdrop-blur-md"
+                                        id="user-dropdown-mobile"
+                                        role="menu"
+                                    >
+                                        <UserAccountDropdownPanel
+                                            displayName={displayName}
+                                            accountEmail={accountEmail}
+                                            menuLabelledById="user-menu-button-mobile"
+                                            onAccountInfoNavigate={() => setUserMenuOpen(false)}
+                                            onSignOutClick={handleSignOut}
+                                        />
+                                    </div>
+                                ) : null}
+                            </div>
+
+                            <div className="relative hidden items-center md:flex md:space-x-3 rtl:space-x-reverse">
+                                <div
+                                    ref={desktopUserMenuRef}
+                                    className="relative"
+                                    onMouseEnter={() => setDesktopUserHovered(true)}
+                                    onMouseLeave={() => {
+                                        setDesktopUserHovered(false);
+                                        setUserMenuOpen(false);
+                                    }}
+                                >
+                                    <button
+                                        type="button"
+                                        className="box-border flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-slate-800 text-sm [-webkit-tap-highlight-color:transparent] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-red-500/50 md:me-0"
+                                        id="user-menu-button"
+                                        aria-expanded={userMenuOpen || desktopUserHovered}
+                                        aria-haspopup="menu"
+                                        onClick={() => {
+                                            setMenuOpen(false);
+                                            const pinned = userMenuOpenRef.current;
+                                            const hovered = desktopUserHoveredRef.current;
+                                            // Pinned open → close. Hover-only open → close hover (do not pin). Closed → pin open.
+                                            if (pinned) {
+                                                setUserMenuOpen(false);
+                                                setDesktopUserHovered(false);
+                                            } else if (hovered) {
+                                                setUserMenuOpen(false);
+                                                setDesktopUserHovered(false);
+                                            } else {
+                                                setUserMenuOpen(true);
+                                                setDesktopUserHovered(false);
+                                            }
+                                        }}
+                                    >
+                                        <span className="sr-only">Open user menu</span>
+                                        <span
+                                            className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-red-600 to-red-800 text-xs font-semibold text-white"
+                                            aria-hidden
+                                        >
+                                            {avatarInitials}
+                                        </span>
+                                    </button>
+                                    {userMenuOpen || desktopUserHovered ? (
+                                        <div
+                                            className="absolute end-0 top-full z-50 mt-0 w-44 -translate-y-px rounded-base border border-white/15 bg-slate-950/98 shadow-lg backdrop-blur-md"
+                                            id="user-dropdown"
+                                            role="menu"
+                                        >
+                                            <UserAccountDropdownPanel
+                                                displayName={displayName}
+                                                accountEmail={accountEmail}
+                                                menuLabelledById="user-menu-button"
+                                                onAccountInfoNavigate={() => {
+                                                    setUserMenuOpen(false);
+                                                    setDesktopUserHovered(false);
+                                                }}
+                                                onSignOutClick={handleSignOut}
+                                            />
+                                        </div>
+                                    ) : null}
+                                </div>
+                            </div>
+                        </>
+                    ) : (
+                        <div className="hidden items-center gap-2 md:flex">
+                            <NavLink to="/register" end className={({ isActive }) => authDesktopSignUpClass(isActive)}>
+                                Sign up
+                            </NavLink>
+                            <NavLink to="/login" end className={({ isActive }) => authDesktopSignInClass(isActive)}>
+                                Sign in
+                            </NavLink>
+                        </div>
+                    )}
                     <button
+                        ref={hamburgerRef}
                         type="button"
-                        className="inline-flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-md p-2 text-red-600 hover:bg-red-600/15 md:hidden"
-                        onClick={() => setMenuOpen((o) => !o)}
+                        className="inline-flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-base border border-transparent p-2 text-sm text-slate-300 [-webkit-tap-highlight-color:transparent] transition-colors hover:border-white/10 hover:bg-white/10 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-red-500/50 active:bg-white/5 md:hidden"
+                        data-collapse-toggle="navbar-main"
+                        onClick={() => {
+                            setUserMenuOpen(false);
+                            setDesktopUserHovered(false);
+                            setMenuOpen((o) => !o);
+                        }}
                         aria-controls="navbar-main"
                         aria-expanded={menuOpen}
                     >
-                        <span className="sr-only">Open menu</span>
-                        <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <span className="sr-only">Open main menu</span>
+                        <svg
+                            className="h-6 w-6"
+                            aria-hidden
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                        >
                             <path
-                                fillRule="evenodd"
-                                d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                                clipRule="evenodd"
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeWidth="2"
+                                d="M5 7h14M5 12h14M5 17h14"
                             />
                         </svg>
                     </button>
                 </div>
 
-                {/* Collapse: mobile uses menuOpen; desktop always visible + centered */}
+                {/* Mobile: absolute panel avoids flex-wrap reflow (hamburger row jumping). Desktop: centered flex row. */}
                 <div
+                    ref={mainNavPanelRef}
                     id="navbar-main"
                     className={
-                        "max-md:absolute max-md:top-full max-md:left-0 max-md:right-0 max-md:z-[101] max-md:border-t max-md:border-white/10 max-md:bg-slate-950/98 max-md:px-4 max-md:py-3 max-md:shadow-lg max-md:backdrop-blur-md " +
-                        "md:absolute md:left-1/2 md:top-1/2 md:z-10 md:w-max md:max-w-[min(100%,calc(100%-12rem))] md:-translate-x-1/2 md:-translate-y-1/2 " +
-                        "md:border-0 md:bg-transparent md:p-0 " +
+                        "order-3 w-full md:order-1 md:flex md:w-auto md:flex-1 md:items-center md:justify-center " +
+                        "max-md:absolute max-md:inset-x-0 max-md:top-full max-md:z-[101] " +
+                        "max-md:rounded-base max-md:border max-md:border-white/10 max-md:bg-slate-900/95 max-md:p-4 max-md:shadow-lg " +
+                        "md:border-0 md:bg-transparent md:p-0 md:shadow-none " +
                         (menuOpen ? "max-md:block" : "max-md:hidden") +
                         " md:block"
                     }
                 >
-                    <ul className="flex flex-col gap-1 md:mt-0 md:flex-row md:items-center md:justify-center md:gap-8">
+                    <ul className="flex max-md:mt-0 flex-col gap-1 font-medium md:mt-0 md:flex-row md:items-center md:gap-8">
                         <li className="list-none">
                             <NavLink to="/" end className={({ isActive }) => navMainLinkClass(isActive)}>
                                 Home
@@ -148,19 +399,23 @@ export default function Header() {
                                 News
                             </NavLink>
                         </li>
-                        <li className="list-none px-3 md:hidden" aria-hidden="true">
-                            <div className="my-2 h-px w-full bg-white/15" />
-                        </li>
-                        <li className="list-none md:hidden">
-                            <NavLink to="/login" className={({ isActive }) => navMainLinkClass(isActive)}>
-                                Sign in
-                            </NavLink>
-                        </li>
-                        <li className="list-none md:hidden">
-                            <NavLink to="/register" className={({ isActive }) => navMainLinkClass(isActive)}>
-                                Sign up
-                            </NavLink>
-                        </li>
+                        {!isAuthenticated ? (
+                            <>
+                                <li className="list-none px-3 md:hidden" aria-hidden="true">
+                                    <div className="my-2 h-px w-full bg-white/15" />
+                                </li>
+                                <li className="list-none md:hidden">
+                                    <NavLink to="/register" className={({ isActive }) => navMainLinkClass(isActive)}>
+                                        Sign up
+                                    </NavLink>
+                                </li>
+                                <li className="list-none md:hidden">
+                                    <NavLink to="/login" className={({ isActive }) => navMainLinkClass(isActive)}>
+                                        Sign in
+                                    </NavLink>
+                                </li>
+                            </>
+                        ) : null}
                     </ul>
                 </div>
             </div>

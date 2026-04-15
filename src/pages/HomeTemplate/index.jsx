@@ -19,7 +19,7 @@ export default function HomeTemplate() {
             className={`flex min-h-screen flex-col ${homeShellBackgroundClass} text-slate-100 antialiased`}
         >
             <Header />
-            
+
             <main className={`flex-1 pb-32 md:pb-28 ${HOME_MAIN_PADDING_TOP_CLASS}`}>
                 <Outlet />
             </main>

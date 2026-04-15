@@ -11,6 +11,9 @@ api.interceptors.request.use((config) => {
         TokenCybersoft: TOKEN_CYBERSOFT,
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
     };
+    // if (config.data instanceof FormData) {
+    //     delete config.headers["Content-Type"];
+    // }
     return config;
 });
 
