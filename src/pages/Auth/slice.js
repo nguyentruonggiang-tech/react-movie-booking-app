@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "@services/api";
 import { MA_NHOM, STORAGE_KEY_USER } from "@constants";
-import { getLocalStorage, setLocalStorage } from "@/utils/storage";
+import { deleteLocalStorage, getLocalStorage, setLocalStorage } from "@/utils/storage";
 
 function getUserInfoFromLocalStorage() {
     const userInfo = getLocalStorage(STORAGE_KEY_USER);
@@ -40,6 +40,11 @@ export const actLogin = createAsyncThunk("authLogin/actLogin", async (user, { re
     }
 });
 
+export const actLogout = createAsyncThunk("authLogin/actLogout", async () => {
+    deleteLocalStorage(STORAGE_KEY_USER);
+    return null;
+});
+
 const authLoginSlice = createSlice({
     name: "authLogin",
     initialState: authLoginInitialState,
@@ -60,6 +65,11 @@ const authLoginSlice = createSlice({
                 state.loading = false;
                 state.data = null;
                 state.error = action.payload;
+            })
+            .addCase(actLogout.fulfilled, (state) => {
+                state.data = null;
+                state.loading = false;
+                state.error = null;
             });
     },
 });

@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import { NavLink, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { actLogout } from "@pages/Auth/slice";
 import { HOME_HEADER_BAR_CLASS } from "../../constants";
 
 const navDesktopUnderline =
@@ -66,6 +68,7 @@ const userDropdownLinkClass =
     "inline-flex w-full items-center rounded-md p-2 text-slate-200 transition-colors hover:bg-white/10 hover:text-white";
 const userDropdownSignOutClass =
     "inline-flex w-full cursor-pointer items-center rounded-md p-2 text-left text-red-300 transition-colors hover:bg-red-600/15 hover:text-red-200";
+const LOGOUT_SUCCESS_TOAST_ID = "logout-success";
 
 function UserAccountDropdownPanel({
     displayName,
@@ -129,6 +132,8 @@ function navMainLinkClass(isActive) {
 }
 
 export default function Header() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const authUser = useSelector((state) => state.authLoginReducer?.data);
     const { pathname } = useLocation();
     const [menuOpen, setMenuOpen] = useState(false);
@@ -146,6 +151,17 @@ export default function Header() {
     const displayName = authUser?.hoTen?.trim() || "My account";
     const accountEmail = authUser?.email?.trim() || authUser?.taiKhoan?.trim() || "";
     const avatarInitials = userMenuAvatarInitials(displayName, authUser?.taiKhoan);
+
+    const handleSignOut = () => {
+        setUserMenuOpen(false);
+        setDesktopUserHovered(false);
+        setMenuOpen(false);
+        dispatch(actLogout());
+        toast.success("Signed out successfully.", {
+            toastId: LOGOUT_SUCCESS_TOAST_ID,
+        });
+        navigate("/", { replace: true });
+    };
 
     // Close mobile menu after route change without synchronous setState in effect body (react-hooks/set-state-in-effect).
     useEffect(() => {
@@ -243,7 +259,7 @@ export default function Header() {
                                             accountEmail={accountEmail}
                                             menuLabelledById="user-menu-button-mobile"
                                             onAccountInfoNavigate={() => setUserMenuOpen(false)}
-                                            onSignOutClick={() => setUserMenuOpen(false)}
+                                            onSignOutClick={handleSignOut}
                                         />
                                     </div>
                                 ) : null}
@@ -304,10 +320,7 @@ export default function Header() {
                                                     setUserMenuOpen(false);
                                                     setDesktopUserHovered(false);
                                                 }}
-                                                onSignOutClick={() => {
-                                                    setUserMenuOpen(false);
-                                                    setDesktopUserHovered(false);
-                                                }}
+                                                onSignOutClick={handleSignOut}
                                             />
                                         </div>
                                     ) : null}

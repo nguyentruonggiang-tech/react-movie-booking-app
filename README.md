@@ -38,9 +38,9 @@ Defined in `src/routes/index.jsx` (code-split with `lazy()`).
 | Admin | `/admin`, `/admin/films`, … (see routes file) |
 | `*` | Page not found |
 
-## Authentication (login) — T05
+## Authentication — T05
 
-T05 is tracked as **four steps** in the roadmap below (login → post-login redirect → register → logout).
+T05 is defined as **4 steps** in `docs/T05_IMPLEMENTATION_GUIDE.md` (login → post-login redirect → register → logout).
 
 | Piece | Role |
 |-------|------|
@@ -48,9 +48,9 @@ T05 is tracked as **four steps** in the roadmap below (login → post-login redi
 | `src/store/index.js` | Registers `authLoginReducer`, `authRegisterReducer` |
 | `src/pages/Auth/Login/index.jsx` | Form, `useSearchParams` → `redirect`, `getPathAfterLogin` after success |
 | `src/pages/Auth/Register/index.jsx` | Register form (`taiKhoan`, `matKhau`, `confirmPassword`, `email`, `soDt`, `hoTen`), manual validation, loading/error UI, success toast + delayed redirect to `/login` |
+| `src/pages/HomeTemplate/_components/Header/index.jsx` | Auth-aware user menu + `Sign out` action (dispatches logout thunk, redirects to `/`, shows success toast) |
 | `src/utils/authRedirect.js` | `getSafeRedirectURL`, `getPathAfterLogin(redirectURL, userRole)` |
 | `src/services/api.js` | `Authorization` + `TokenCybersoft` when token exists |
-| `src/pages/HomeTemplate/_components/Header/index.jsx` | Session-aware nav |
 | `src/pages/HomeTemplate/TicketRoom/index.jsx` | Optional: “Book tickets” → `/login?redirect=…` if guest |
 
 ## Roadmap
@@ -92,13 +92,13 @@ Planned milestones **T00–T11**. Route skeleton and layout templates belong to 
     - **Showtimes (step 2 follow-ups):** thunk `data?.content ?? null`; `clearMovieShowtimes` on unmount; UI split into `ShowtimeSection/_components/` (`TheaterSystemRail`, `ShowingDateStrip`, `TheaterClusterSessions`, `ShowtimeVerifiedImg`, `ShowtimeSectionSkeleton`); section + grid layout stays in `ShowtimeSection/index.jsx`; `useMemo` / `useCallback` for derived lists and retry; `React.memo` on presenter blocks; `constants.js` + `utils.js` (days/sessions, Maps URL, image probe); `SHOWTIME_NO_IMAGE_URL` from `src/assets/noimage.svg`.
 
 - **T04** (next): Booking UI + API (`TicketRoom`, …).
-- **T05** (in progress — 4 steps):
+- **T05** (4/4 done):
   - [x] **Step 1:** Login — full-page `Auth/Login`, `actLogin`, persist `USER_INFO`, `authLoginReducer` + Header.
   - [x] **Step 2:** Login redirect — `/login?redirect=<encoded path>`; `getSafeRedirectURL` + `getPathAfterLogin` in `src/utils/authRedirect.js`; post-login `navigate` (+ optional toast); e.g. `TicketRoom` “Book tickets” sends guests to login with return URL.
   - [x] **Step 3:** Register — full-page `Auth/Register`, `actRegister` (`QuanLyNguoiDung/DangKy`) with `maNhom` fallback (`VITE_MA_NHOM` → `GP01`), confirm-password + basic field validation, duplicate-submit protection, loading/error states, success toast then redirect to `/login`.
-  - [ ] **Step 4:** Logout — clear storage, reset auth state, redirect; Header “Sign out” wired end-to-end.
+  - [x] **Step 4:** Logout — `actLogout` clears localStorage and resets `authLoginReducer` state on `fulfilled`; Header `Sign out` dispatches logout, redirects to `/`, and shows success toast.
 
-**Next:** T05 — Step 4: Logout — clear storage, reset auth state, redirect.
+**Next:** T06 — Route guards and hardened auth.
 
 ## Repository structure (snapshot)
 
