@@ -240,9 +240,7 @@ export default function TicketRoomSummary({ film, maLichChieu, onBookingSuccess 
             ).unwrap();
             await showSwalSuccess({
                 title: "Booking successful",
-                text:
-                    payload?.message?.trim() ||
-                    "Your seats have been booked.",
+                text: "Your seats have been booked.",
             });
             dispatch(clearBookingFeedback());
             onBookingSuccess?.();
