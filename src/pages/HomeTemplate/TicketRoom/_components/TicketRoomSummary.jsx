@@ -2,6 +2,7 @@ import { createPortal } from "react-dom";
 import { TicketIcon } from "@pages/HomeTemplate/_components/icons";
 import { BOOKING_CTA } from "@pages/HomeTemplate/constants";
 import { useDispatch, useSelector } from "react-redux";
+import LoadingOverlay from "@components/LoadingOverlay";
 import {
     showSwalConfirm,
     showSwalError,
@@ -235,9 +236,7 @@ export default function TicketRoomSummary({ film, maLichChieu, onBookingSuccess 
         }
 
         try {
-            const payload = await dispatch(
-                submitTicketBooking(maLichChieu),
-            ).unwrap();
+            await dispatch(submitTicketBooking(maLichChieu)).unwrap();
             await showSwalSuccess({
                 title: "Booking successful",
                 text: "Your seats have been booked.",
@@ -260,21 +259,11 @@ export default function TicketRoomSummary({ film, maLichChieu, onBookingSuccess 
     const bookingLoadingOverlay =
         bookingLoading &&
         createPortal(
-            <div
-                className="fixed inset-0 z-[1100] flex items-center justify-center bg-black/55 backdrop-blur-[2px]"
-                role="status"
-                aria-live="polite"
-                aria-busy="true"
-            >
-                <div className="flex flex-col items-center gap-3 rounded-2xl border border-white/10 bg-zinc-950/95 px-8 py-6 shadow-2xl ring-1 ring-white/5">
-                    <span
-                        className="h-10 w-10 animate-spin rounded-full border-2 border-[#FB897E] border-t-transparent"
-                        aria-hidden
-                    />
-                    <p className="text-sm font-medium text-white/90">
-                        Processing your booking…
-                    </p>
-                </div>
+            <div className="fixed inset-0 z-[1100]">
+                <LoadingOverlay
+                    message="Processing..."
+                    className="bg-black/55 backdrop-blur-[2px]"
+                />
             </div>,
             document.body,
         );
