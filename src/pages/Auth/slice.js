@@ -32,8 +32,9 @@ export const actLogin = createAsyncThunk("authLogin/actLogin", async (user, { re
         if (!userInfo?.accessToken) {
             return rejectWithValue("Sign-in failed. Please try again.");
         }
-        setLocalStorage(STORAGE_KEY_USER, userInfo);
-        return userInfo;
+        const userWithIssuedAt = { ...userInfo, accessTokenIssuedAt: Date.now() };
+        setLocalStorage(STORAGE_KEY_USER, userWithIssuedAt);
+        return userWithIssuedAt;
     } catch (error) {
         const message = error?.response?.data?.content || error?.response?.data?.message;
         return rejectWithValue(message || "Sign-in failed. Please try again.");

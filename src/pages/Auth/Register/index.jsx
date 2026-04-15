@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import LoadingOverlay from "@components/LoadingOverlay";
 import { actRegister } from "@pages/Auth/slice";
+import { getPathAfterLogin } from "@/utils/authRedirect";
 import LoginBackground from "../_components/LoginBackground";
 
 const REGISTER_SUCCESS_TOAST_ID = "register-success-redirect";
@@ -78,12 +79,19 @@ export default function Register() {
         loading: registerLoading,
         error: registerError,
     } = useSelector((state) => state.authRegisterReducer);
+    const { data: sessionUser } = useSelector((state) => state.authLoginReducer);
 
     const [form, setForm] = useState(initialForm);
     const [errors, setErrors] = useState(initialErrors);
     const [showPassword, setShowPassword] = useState(false);
     const [hasSubmittedRegister, setHasSubmittedRegister] = useState(false);
     const submitLockRef = useRef(false);
+
+    useEffect(() => {
+        if (!sessionUser?.accessToken) return;
+        const nextPath = getPathAfterLogin(null, sessionUser.maLoaiNguoiDung);
+        navigate(nextPath, { replace: true });
+    }, [sessionUser, navigate]);
 
     useEffect(() => {
         if (!hasSubmittedRegister) return;
@@ -183,6 +191,15 @@ export default function Register() {
 
     const inputClassName =
         "block w-full rounded-lg border border-slate-700/80 bg-slate-950/90 px-4 py-3 text-sm text-white shadow-inner outline-none ring-red-500/0 transition placeholder:text-slate-500 focus:border-red-500/60 focus:ring-2 focus:ring-red-500/30 disabled:cursor-not-allowed disabled:opacity-60";
+
+    if (sessionUser?.accessToken) {
+        return (
+            <div className="relative flex min-h-screen flex-1 flex-col overflow-hidden bg-[#030308] text-slate-100 antialiased md:flex-row">
+                <LoginBackground className="pointer-events-none absolute inset-0 z-0 h-full min-h-screen w-full" />
+                <LoadingOverlay message="Redirecting…" />
+            </div>
+        );
+    }
 
     return (
         <div className="relative flex min-h-screen flex-1 flex-col overflow-hidden bg-[#030308] text-slate-100 antialiased md:flex-row">

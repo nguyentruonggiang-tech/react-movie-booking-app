@@ -1,5 +1,7 @@
 import { lazy } from "react";
 import { Route } from "react-router-dom";
+import ProtectedRoute from "@components/ProtectedRoute";
+import RequireAdmin from "@components/RequireAdmin";
 
 const routes = [
     {
@@ -11,20 +13,17 @@ const routes = [
                 element: lazy(() => import("../pages/HomeTemplate/Home")),
             },
             {
-                path: "home",
-                element: lazy(() => import("../pages/HomeTemplate/Home")),
-            },
-            {
                 path: "detail/:maPhim",
                 element: lazy(() => import("../pages/HomeTemplate/Detail")),
             },
             {
                 path: "ticketroom/:maLichChieu",
-                element: lazy(() => import("../pages/HomeTemplate/TicketRoom")),
+                element: lazy(() => import("../pages/HomeTemplate/TicketRoom"))
             },
             {
                 path: "profile",
                 element: lazy(() => import("../pages/HomeTemplate/Profile")),
+                requiresAuth: true,
             },
             {
                 path: "news",
@@ -59,6 +58,8 @@ const routes = [
     {
         path: "admin",
         element: lazy(() => import("../pages/AdminTemplate")),
+        requiresAuth: true,
+        requiresAdmin: true,
         nested: [
             {
                 path: "",
@@ -104,13 +105,38 @@ const routes = [
     },
 ];
 
+function nestedElement(item) {
+    if (item.requiresAuth) {
+        return (
+            <ProtectedRoute>
+                <item.element />
+            </ProtectedRoute>
+        );
+    }
+    return <item.element />;
+}
+
 export const renderRoutes = () => {
     return routes.map((route) => {
         if (route.nested) {
+            const parentElement = route.requiresAuth ? (
+                <ProtectedRoute>
+                    {route.requiresAdmin ? (
+                        <RequireAdmin>
+                            <route.element />
+                        </RequireAdmin>
+                    ) : (
+                        <route.element />
+                    )}
+                </ProtectedRoute>
+            ) : (
+                <route.element />
+            );
+
             return (
-                <Route key={route.path || "root"} path={route.path} element={<route.element />}>
+                <Route key={route.path || "root"} path={route.path} element={parentElement}>
                     {route.nested.map((item) => (
-                        <Route key={`${route.path}-${item.path}`} path={item.path} element={<item.element />} />
+                        <Route key={`${route.path}-${item.path}`} path={item.path} element={nestedElement(item)} />
                     ))}
                 </Route>
             );
