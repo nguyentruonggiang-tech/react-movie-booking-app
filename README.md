@@ -71,13 +71,13 @@ Planned milestones **T00–T11**. Route skeleton and layout templates belong to 
   - [x] **Step 2:** `Detail/ShowtimeSection/` — `fetchMovieShowtimes` (`QuanLyRap/LayThongTinLichChieuPhim`); dates / clusters / chips → `/ticketroom/:maLichChieu`.
   - [x] **Step 3:** Shared `ErrorBox` / `NotFound`; `ShowtimeSection/_components/` split + `constants.js` / `utils.js` polish.
 
-- **T04** (in progress): Booking — scope & steps: [`docs/T04_IMPLEMENTATION_GUIDE.md`](docs/T04_IMPLEMENTATION_GUIDE.md).
+- **T04** (4/4 done): Booking — scope & steps.
   - [x] **Step 1:** `/ticketroom/:maLichChieu` — `TicketRoom/slice.js` (`fetchTicketRoom`, `QuanLyDatVe/LayDanhSachPhongVe`), `ticketRoomReducer` in `store/index.js`, `TicketRoom/index.jsx` + `SeatMap` / `seatStyles.js` / `seatDisplay.js`: load film + seat rows from API (`content.danhSachGhe`, map `giaVe` → `gia` per seat), loading / error / not-found.
   - [x] **Step 2:** Seat selection + pricing — `toggleSeat` / `removeSeat`, `selectedSeats` persisted (`STORAGE_KEY_SELECTED_SEATS`), merge selection into rows for `dangChon`; `TicketRoomSummary` (per-seat `gia`, total, selected table); booked / held / VIP vs standard styling + legend (`SEAT_LEGEND_ITEMS`); Book CTA disabled until seats chosen (submit = Step 3).
   - [x] **Step 3:** Booking submit + feedback UI — `submitTicketBooking` (`QuanLyDatVe/DatVe`), Swal confirm before submit, centered loading overlay while booking, Swal success/error via `unwrap()`, login redirect with `redirect` query when user is unauthenticated, clear selected seats on success, refetch seat map.
-  - [ ] **Step 4:** QA + lint polish (`npm run lint` currently fails due `vite.config.js` `__dirname` lint errors)
+  - [x] **Step 4:** QA + lint polish — `npm run lint` green; `vite.config.js` uses ESM-safe `__dirname` (`fileURLToPath`); README + `docs/ROADMAP_SYNC.md` synced for T04 closure.
 
-**Next:** T04 Step 4: QA + lint polish.
+**Next:** **T05** — Auth / profile UI + API.
 
 ## Repository structure (snapshot)
 
