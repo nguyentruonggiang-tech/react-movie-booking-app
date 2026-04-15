@@ -65,7 +65,7 @@ Configured in `src/routes/index.jsx`.
 | T11 | Profile UI and API |
 | T12 | Deploy |
 
-**Current focus:** T06 (route guards), Step 4 done (axios 401 for Bearer); next: Step 5 (polish + lint).
+**Current focus:** T06 (route guards) complete; next: T07 (admin features per roadmap).
 
 ## Repository layout
 

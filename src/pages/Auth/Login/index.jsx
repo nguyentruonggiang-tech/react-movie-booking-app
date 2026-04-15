@@ -111,6 +111,16 @@ export default function Login() {
         };
     }, [data, hasSubmittedLogin, navigate, redirectURLParam]);
 
+    const hasExistingSession = Boolean(data?.accessToken) && !hasSubmittedLogin;
+    if (hasExistingSession) {
+        return (
+            <div className="relative flex min-h-screen flex-1 flex-col overflow-hidden bg-[#030308] text-slate-100 antialiased md:flex-row">
+                <LoginBackground className="pointer-events-none absolute inset-0 z-0 h-full min-h-screen w-full" />
+                <LoadingOverlay message="Redirecting…" />
+            </div>
+        );
+    }
+
     return (
         <div className="relative flex min-h-screen flex-1 flex-col overflow-hidden bg-[#030308] text-slate-100 antialiased md:flex-row">
             <LoginBackground className="pointer-events-none absolute inset-0 z-0 h-full min-h-screen w-full" />
