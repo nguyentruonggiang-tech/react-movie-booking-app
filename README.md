@@ -31,6 +31,7 @@ Defined in `src/routes/index.jsx` (code-split with `lazy()`).
 |------|------|
 | `/`, `/home` | Home (`HomeTemplate` layout: Header / Outlet / Footer) |
 | `/login`, `/register` | Sign in / Sign up (full-page `Auth/`; support `?redirect=` on login — see T05) |
+| `/dangnhap`, `/dangky` | Vietnamese aliases for sign in / sign up |
 | `/detail/:maPhim`, `/ticketroom/:maLichChieu`, `/profile` | Detail, ticket room, profile |
 | `/news` | News |
 | `/about-us`, `/privacy-policy`, `/terms-of-service`, `/contact` | Static shells (`AboutUs`, `PrivacyPolicy`, `TermsOfService`, `Contact`) |
@@ -43,9 +44,10 @@ T05 is tracked as **four steps** in the roadmap below (login → post-login redi
 
 | Piece | Role |
 |-------|------|
-| `src/pages/Auth/slice.js` | `actLogin`, `authReducer`, hydrate from `USER_INFO` |
-| `src/store/index.js` | Registers `authReducer` |
+| `src/pages/Auth/slice.js` | `actLogin` + `authLoginReducer`, `actRegister` + `authRegisterReducer` (same file pattern as `Theater/slice.js`), hydrate login from `USER_INFO` |
+| `src/store/index.js` | Registers `authLoginReducer`, `authRegisterReducer` |
 | `src/pages/Auth/Login/index.jsx` | Form, `useSearchParams` → `redirect`, `getPathAfterLogin` after success |
+| `src/pages/Auth/Register/index.jsx` | Register form (`taiKhoan`, `matKhau`, `confirmPassword`, `email`, `soDt`, `hoTen`), manual validation, loading/error UI, success toast + delayed redirect to `/login` |
 | `src/utils/authRedirect.js` | `getSafeRedirectURL`, `getPathAfterLogin(redirectURL, userRole)` |
 | `src/services/api.js` | `Authorization` + `TokenCybersoft` when token exists |
 | `src/pages/HomeTemplate/_components/Header/index.jsx` | Session-aware nav |
@@ -91,12 +93,12 @@ Planned milestones **T00–T11**. Route skeleton and layout templates belong to 
 
 - **T04** (next): Booking UI + API (`TicketRoom`, …).
 - **T05** (in progress — 4 steps):
-  - [x] **Step 1:** Login — full-page `Auth/Login`, `actLogin`, persist `USER_INFO`, `authReducer` + Header.
+  - [x] **Step 1:** Login — full-page `Auth/Login`, `actLogin`, persist `USER_INFO`, `authLoginReducer` + Header.
   - [x] **Step 2:** Login redirect — `/login?redirect=<encoded path>`; `getSafeRedirectURL` + `getPathAfterLogin` in `src/utils/authRedirect.js`; post-login `navigate` (+ optional toast); e.g. `TicketRoom` “Book tickets” sends guests to login with return URL.
-  - [ ] **Step 3:** Register — form + API + session (same storage pattern as login).
+  - [x] **Step 3:** Register — full-page `Auth/Register`, `actRegister` (`QuanLyNguoiDung/DangKy`) with `maNhom` fallback (`VITE_MA_NHOM` → `GP01`), confirm-password + basic field validation, duplicate-submit protection, loading/error states, success toast then redirect to `/login`.
   - [ ] **Step 4:** Logout — clear storage, reset auth state, redirect; Header “Sign out” wired end-to-end.
 
-**Next:** T05 — Step 3: Register — form + API + session.
+**Next:** T05 — Step 4: Logout — clear storage, reset auth state, redirect.
 
 ## Repository structure (snapshot)
 
@@ -142,7 +144,7 @@ react-movie-booking-app/
         TicketRoom/
         Profile/
       Auth/                # T05: login/register (routes top-level /login, /register)
-        slice.js           # actLogin + authReducer
+        slice.js           # actLogin + authLoginReducer; actRegister + authRegisterReducer
         Login/
         Register/
       AdminTemplate/
@@ -150,7 +152,7 @@ react-movie-booking-app/
     components/
       LoadingOverlay/      # used on the Login page while the API request is in flight
     store/
-      index.js             # authReducer, movieDetailReducer, movieShowtimesReducer, …
+      index.js             # authLoginReducer, authRegisterReducer, movieDetailReducer, movieShowtimesReducer, …
     services/
       api.js
     utils/

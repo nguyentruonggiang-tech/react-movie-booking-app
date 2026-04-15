@@ -42,7 +42,7 @@
     top: calc(50% - 52px);
     position: absolute;
     animation: radial-bar-spinner-fade 1s linear infinite;
-    background: var(--color-loading-accent);
+    background: #f87171;
     width: 12px;
     height: 24px;
     border-radius: 6px / 12px;

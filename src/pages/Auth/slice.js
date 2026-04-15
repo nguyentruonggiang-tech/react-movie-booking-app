@@ -1,6 +1,6 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "@services/api";
-import { STORAGE_KEY_USER } from "@constants";
+import { MA_NHOM, STORAGE_KEY_USER } from "@constants";
 import { getLocalStorage, setLocalStorage } from "@/utils/storage";
 
 function getUserInfoFromLocalStorage() {
@@ -13,13 +13,13 @@ function getUserInfoFromLocalStorage() {
     }
 }
 
-const initialState = {
+const authLoginInitialState = {
     data: getUserInfoFromLocalStorage(),
     loading: false,
     error: null,
 };
 
-export const actLogin = createAsyncThunk("actLogin", async (user, { rejectWithValue }) => {
+export const actLogin = createAsyncThunk("authLogin/actLogin", async (user, { rejectWithValue }) => {
     try {
         const LOGIN_ENDPOINT = "QuanLyNguoiDung/DangNhap";
         const payload = {
@@ -40,9 +40,9 @@ export const actLogin = createAsyncThunk("actLogin", async (user, { rejectWithVa
     }
 });
 
-const authSlice = createSlice({
-    name: "authSlice",
-    initialState,
+const authLoginSlice = createSlice({
+    name: "authLogin",
+    initialState: authLoginInitialState,
     reducers: {},
     extraReducers: (builder) => {
         builder
@@ -64,4 +64,56 @@ const authSlice = createSlice({
     },
 });
 
-export default authSlice.reducer;
+const authRegisterInitialState = {
+    data: null,
+    loading: false,
+    error: null,
+};
+
+export const actRegister = createAsyncThunk("authRegister/actRegister", async (user, { rejectWithValue }) => {
+    try {
+        const REGISTER_ENDPOINT = "QuanLyNguoiDung/DangKy";
+        const maNhom = (MA_NHOM && String(MA_NHOM).trim()) || "GP01";
+        const payload = {
+            taiKhoan: String(user.taiKhoan).trim(),
+            matKhau: user.matKhau,
+            email: String(user.email).trim(),
+            soDt: String(user.soDt).trim(),
+            maNhom,
+            hoTen: String(user.hoTen).trim(),
+        };
+
+        const { data } = await api.post(REGISTER_ENDPOINT, payload);
+        return data?.content ?? null;
+    } catch (error) {
+        const message = error?.response?.data?.content || error?.response?.data?.message;
+        return rejectWithValue(message || "Registration failed. Please try again.");
+    }
+});
+
+const authRegisterSlice = createSlice({
+    name: "authRegister",
+    initialState: authRegisterInitialState,
+    reducers: {},
+    extraReducers: (builder) => {
+        builder
+            .addCase(actRegister.pending, (state) => {
+                state.loading = true;
+                state.data = null;
+                state.error = null;
+            })
+            .addCase(actRegister.fulfilled, (state, action) => {
+                state.data = action.payload;
+                state.loading = false;
+                state.error = null;
+            })
+            .addCase(actRegister.rejected, (state, action) => {
+                state.data = null;
+                state.loading = false;
+                state.error = action.payload;
+            });
+    },
+});
+
+export const authLoginReducer = authLoginSlice.reducer;
+export const authRegisterReducer = authRegisterSlice.reducer;

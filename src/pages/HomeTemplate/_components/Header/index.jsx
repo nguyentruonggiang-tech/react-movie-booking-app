@@ -129,7 +129,7 @@ function navMainLinkClass(isActive) {
 }
 
 export default function Header() {
-    const authUser = useSelector((state) => state.authReducer?.data);
+    const authUser = useSelector((state) => state.authLoginReducer?.data);
     const { pathname } = useLocation();
     const [menuOpen, setMenuOpen] = useState(false);
     const [userMenuOpen, setUserMenuOpen] = useState(false);

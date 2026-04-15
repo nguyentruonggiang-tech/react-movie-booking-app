@@ -12,7 +12,7 @@ const LOGIN_SUCCESS_TOAST_ID = "login-success-redirect";
 export default function Login() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { loading, data, error } = useSelector((state) => state.authReducer);
+    const { loading, data, error } = useSelector((state) => state.authLoginReducer);
  
     const initialData = { taiKhoan: "", matKhau: "" };
     const [user, setUser] = useState(initialData);
@@ -39,8 +39,8 @@ export default function Login() {
             case "taiKhoan":
                 if (inputValue === "") {
                     mess = "Username is required";
-                } else if (inputValue.length < 4) {
-                    mess = "Username must be at least 4 characters";
+                } else if (inputValue.length < 6) {
+                    mess = "Username must be at least 6 characters";
                 }
                 break;
             case "matKhau":
@@ -109,7 +109,7 @@ export default function Login() {
             toast.dismiss(LOGIN_SUCCESS_TOAST_ID);
             setIsRedirecting(false);
         };
-    }, [data, hasSubmittedLogin, navigate, redirectRaw]);
+    }, [data, hasSubmittedLogin, navigate, redirectURLParam]);
 
     return (
         <div className="relative flex min-h-screen flex-1 flex-col overflow-hidden bg-[#030308] text-slate-100 antialiased md:flex-row">
@@ -290,7 +290,7 @@ export default function Login() {
                             to="/register"
                             className="font-medium text-red-400 underline-offset-2 transition hover:text-red-300 hover:underline"
                         >
-                            Register
+                            Sign up
                         </Link>
                     </p>
                 </div>
