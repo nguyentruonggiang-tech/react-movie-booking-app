@@ -1,4 +1,9 @@
-import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
+import {
+    combineReducers,
+    createAsyncThunk,
+    createSlice,
+    current,
+} from "@reduxjs/toolkit";
 import api from "@services/api";
 import { getLocalStorage, setLocalStorage } from "@/utils/storage";
 import { STORAGE_KEY_SELECTED_SEATS } from "@/constants";
@@ -106,7 +111,7 @@ function buildSeatRows(danhSachGhe) {
     return [buildHeaderRow(), ...bodyRows];
 }
 
-const initialState = {
+const seatMapInitialState = {
     data: null,
     loading: false,
     error: null,
@@ -149,9 +154,9 @@ export const fetchTicketRoom = createAsyncThunk(
     },
 );
 
-const ticketRoomSlice = createSlice({
-    name: "ticketRoomSlice",
-    initialState,
+const ticketRoomSeatMapSlice = createSlice({
+    name: "ticketRoomSeatMapSlice",
+    initialState: seatMapInitialState,
     reducers: {
         clearTicketRoom: (state) => {
             state.data = null;
@@ -235,10 +240,106 @@ const ticketRoomSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
                 state.data = null;
+            })
+            .addCase(submitTicketBooking.fulfilled, (state) => {
+                state.selectedSeats = [];
+                setLocalStorage(STORAGE_KEY_SELECTED_SEATS, []);
             });
     },
 });
 
-export const { clearTicketRoom, toggleSeat, removeSeat } =
-    ticketRoomSlice.actions;
-export default ticketRoomSlice.reducer;
+
+// Submit Booking Slice
+const bookingInitialState = {
+    data: null,
+    loading: false,
+    error: null,
+};
+
+export const submitTicketBooking = createAsyncThunk(
+    "ticketRoom/submitTicketBooking",
+    async (maLichChieu, { getState, rejectWithValue }) => {
+        const showtimeId = String(maLichChieu ?? "").trim();
+        const showtimeNumber = Number(showtimeId);
+        if (!showtimeId || !Number.isFinite(showtimeNumber) || showtimeNumber <= 0) {
+            return rejectWithValue("Missing showtime id for booking.");
+        }
+       
+        const selectedSeats =
+            getState()?.ticketRoomReducer?.seatMap?.selectedSeats ?? [];
+        const bookingSeatList = selectedSeats
+            .map((seat) => ({
+                maGhe: Number(seat?.maGhe),
+                giaVe: Number(seat?.gia) || 0,
+            }))
+            .filter(
+                (seat) =>
+                    Number.isFinite(seat.maGhe) && Number(seat.maGhe) > 0,
+            );
+
+        if (bookingSeatList.length === 0) {
+            return rejectWithValue("Please select at least one seat.");
+        }
+
+        try {
+            const response = await api.post("QuanLyDatVe/DatVe", {
+                maLichChieu: showtimeNumber,
+                danhSachVe: bookingSeatList,
+            });
+
+            return {
+                message:
+                    response?.data?.message ||
+                    "Booking tickets successfully.",
+            };
+        } catch (error) {
+            return rejectWithValue(
+                error?.response?.data?.content ||
+                    error?.response?.data?.message ||
+                    error?.message ||
+                    "Could not complete booking tickets.",
+            );
+        }
+    },
+);
+
+const ticketRoomSubmitBookingSlice = createSlice({
+    name: "ticketRoomSubmitBookingSlice",
+    initialState: bookingInitialState,
+    reducers: {
+        clearBookingFeedback: (state) => {
+            state.data = null;
+            state.error = null;
+        },
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(submitTicketBooking.pending, (state) => {
+                state.loading = true;
+                state.data = null;
+                state.error = null;
+            })
+            .addCase(submitTicketBooking.fulfilled, (state, action) => {
+                state.loading = false;
+                state.data = action.payload || null;
+                state.error = null;
+            })
+            .addCase(submitTicketBooking.rejected, (state, action) => {
+                state.loading = false;
+                state.data = null;
+                state.error = action.payload || "Booking failed.";
+            });
+    },
+});
+
+
+export const { clearTicketRoom, toggleSeat, removeSeat } = ticketRoomSeatMapSlice.actions;
+
+export const { clearBookingFeedback } = ticketRoomSubmitBookingSlice.actions;
+
+const ticketRoomReducer = combineReducers({
+    seatMap: ticketRoomSeatMapSlice.reducer,
+    booking: ticketRoomSubmitBookingSlice.reducer,
+});
+
+export default ticketRoomReducer;

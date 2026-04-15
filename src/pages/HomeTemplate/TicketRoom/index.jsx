@@ -3,7 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation, useParams } from "react-router-dom";
 import SeatMap from "./_components/SeatMap";
 import TicketRoomSummary from "./_components/TicketRoomSummary";
-import { clearTicketRoom, fetchTicketRoom, toggleSeat } from "./slice";
+import {
+    clearBookingFeedback,
+    clearTicketRoom,
+    fetchTicketRoom,
+    toggleSeat,
+} from "./slice";
 import ErrorBox from "@pages/HomeTemplate/_components/ErrorBox";
 import NotFound from "@pages/HomeTemplate/_components/NotFound";
 
@@ -126,7 +131,7 @@ export default function TicketRoom() {
     const dispatch = useDispatch();
 
     const { data, loading, error, selectedSeats } = useSelector(
-        (state) => state.ticketRoomReducer,
+        (state) => state.ticketRoomReducer.seatMap,
     );
 
     const seatRowsForMap = useMemo(
@@ -137,15 +142,21 @@ export default function TicketRoom() {
     const handleToggleSeat = useCallback(
         (seat) => {
             dispatch(toggleSeat(seat));
+            dispatch(clearBookingFeedback());
         },
         [dispatch],
     );
+
+    const handleBookingSuccess = useCallback(() => {
+        dispatch(fetchTicketRoom(maLichChieu));
+    }, [dispatch, maLichChieu]);
 
     useEffect(() => {
         dispatch(fetchTicketRoom(maLichChieu));
 
         return () => {
             dispatch(clearTicketRoom());
+            dispatch(clearBookingFeedback());
         };
     }, [dispatch, maLichChieu]);
 
@@ -189,7 +200,11 @@ export default function TicketRoom() {
                         </div>
 
                         <aside className="flex w-full min-h-0 max-h-[calc(100dvh-10rem)] flex-col overflow-hidden self-start lg:sticky lg:top-24 lg:max-h-[calc(100dvh-9rem)] lg:max-w-[420px]">
-                            <TicketRoomSummary film={film} />
+                            <TicketRoomSummary
+                                film={film}
+                                maLichChieu={maLichChieu}
+                                onBookingSuccess={handleBookingSuccess}
+                            />
                         </aside>
                     </div>
                 )}
