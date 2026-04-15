@@ -36,3 +36,14 @@ export function getAccessTokenFromLocalStorage(key = STORAGE_KEY_USER) {
         return "";
     }
 }
+
+export function getUserRoleFromLocalStorage(key = STORAGE_KEY_USER) {
+    const data = getLocalStorage(key);
+    if (!data) return null;
+    try {
+        const role = JSON.parse(data)?.maLoaiNguoiDung;
+        return typeof role === "string" ? role : null;
+    } catch {
+        return null;
+    }
+}

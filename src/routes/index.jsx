@@ -1,6 +1,7 @@
 import { lazy } from "react";
 import { Route } from "react-router-dom";
 import ProtectedRoute from "@components/ProtectedRoute";
+import RequireAdmin from "@components/RequireAdmin";
 
 const routes = [
     {
@@ -9,10 +10,6 @@ const routes = [
         nested: [
             {
                 path: "",
-                element: lazy(() => import("../pages/HomeTemplate/Home")),
-            },
-            {
-                path: "home",
                 element: lazy(() => import("../pages/HomeTemplate/Home")),
             },
             {
@@ -62,6 +59,7 @@ const routes = [
         path: "admin",
         element: lazy(() => import("../pages/AdminTemplate")),
         requiresAuth: true,
+        requiresAdmin: true,
         nested: [
             {
                 path: "",
@@ -123,7 +121,13 @@ export const renderRoutes = () => {
         if (route.nested) {
             const parentElement = route.requiresAuth ? (
                 <ProtectedRoute>
-                    <route.element />
+                    {route.requiresAdmin ? (
+                        <RequireAdmin>
+                            <route.element />
+                        </RequireAdmin>
+                    ) : (
+                        <route.element />
+                    )}
                 </ProtectedRoute>
             ) : (
                 <route.element />

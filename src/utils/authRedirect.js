@@ -3,10 +3,9 @@ import { USER_ROLE_ADMIN, USER_ROLE_CUSTOMER } from "@constants";
 function getDefaultPathForRole(maLoaiNguoiDung) {
     if (maLoaiNguoiDung === USER_ROLE_ADMIN) return "/admin/dashboard";
     if (maLoaiNguoiDung === USER_ROLE_CUSTOMER) return "/home";
-    return "/home";
+    return "/";
 }
 
-/** Same-app path only; blocks open redirects and /login /register loops. */
 export function getSafeRedirectURL(redirectURL) {
     if (typeof redirectURL !== "string") return null;
 

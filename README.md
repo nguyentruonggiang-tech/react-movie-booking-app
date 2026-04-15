@@ -45,7 +45,7 @@ Configured in `src/routes/index.jsx`.
 
 | Path | Page |
 |------|------|
-| `/`, `/home` | Home |
+| `/` | Home |
 | `/login`, `/register` | Sign in / Sign up |
 | `/detail/:maPhim` | Movie detail |
 | `/ticketroom/:maLichChieu` | Ticket room |
@@ -65,7 +65,7 @@ Configured in `src/routes/index.jsx`.
 | T11 | Profile UI and API |
 | T12 | Deploy |
 
-**Current focus:** T06 (route guards), 1/5 — next: Step 2 (RequireAdmin).
+**Current focus:** T06 (route guards), 2/5 — next: Step 3 (client token TTL).
 
 ## Repository layout
 
