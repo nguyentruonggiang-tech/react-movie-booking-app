@@ -1,0 +1,137 @@
+/* Radial bar spinner — adapted from Uiverse.io by e-coders */
+
+.loading-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: none;
+}
+
+@keyframes radial-bar-spinner-fade {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.radial-bar-spinner {
+    position: relative;
+    width: 248px;
+    height: 248px;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.radial-bar-spinner-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform: translateZ(0) scale(1);
+    backface-visibility: hidden;
+    transform-origin: 0 0;
+}
+
+.radial-bar-spinner-inner div {
+    left: calc(50% - 6px);
+    top: calc(50% - 52px);
+    position: absolute;
+    animation: radial-bar-spinner-fade 1s linear infinite;
+    background: var(--color-loading-accent);
+    width: 12px;
+    height: 24px;
+    border-radius: 6px / 12px;
+    transform-origin: 6px 52px;
+    box-sizing: content-box;
+}
+
+.radial-bar-spinner-inner div:nth-child(1) {
+    transform: rotate(0deg);
+    animation-delay: -0.9166666666666666s;
+}
+
+.radial-bar-spinner-inner div:nth-child(2) {
+    transform: rotate(30deg);
+    animation-delay: -0.8333333333333334s;
+}
+
+.radial-bar-spinner-inner div:nth-child(3) {
+    transform: rotate(60deg);
+    animation-delay: -0.75s;
+}
+
+.radial-bar-spinner-inner div:nth-child(4) {
+    transform: rotate(90deg);
+    animation-delay: -0.6666666666666666s;
+}
+
+.radial-bar-spinner-inner div:nth-child(5) {
+    transform: rotate(120deg);
+    animation-delay: -0.5833333333333334s;
+}
+
+.radial-bar-spinner-inner div:nth-child(6) {
+    transform: rotate(150deg);
+    animation-delay: -0.5s;
+}
+
+.radial-bar-spinner-inner div:nth-child(7) {
+    transform: rotate(180deg);
+    animation-delay: -0.4166666666666667s;
+}
+
+.radial-bar-spinner-inner div:nth-child(8) {
+    transform: rotate(210deg);
+    animation-delay: -0.3333333333333333s;
+}
+
+.radial-bar-spinner-inner div:nth-child(9) {
+    transform: rotate(240deg);
+    animation-delay: -0.25s;
+}
+
+.radial-bar-spinner-inner div:nth-child(10) {
+    transform: rotate(270deg);
+    animation-delay: -0.16666666666666666s;
+}
+
+.radial-bar-spinner-inner div:nth-child(11) {
+    transform: rotate(300deg);
+    animation-delay: -0.08333333333333333s;
+}
+
+.radial-bar-spinner-inner div:nth-child(12) {
+    transform: rotate(330deg);
+    animation-delay: 0s;
+}
+
+.loading-overlay__message {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    max-width: 6rem;
+    padding: 0 8px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.35;
+    color: #f1f5f9;
+    filter: drop-shadow(0 1px 8px rgba(0, 0, 0, 0.75));
+}
+
+@media (min-width: 640px) {
+    .loading-overlay__message {
+        font-size: 0.75rem;
+        line-height: 1.4;
+    }
+}

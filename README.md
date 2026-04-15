@@ -20,6 +20,7 @@ The main goal is to grow the app step by step from a lean React setup, then wire
 | State | Redux Toolkit + React Redux |
 | HTTP | Axios (`src/services/api.js`) |
 | Styling | Tailwind CSS v4 (`@tailwindcss/vite`), Flowbite theme/plugin via the `flowbite` package (no `flowbite-react`; markup uses HTML + utility classes) |
+| Notifications | `react-toastify` (`ToastContainer` in `App.jsx`; used after successful sign-in) |
 | Lint | ESLint (flat config) |
 
 ## User-facing routes (English paths)
@@ -28,13 +29,30 @@ Defined in `src/routes/index.jsx` (code-split with `lazy()`).
 
 | Path | Page |
 |------|------|
-| `/` | Home |
-| `/login`, `/register` | Login, Register |
+| `/`, `/home` | Home (`HomeTemplate` layout: Header / Outlet / Footer) |
+| `/login`, `/register` | Sign in / Sign up — **full-page** routes, **not** wrapped by `HomeTemplate` (see [Authentication (login)](#authentication-login)) |
 | `/detail/:maPhim`, `/ticketroom/:maLichChieu`, `/profile` | Detail, ticket room, profile |
 | `/news` | News |
 | `/about-us`, `/privacy-policy`, `/terms-of-service`, `/contact` | Static shells (`AboutUs`, `PrivacyPolicy`, `TermsOfService`, `Contact`) |
 | Admin | `/admin`, `/admin/films`, … (see routes file) |
 | `*` | Page not found |
+
+## Authentication (login)
+
+Sign-in is wired to the Cybersoft Movie API (`QuanLyNguoiDung/DangNhap`) and Redux.
+
+| Piece | Role |
+|-------|------|
+| `src/pages/Auth/slice.js` | `actLogin` (async thunk): POST `{ taiKhoan, matKhau }`, persists API `content` under `localStorage` key `USER_INFO` (`STORAGE_KEY_USER` from `@constants`), `authReducer` state `{ data, loading, error }`. `initialState.data` is hydrated from `localStorage` on app load. |
+| `src/store/index.js` | Registers `authReducer` in the store. |
+| `src/pages/Auth/Login/index.jsx` | Sign-in form: client validation (username ≥ 4 chars, password ≥ 6), `LoadingOverlay` while `loading`, API errors on the page; after a successful submit: “Signed in successfully” toast (~3s) then `navigate` (or immediate redirect if the user already had a session from storage). |
+| `src/utils/authRedirect.js` | `getPathAfterLogin(maLoaiNguoiDung)`: role `QuanTri` → `/admin/dashboard`; `KhachHang` (and default) → `/home`. |
+| `src/services/api.js` | Request interceptor: `TokenCybersoft` header plus `Authorization: Bearer <accessToken>` when a token is read via `getAccessTokenFromLocalStorage()` in `src/utils/storage.js` (JSON parse of `USER_INFO`). |
+| `src/pages/HomeTemplate/_components/Header/index.jsx` | If `authReducer.data` has `accessToken` or `taiKhoan`, shows the account menu (avatar, `/profile` link); otherwise shows Sign in / Sign up linking to `/login` and `/register`. |
+
+**Note:** `/login` and `/register` render **outside** the `HomeTemplate` shell (unlike nested pages such as Home or Detail).
+
+**Current limitation:** The Header “Sign out” control only closes the dropdown; it does not clear `USER_INFO` or reset `authReducer` yet (planned under **T06** — route guards and hardened auth).
 
 ## Roadmap
 
@@ -74,7 +92,10 @@ Planned milestones **T00–T11**. Route skeleton and layout templates belong to 
     - **Movie detail (step 1 follow-ups):** slice `data` nullable (`null` when idle/loading/error); thunk returns safe payload (`?? null`); skeleton at `MovieDetail/_components/MovieDetailSkeleton.jsx`.
     - **Showtimes (step 2 follow-ups):** thunk `data?.content ?? null`; `clearMovieShowtimes` on unmount; UI split into `ShowtimeSection/_components/` (`TheaterSystemRail`, `ShowingDateStrip`, `TheaterClusterSessions`, `ShowtimeVerifiedImg`, `ShowtimeSectionSkeleton`); section + grid layout stays in `ShowtimeSection/index.jsx`; `useMemo` / `useCallback` for derived lists and retry; `React.memo` on presenter blocks; `constants.js` + `utils.js` (days/sessions, Maps URL, image probe); `SHOWTIME_NO_IMAGE_URL` from `src/assets/noimage.svg`.
 
-**Next:** T04 — Booking UI + API (`TicketRoom`, …).
+- **T04** (next): Booking UI + API (`TicketRoom`, …).
+- **T05** (in progress — login slice): full-page `Auth/Login` UI, `actLogin` thunk, `USER_INFO` session persistence, role-based redirect, Header driven by `authReducer`; route guards and logout clearing storage are expected in **T06** (see roadmap). Details: [Authentication (login)](#authentication-login).
+
+**Next:** T04 — Booking UI + API (`TicketRoom`, …). Basic sign-in (T05) is documented above and in [Authentication (login)](#authentication-login).
 
 ## Repository structure (snapshot)
 
@@ -104,8 +125,6 @@ react-movie-booking-app/
         TermsOfService/
         Contact/
         News/
-        Login/
-        Register/
         Detail/            # T03
           index.jsx        # MovieDetail + ShowtimeSection
           MovieDetail/
@@ -121,14 +140,21 @@ react-movie-booking-app/
                            # TheaterClusterSessions, ShowtimeVerifiedImg
         TicketRoom/
         Profile/
+      Auth/                # T05: login/register (routes top-level /login, /register)
+        slice.js           # actLogin + authReducer
+        Login/
+        Register/
       AdminTemplate/
       PageNotFound/
+    components/
+      LoadingOverlay/      # used on the Login page while the API request is in flight
     store/
-      index.js             # movieDetailReducer, movieShowtimesReducer, …
+      index.js             # authReducer, movieDetailReducer, movieShowtimesReducer, …
     services/
       api.js
     utils/
-      storage.js
+      storage.js           # localStorage + getAccessTokenFromLocalStorage
+      authRedirect.js      # getPathAfterLogin(role)
   public/
   package.json
   vite.config.js

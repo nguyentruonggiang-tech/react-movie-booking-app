@@ -24,3 +24,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.cursor/*
+# Nếu ai đó chạy flowbite-react CLI — không commit thư mục này (project dùng Flowbite CSS thuần).
+.flowbite-react/
+docs/*
+theme/*

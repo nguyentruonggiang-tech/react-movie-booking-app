@@ -8,9 +8,11 @@ import {
 } from "@pages/HomeTemplate/Home/Theater/slice";
 import movieDetailReducer from "@pages/HomeTemplate/Detail/MovieDetail/slice";
 import movieShowtimesReducer from "@pages/HomeTemplate/Detail/ShowtimeSection/slice";
+import authReducer from "@pages/Auth/slice";
 
 const store = configureStore({
     reducer: {
+        authReducer,
         bannerReducer,
         movieReducer,
         theaterSystemsReducer,
