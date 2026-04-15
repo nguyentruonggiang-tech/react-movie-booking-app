@@ -46,12 +46,23 @@
         );
     }
 
-.theater-scrollbar::-webkit-scrollbar-thumb:hover {
+    .theater-scrollbar::-webkit-scrollbar-thumb:hover {
         background: linear-gradient(
             180deg,
             rgba(252, 165, 165, 0.98) 0%,
             rgba(239, 68, 68, 0.98) 100%
         );
+    }
+
+    .screen-triangle {
+        margin: 0 auto;
+        height: 0;
+        width: 100%;
+        border-right: 32px solid transparent;
+        border-bottom: 32px solid rgb(255, 159, 95);
+        border-left: 32px solid transparent;
+        filter: drop-shadow(0 8px 24px rgba(255, 255, 255, 0.35))
+            drop-shadow(0 14px 40px rgba(255, 255, 255, 0.2));
     }
 }
 
