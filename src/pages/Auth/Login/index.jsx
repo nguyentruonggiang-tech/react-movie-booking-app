@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { actLogin } from "@pages/Auth/slice";
 import { getPathAfterLogin } from "@/utils/authRedirect";
 import LoadingOverlay from "@components/LoadingOverlay";
-import LoginBackground from "./LoginBackground";
+import LoginBackground from "../_components/LoginBackground";
 
 const LOGIN_SUCCESS_TOAST_ID = "login-success-redirect";
 

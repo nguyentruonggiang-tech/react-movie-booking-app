@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import LoadingOverlay from "@components/LoadingOverlay";
 import { actRegister } from "@pages/Auth/slice";
-import LoginBackground from "../Login/LoginBackground";
+import LoginBackground from "../_components/LoginBackground";
 
 const REGISTER_SUCCESS_TOAST_ID = "register-success-redirect";
 
