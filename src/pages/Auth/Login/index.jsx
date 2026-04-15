@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { actLogin } from "@pages/Auth/slice";
 import { getPathAfterLogin } from "@/utils/authRedirect";
@@ -13,12 +13,16 @@ export default function Login() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { loading, data, error } = useSelector((state) => state.authReducer);
+ 
     const initialData = { taiKhoan: "", matKhau: "" };
     const [user, setUser] = useState(initialData);
     const [errors, setErrors] = useState(initialData);
     const [showPassword, setShowPassword] = useState(false);
     const [hasSubmittedLogin, setHasSubmittedLogin] = useState(false);
     const [isRedirecting, setIsRedirecting] = useState(false);
+
+    const [searchParams] = useSearchParams();
+    const redirectURLParam = searchParams.get("redirect");
 
     const handleOnchange = (event) => {
         const { name, value } = event.target;
@@ -71,13 +75,15 @@ export default function Login() {
     useEffect(() => {
         if (!data) return;
 
-        const nextPath = getPathAfterLogin(data.maLoaiNguoiDung);
+        const nextPath = getPathAfterLogin(redirectURLParam, data.maLoaiNguoiDung);
         if (!hasSubmittedLogin) {
             navigate(nextPath, { replace: true });
             return;
         }
 
-        setIsRedirecting(true);
+        const redirectingRafId = requestAnimationFrame(() => {
+            setIsRedirecting(true);
+        });
 
         toast.success(
             <div className="text-left">
@@ -98,11 +104,12 @@ export default function Login() {
         }, 3000);
 
         return () => {
+            cancelAnimationFrame(redirectingRafId);
             clearTimeout(redirectTimer);
             toast.dismiss(LOGIN_SUCCESS_TOAST_ID);
             setIsRedirecting(false);
         };
-    }, [data, hasSubmittedLogin, navigate]);
+    }, [data, hasSubmittedLogin, navigate, redirectRaw]);
 
     return (
         <div className="relative flex min-h-screen flex-1 flex-col overflow-hidden bg-[#030308] text-slate-100 antialiased md:flex-row">
