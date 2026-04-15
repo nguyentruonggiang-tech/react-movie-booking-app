@@ -11,12 +11,8 @@ const routes = [
                 element: lazy(() => import("../pages/HomeTemplate/Home")),
             },
             {
-                path: "login",
-                element: lazy(() => import("../pages/HomeTemplate/Login")),
-            },
-            {
-                path: "register",
-                element: lazy(() => import("../pages/HomeTemplate/Register")),
+                path: "home",
+                element: lazy(() => import("../pages/HomeTemplate/Home")),
             },
             {
                 path: "detail/:maPhim",
@@ -53,11 +49,23 @@ const routes = [
         ],
     },
     {
+        path: "login",
+        element: lazy(() => import("../pages/Auth/Login")),
+    },
+    {
+        path: "register",
+        element: lazy(() => import("../pages/Auth/Register")),
+    },
+    {
         path: "admin",
         element: lazy(() => import("../pages/AdminTemplate")),
         nested: [
             {
                 path: "",
+                element: lazy(() => import("../pages/AdminTemplate/Dashboard")),
+            },
+            {
+                path: "dashboard",
                 element: lazy(() => import("../pages/AdminTemplate/Dashboard")),
             },
             {
