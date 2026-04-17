@@ -1,14 +1,18 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
 import { CalendarMonth, CalendarPlus, Edit, Search, TrashBin } from "flowbite-react-icons/outline";
+import {
+    showSwalConfirm,
+    showSwalError,
+    showSwalSuccess,
+} from "@shared/libs/swal";
 import ErrorBox from "../_components/ErrorBox";
 import NotFound from "../_components/NotFound";
 import Pagination from "../_components/Pagination";
 import TableSkeleton from "./TableSkeleton";
 import { ADMIN_PAGE_SIZE, SEARCH_DEBOUNCE_MS } from "@constants";
-import { fetchFilmList } from "./slice";
+import { deleteFilm, fetchFilmList } from "./slice";
 
 /** Renders calendar date as `dd/mm/yyyy` (local timezone). */
 function formatReleaseDate(iso) {
@@ -40,6 +44,7 @@ export default function Films() {
     const [page, setPage] = useState(1);
     const [searchInput, setSearchInput] = useState("");
     const [debouncedTenPhim, setDebouncedTenPhim] = useState("");
+    const [deletingMaPhim, setDeletingMaPhim] = useState(null);
 
     useEffect(() => {
         const debounceTimeoutId = window.setTimeout(() => {
@@ -55,25 +60,59 @@ export default function Films() {
         return () => window.clearTimeout(debounceTimeoutId);
     }, [searchInput]);
 
+    const fetchListArgs = useMemo(
+        () => ({
+            page,
+            pageSize: ADMIN_PAGE_SIZE,
+            ...(debouncedTenPhim !== "" ? { tenPhim: debouncedTenPhim } : {}),
+        }),
+        [page, debouncedTenPhim],
+    );
+
     useEffect(() => {
-        dispatch(
-            fetchFilmList({
-                page,
-                pageSize: ADMIN_PAGE_SIZE,
-                ...(debouncedTenPhim !== "" ? { tenPhim: debouncedTenPhim } : {}),
-            }),
-        );
-    }, [dispatch, page, debouncedTenPhim]);
+        dispatch(fetchFilmList(fetchListArgs));
+    }, [dispatch, fetchListArgs]);
 
     const loadFilmListPage = useCallback(() => {
-        dispatch(
-            fetchFilmList({
-                page,
-                pageSize: ADMIN_PAGE_SIZE,
-                ...(debouncedTenPhim !== "" ? { tenPhim: debouncedTenPhim } : {}),
-            }),
-        );
-    }, [dispatch, page, debouncedTenPhim]);
+        dispatch(fetchFilmList(fetchListArgs));
+    }, [dispatch, fetchListArgs]);
+
+    const handleDeleteFilm = useCallback(
+        async (film) => {
+            const maPhim = film?.maPhim;
+            if (deletingMaPhim != null || maPhim == null) {
+                return;
+            }
+            const title = film?.tenPhim?.trim() || "this film";
+            const isConfirmed = await showSwalConfirm({
+                title: "Delete film?",
+                html: `Are you sure you want to delete <strong>"${title}"</strong>? This cannot be undone.`,
+                confirmButtonText: "Delete",
+                cancelButtonText: "Cancel",
+            });
+            if (!isConfirmed) {
+                return;
+            }
+            setDeletingMaPhim(maPhim);
+            try {
+                await dispatch(deleteFilm(maPhim)).unwrap();
+                toast.success("Film deleted successfully.");
+                dispatch(fetchFilmList(fetchListArgs));
+            } catch (rejected) {
+                const message =
+                    typeof rejected === "string" && rejected.trim() !== ""
+                        ? rejected
+                        : "Could not delete this film. Please try again.";
+                await showSwalError({
+                    title: "Delete failed",
+                    html: message,
+                });
+            } finally {
+                setDeletingMaPhim(null);
+            }
+        },
+        [deletingMaPhim, dispatch, fetchListArgs],
+    );
 
     const items = data?.items ?? [];
 
@@ -241,11 +280,13 @@ export default function Films() {
                                                 <button
                                                     type="button"
                                                     title="Delete"
-                                                    className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-zinc-300 transition hover:bg-zinc-800/70 hover:text-red-400"
+                                                    disabled={
+                                                        loading ||
+                                                        deletingMaPhim === film.maPhim
+                                                    }
+                                                    className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-zinc-300 transition hover:bg-zinc-800/70 hover:text-red-400 disabled:cursor-not-allowed disabled:opacity-40"
                                                     onClick={() =>
-                                                        toast.info(
-                                                            "Delete film will be wired to the API when implemented.",
-                                                        )
+                                                        handleDeleteFilm(film)
                                                     }
                                                 >
                                                     <TrashBin className="h-4 w-4" aria-hidden />

@@ -13,6 +13,29 @@ const initialState = {
     error: null,
 };
 
+export const deleteFilm = createAsyncThunk(
+    "adminFilms/deleteFilm",
+    async (maPhim, { rejectWithValue }) => {
+        const id = Number(maPhim);
+        if (!Number.isFinite(id) || id <= 0) {
+            return rejectWithValue("Invalid film id.");
+        }
+        try {
+            await api.delete("QuanLyPhim/XoaPhim", {
+                params: { MaPhim: id },
+            });
+            return id;
+        } catch (error) {
+            return rejectWithValue(
+                error?.response?.data?.content ||
+                    error?.response?.data?.message ||
+                    error?.message ||
+                    "Could not delete film.",
+            );
+        }
+    },
+);
+
 export const fetchFilmList = createAsyncThunk(
     "adminFilms/fetchFilmList",
     async (params, { rejectWithValue }) => {
