@@ -65,8 +65,9 @@ Configured in `src/routes/index.jsx`.
 | T11 | Profile UI and API |
 | T12 | Deploy |
 
-**Current focus:** Step 2 — T07 (Admin Films): add film page (`/admin/films/addnew`), `ThemPhimUploadHinh` API, FormData upload, and create thunk with success feedback / navigation.
+**Current focus:** T07 **Step 3** (Admin Films) — edit film: `/admin/films/edit/:idFilm`, load `LayThongTinPhim`, form aligned with Add Film, `POST QuanLyPhim/CapNhatPhimUpload` via `updateFilm`, slice shape `{ data, loading, error }`, success toast + back to list.
 
+**Next:** Step 4 — delete film (confirm, refetch list, polish errors/toast).
 
 ## Repository layout
 

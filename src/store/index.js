@@ -12,6 +12,8 @@ import ticketRoomReducer from "@pages/HomeTemplate/TicketRoom/slice";
 import { authLoginReducer, authRegisterReducer } from "@pages/Auth/slice";
 import { fetchFilmsReducer } from "@pages/AdminTemplate/Films/slice";
 import { addFilmReducer } from "@pages/AdminTemplate/AddFilm/slice";
+import { editFilmReducer } from "@pages/AdminTemplate/EditFilm/editSlice";
+import { editFilmDetailReducer } from "@pages/AdminTemplate/EditFilm/detailSlice";
 
 const store = configureStore({
     reducer: {
@@ -19,6 +21,8 @@ const store = configureStore({
         authRegisterReducer,
         fetchFilmsReducer,
         addFilmReducer,
+        editFilmDetailReducer,
+        editFilmReducer,
         bannerReducer,
         movieReducer,
         theaterSystemsReducer,
