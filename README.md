@@ -65,8 +65,8 @@ Configured in `src/routes/index.jsx`.
 | T11 | Profile UI and API |
 | T12 | Deploy |
 
-**Current focus:** Step 1 - T07 (Admin Films): listing, search, loading/error states, and pagination UI.
-**Next:** Step 2 - T07 (Admin Films): Add films action wiring and API integration.
+**Current focus:** Step 2 — T07 (Admin Films): add film page (`/admin/films/addnew`), `ThemPhimUploadHinh` API, FormData upload, and create thunk with success feedback / navigation.
+
 
 ## Repository layout
 

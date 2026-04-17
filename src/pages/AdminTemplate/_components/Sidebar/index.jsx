@@ -9,7 +9,7 @@ import { actLogout } from "@pages/Auth/slice";
 import { SITE_NAME } from "@constants";
 
 const navBase =
-    "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors";
+    "flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-colors";
 const navInactive = "text-zinc-400 hover:bg-zinc-800/80 hover:text-zinc-100";
 const navActive = "bg-rose-600 text-white shadow-md shadow-rose-900/40";
 

@@ -11,12 +11,14 @@ import movieShowtimesReducer from "@pages/HomeTemplate/Detail/ShowtimeSection/sl
 import ticketRoomReducer from "@pages/HomeTemplate/TicketRoom/slice";
 import { authLoginReducer, authRegisterReducer } from "@pages/Auth/slice";
 import { fetchFilmsReducer } from "@pages/AdminTemplate/Films/slice";
+import { addFilmReducer } from "@pages/AdminTemplate/AddFilm/slice";
 
 const store = configureStore({
     reducer: {
         authLoginReducer,
         authRegisterReducer,
         fetchFilmsReducer,
+        addFilmReducer,
         bannerReducer,
         movieReducer,
         theaterSystemsReducer,
