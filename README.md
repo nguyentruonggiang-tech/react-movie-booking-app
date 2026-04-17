@@ -65,7 +65,8 @@ Configured in `src/routes/index.jsx`.
 | T11 | Profile UI and API |
 | T12 | Deploy |
 
-**Current focus:** T06 (route guards) complete; next: T07 (admin features per roadmap).
+**Current focus:** Step 1 - T07 (Admin Films): listing, search, loading/error states, and pagination UI.
+**Next:** Step 2 - T07 (Admin Films): Add films action wiring and API integration.
 
 ## Repository layout
 
