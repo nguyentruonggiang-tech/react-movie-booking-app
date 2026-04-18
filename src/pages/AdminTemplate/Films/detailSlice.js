@@ -54,6 +54,5 @@ const fetchFilmSlice = createSlice({
 export const fetchFilmReducer = fetchFilmSlice.reducer;
 export const { resetFetchFilm } = fetchFilmSlice.actions;
 
-/** Same reducer — key used in `store` + `EditFilm` page. */
 export const editFilmDetailReducer = fetchFilmReducer;
 export { resetFetchFilm as resetEditFilmDetailState };

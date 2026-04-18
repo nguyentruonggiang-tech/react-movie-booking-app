@@ -11,9 +11,9 @@ import movieShowtimesReducer from "@pages/HomeTemplate/Detail/ShowtimeSection/sl
 import ticketRoomReducer from "@pages/HomeTemplate/TicketRoom/slice";
 import { authLoginReducer, authRegisterReducer } from "@pages/Auth/slice";
 import { fetchFilmsReducer } from "@pages/AdminTemplate/Films/slice";
-import { addFilmReducer } from "@pages/AdminTemplate/AddFilm/slice";
-import { editFilmReducer } from "@pages/AdminTemplate/EditFilm/editSlice";
-import { editFilmDetailReducer } from "@pages/AdminTemplate/EditFilm/detailSlice";
+import { addFilmReducer } from "@pages/AdminTemplate/Films/addSlice";
+import { editFilmReducer } from "@pages/AdminTemplate/Films/editSlice";
+import { editFilmDetailReducer } from "@pages/AdminTemplate/Films/detailSlice";
 
 const store = configureStore({
     reducer: {

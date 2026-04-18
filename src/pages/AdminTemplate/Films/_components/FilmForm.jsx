@@ -1,25 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { CalendarMonth, ChevronLeft } from "flowbite-react-icons/outline";
+import { Link } from "react-router-dom";
+import { CalendarMonth } from "flowbite-react-icons/outline";
 import { MA_NHOM } from "@constants";
-import { createFilm, resetCreateFilmState } from "./slice";
 
-const initialFormValues = {
-    tenPhim: "",
-    trailer: "",
-    moTa: "",
-    ngayKhoiChieu: "",
-    sapChieu: true,
-    dangChieu: true,
-    hot: true,
-    danhGia: 5,
-};
-
-function formatDateToApiValue(dateValue) {
-    if (!dateValue) return "";
-    const date = new Date(dateValue);
+function ngayKhoiChieuFromPickerToApiString(pickerValue) {
+    if (!pickerValue) return "";
+    const date = new Date(pickerValue);
     if (Number.isNaN(date.getTime())) return "";
     const day = String(date.getDate()).padStart(2, "0");
     const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -27,7 +13,7 @@ function formatDateToApiValue(dateValue) {
     return `${day}/${month}/${year}`;
 }
 
-function normalizeRating(value) {
+function clampDanhGia(value) {
     const parsed = Number(value);
     if (Number.isNaN(parsed)) return 1;
     if (parsed < 1) return 1;
@@ -35,45 +21,53 @@ function normalizeRating(value) {
     return parsed;
 }
 
-function isAllowedPosterFile(file) {
+function posterFileIsJpegPngOrGif(file) {
     if (!file) return false;
     const allowedMimeTypes = ["image/jpeg", "image/png", "image/gif"];
     if (allowedMimeTypes.includes(file.type)) return true;
     const lowerName = String(file.name || "").toLowerCase();
     return (
-        lowerName.endsWith(".jpg") || lowerName.endsWith(".jpeg") || lowerName.endsWith(".png") || lowerName.endsWith(".gif")
+        lowerName.endsWith(".jpg") ||
+        lowerName.endsWith(".jpeg") ||
+        lowerName.endsWith(".png") ||
+        lowerName.endsWith(".gif")
     );
 }
 
-export default function AddFilm() {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const { loading, error, data } = useSelector(
-        (state) => state.addFilmReducer,
-    );
+/**
+ * @param {"add"|"edit"} props.mode
+ * @param {object|null} props.film — required when mode is "edit" (maPhim, maNhom, hinhAnh)
+ * @param {object} props.initialValues — form field values
+ * @param {(formData: FormData) => void | Promise<void>} props.onSubmit
+ * @param {string} props.submitText — idle submit label
+ * @param {boolean} props.loading
+ * @param {unknown} [props.error]
+ */
+export default function FilmForm({
+    mode,
+    film,
+    initialValues,
+    onSubmit,
+    submitText,
+    loading,
+    error,
+}) {
+    const isEdit = mode === "edit";
 
-    const [formValues, setFormValues] = useState(initialFormValues);
+    const [formValues, setFormValues] = useState(() => initialValues);
+    const [serverPosterUrl, setServerPosterUrl] = useState(() =>
+        isEdit ? String(film?.hinhAnh || "") : "",
+    );
     const [posterFile, setPosterFile] = useState(null);
     const [posterPreview, setPosterPreview] = useState("");
     const [fieldErrors, setFieldErrors] = useState({});
     const posterInputRef = useRef(null);
     const releaseDateInputRef = useRef(null);
 
+    const posterDisplaySrc = posterPreview || serverPosterUrl || "";
+
     const canSubmit = useMemo(() => !loading, [loading]);
     const isSubmitting = loading;
-
-    useEffect(() => {
-        return () => {
-            dispatch(resetCreateFilmState());
-        };
-    }, [dispatch]);
-
-    useEffect(() => {
-        if (!data) return;
-        toast.success("Film created successfully.");
-        dispatch(resetCreateFilmState());
-        navigate("/admin/films");
-    }, [data, dispatch, navigate]);
 
     useEffect(() => {
         return () => {
@@ -109,7 +103,7 @@ export default function AddFilm() {
             setPosterPreview("");
             return;
         }
-        if (!isAllowedPosterFile(nextFile)) {
+        if (!posterFileIsJpegPngOrGif(nextFile)) {
             setFieldErrors((previous) => ({
                 ...previous,
                 posterFile: "Poster file must be .jpg, .png, or .gif.",
@@ -134,13 +128,28 @@ export default function AddFilm() {
     };
 
     const handleRemovePoster = () => {
-        setPosterFile(null);
-        if (posterPreview) {
-            URL.revokeObjectURL(posterPreview);
-        }
-        setPosterPreview("");
-        if (posterInputRef.current) {
-            posterInputRef.current.value = "";
+        if (isEdit) {
+            if (posterFile || posterPreview) {
+                setPosterFile(null);
+                if (posterPreview) {
+                    URL.revokeObjectURL(posterPreview);
+                }
+                setPosterPreview("");
+                if (posterInputRef.current) {
+                    posterInputRef.current.value = "";
+                }
+            } else {
+                setServerPosterUrl("");
+            }
+        } else {
+            setPosterFile(null);
+            if (posterPreview) {
+                URL.revokeObjectURL(posterPreview);
+            }
+            setPosterPreview("");
+            if (posterInputRef.current) {
+                posterInputRef.current.value = "";
+            }
         }
         setFieldErrors((previous) => {
             if (!previous.posterFile) return previous;
@@ -157,7 +166,7 @@ export default function AddFilm() {
                 releaseDateInputRef.current.showPicker();
                 return;
             } catch {
-                // Fall through to focus when browser blocks showPicker.
+                void 0;
             }
         }
         releaseDateInputRef.current.focus();
@@ -171,56 +180,69 @@ export default function AddFilm() {
         if (!formValues.ngayKhoiChieu) {
             nextErrors.ngayKhoiChieu = "Release date is required.";
         }
-        if (!posterFile) {
+        if (isEdit) {
+            if (!posterFile && !String(serverPosterUrl || "").trim()) {
+                nextErrors.posterFile = "Poster image is required.";
+            }
+        } else if (!posterFile) {
             nextErrors.posterFile = "Poster image is required.";
         }
         return nextErrors;
     };
 
-    const handleSubmit = (event) => {
+    const buildFormData = () => {
+        const requestFormData = new FormData();
+        if (isEdit) {
+            requestFormData.append("maPhim", String(film.maPhim));
+        }
+        requestFormData.append("tenPhim", formValues.tenPhim.trim());
+        requestFormData.append("trailer", formValues.trailer.trim());
+        requestFormData.append("moTa", formValues.moTa.trim());
+        requestFormData.append(
+            "maNhom",
+            MA_NHOM || (isEdit ? film.maNhom : null) || "GP01",
+        );
+        requestFormData.append(
+            "ngayKhoiChieu",
+            ngayKhoiChieuFromPickerToApiString(formValues.ngayKhoiChieu),
+        );
+        requestFormData.append("sapChieu", String(formValues.sapChieu));
+        requestFormData.append("dangChieu", String(formValues.dangChieu));
+        requestFormData.append("hot", String(formValues.hot));
+        requestFormData.append("danhGia", String(clampDanhGia(formValues.danhGia)));
+        if (posterFile) {
+            requestFormData.append(
+                "hinhAnh",
+                posterFile,
+                posterFile.name || "poster.jpg",
+            );
+        } else if (isEdit && serverPosterUrl) {
+            requestFormData.append("hinhAnh", serverPosterUrl);
+        }
+        return requestFormData;
+    };
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const nextErrors = validateForm();
         setFieldErrors(nextErrors);
         if (Object.keys(nextErrors).length > 0) {
             return;
         }
-        
-        const requestFormData = new FormData();
-        requestFormData.append("tenPhim", formValues.tenPhim.trim());
-        requestFormData.append("trailer", formValues.trailer.trim());
-        requestFormData.append("moTa", formValues.moTa.trim());
-        requestFormData.append("maNhom", MA_NHOM || "GP01");
-        requestFormData.append("ngayKhoiChieu", formatDateToApiValue(formValues.ngayKhoiChieu));
-        requestFormData.append("sapChieu", String(formValues.sapChieu));
-        requestFormData.append("dangChieu", String(formValues.dangChieu));
-        requestFormData.append("hot", String(formValues.hot));
-        requestFormData.append("danhGia", String(normalizeRating(formValues.danhGia)));
-        if (posterFile) {
-            requestFormData.append("hinhAnh", posterFile, posterFile.name || "poster.jpg");
-        }
-        dispatch(createFilm(requestFormData)); 
+        const requestFormData = buildFormData();
+        await onSubmit(requestFormData);
     };
 
-    return (
-        <div className="mx-auto w-full max-w-6xl">
-            <div className="mb-8">
-                <p className="text-sm text-zinc-400">Admin &gt; Film management</p>
-                <div className="mt-2 flex items-start justify-between gap-4">
-                    <h1 className="text-4xl font-black uppercase tracking-tight text-white">Add Film</h1>
-                    <Link
-                        to="/admin/films"
-                        className="inline-flex items-center rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-zinc-200 transition hover:border-rose-500 hover:text-white"
-                    >
-                        <ChevronLeft className="mr-1 h-3.5 w-3.5" aria-hidden />
-                        Back to film list
-                    </Link>
-                </div>
-                <div className="mt-3 h-1 w-20 rounded-full bg-rose-500" />
-            </div>
+    const posterAsideEmptyHint = isEdit
+        ? "No poster — upload a file above."
+        : "No file selected.";
 
-            <form onSubmit={handleSubmit}>
-                <fieldset disabled={isSubmitting} className="contents">
-                <div className="grid grid-cols-1 gap-6 xl:grid-cols-12 xl:items-stretch">
+    return (
+        <form onSubmit={handleSubmit}>
+            <fieldset
+                disabled={isSubmitting}
+                className="m-0 grid w-full grid-cols-1 gap-6 border-0 p-0 xl:grid-cols-12 xl:items-stretch"
+            >
                     <aside className="xl:col-span-4 xl:h-full">
                         <div className="flex h-full flex-col rounded-xl border border-zinc-800 bg-zinc-900 p-4">
                             <button
@@ -232,15 +254,19 @@ export default function AddFilm() {
                                         : "border-zinc-700 hover:border-rose-500/70"
                                 }`}
                             >
-                                {posterPreview ? (
+                                {posterDisplaySrc ? (
                                     <>
                                         <img
-                                            src={posterPreview}
+                                            src={posterDisplaySrc}
                                             alt="Poster preview"
                                             className="h-full w-full object-cover"
+                                            onError={(e) => {
+                                                e.currentTarget.src =
+                                                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='48'%3E%3Crect fill='%233f3f46' width='36' height='48'/%3E%3C/svg%3E";
+                                            }}
                                         />
                                         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-3 text-left">
-                                            <p className="text-xs font-semibold uppercase tracking-wide text-white text-center">
+                                            <p className="text-center text-xs font-semibold uppercase tracking-wide text-white">
                                                 Click to change poster
                                             </p>
                                         </div>
@@ -251,10 +277,13 @@ export default function AddFilm() {
                                             +
                                         </div>
                                         <p className="text-lg font-bold text-white">
-                                            Upload Poster <span className="text-red-400">*</span>
+                                            Upload Poster{" "}
+                                            <span className="text-red-400">*</span>
                                         </p>
-                                        <p className="text-sm text-zinc-300">JPG, PNG, GIF (recommended 1000x1500px)</p>
-                                   
+                                        <p className="text-sm text-zinc-300">
+                                            JPG, PNG, GIF (recommended 1000x1500px)
+                                        </p>
+
                                         <span className="rounded-lg border border-zinc-600 bg-zinc-800 px-4 py-2 text-sm font-semibold text-zinc-100 transition group-hover:border-rose-500 group-hover:text-white">
                                             Choose file
                                         </span>
@@ -269,11 +298,13 @@ export default function AddFilm() {
                                 className="sr-only"
                             />
                             <div className="mt-3 flex min-h-8 items-center justify-center">
-                                {posterFile ? (
+                                {posterDisplaySrc ? (
                                     <div className="flex flex-wrap items-center justify-center gap-2">
                                         <button
                                             type="button"
-                                            onClick={() => posterInputRef.current?.click()}
+                                            onClick={() =>
+                                                posterInputRef.current?.click()
+                                            }
                                             className="rounded-md border border-rose-600/70 bg-rose-600/15 px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wide text-rose-200 transition hover:bg-rose-600/25"
                                         >
                                             Change
@@ -287,11 +318,15 @@ export default function AddFilm() {
                                         </button>
                                     </div>
                                 ) : (
-                                    <p className="text-xs text-zinc-500">No file selected.</p>
+                                    <p className="text-xs text-zinc-500">
+                                        {posterAsideEmptyHint}
+                                    </p>
                                 )}
                             </div>
                             {fieldErrors.posterFile ? (
-                                <p className="mt-1 text-center text-xs text-red-400">{fieldErrors.posterFile}</p>
+                                <p className="mt-1 text-center text-xs text-red-400">
+                                    {fieldErrors.posterFile}
+                                </p>
                             ) : null}
                         </div>
                     </aside>
@@ -318,7 +353,7 @@ export default function AddFilm() {
                                 <span>{String(error)}</span>
                             </div>
                         ) : null}
-                  
+
                         <label className="block">
                             <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white">
                                 Film title <span className="text-red-400">*</span>
@@ -335,7 +370,9 @@ export default function AddFilm() {
                                 }`}
                             />
                             {fieldErrors.tenPhim ? (
-                                <p className="mt-1 text-xs text-red-400">{fieldErrors.tenPhim}</p>
+                                <p className="mt-1 text-xs text-red-400">
+                                    {fieldErrors.tenPhim}
+                                </p>
                             ) : null}
                         </label>
 
@@ -369,7 +406,9 @@ export default function AddFilm() {
                                     </button>
                                 </div>
                                 {fieldErrors.ngayKhoiChieu ? (
-                                    <p className="mt-1 text-xs text-red-400">{fieldErrors.ngayKhoiChieu}</p>
+                                    <p className="mt-1 text-xs text-red-400">
+                                        {fieldErrors.ngayKhoiChieu}
+                                    </p>
                                 ) : null}
                             </label>
 
@@ -379,7 +418,7 @@ export default function AddFilm() {
                                         Rating
                                     </span>
                                     <span className="rounded-md border border-rose-600/60 bg-rose-600/15 px-2 py-0.5 text-xs font-semibold text-rose-200">
-                                        {normalizeRating(formValues.danhGia)}/10
+                                        {clampDanhGia(formValues.danhGia)}/10
                                     </span>
                                 </div>
                                 <input
@@ -388,13 +427,15 @@ export default function AddFilm() {
                                     max={10}
                                     step={1}
                                     name="danhGia"
-                                    value={normalizeRating(formValues.danhGia)}
+                                    value={clampDanhGia(formValues.danhGia)}
                                     onChange={handleTextChange}
                                     className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-zinc-700 accent-rose-400 [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-rose-400 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-rose-400"
                                 />
                                 <div className="relative mt-1 h-4 text-[11px] text-zinc-500">
                                     <span className="absolute left-0">1</span>
-                                    <span className="absolute left-[44.444%] -translate-x-1/2">5</span>
+                                    <span className="absolute left-[44.444%] -translate-x-1/2">
+                                        5
+                                    </span>
                                     <span className="absolute right-0">10</span>
                                 </div>
                             </label>
@@ -430,7 +471,9 @@ export default function AddFilm() {
                         <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
                             <label className="flex flex-col gap-1">
                                 <span className="inline-flex items-center gap-2">
-                                    <span className="text-xs font-semibold uppercase tracking-wide text-zinc-200">Now showing</span>
+                                    <span className="text-xs font-semibold uppercase tracking-wide text-zinc-200">
+                                        Now showing
+                                    </span>
                                     <span className="relative inline-flex h-6 w-11 items-center">
                                         <input
                                             type="checkbox"
@@ -446,7 +489,9 @@ export default function AddFilm() {
                             </label>
                             <label className="flex flex-col gap-1">
                                 <span className="inline-flex items-center gap-2">
-                                    <span className="text-xs font-semibold uppercase tracking-wide text-zinc-200">Coming soon</span>
+                                    <span className="text-xs font-semibold uppercase tracking-wide text-zinc-200">
+                                        Coming soon
+                                    </span>
                                     <span className="relative inline-flex h-6 w-11 items-center">
                                         <input
                                             type="checkbox"
@@ -462,7 +507,9 @@ export default function AddFilm() {
                             </label>
                             <label className="flex flex-col gap-1">
                                 <span className="inline-flex items-center gap-2">
-                                    <span className="text-xs font-semibold uppercase tracking-wide text-zinc-200">Hot</span>
+                                    <span className="text-xs font-semibold uppercase tracking-wide text-zinc-200">
+                                        Hot
+                                    </span>
                                     <span className="relative inline-flex h-6 w-11 items-center">
                                         <input
                                             type="checkbox"
@@ -487,15 +534,17 @@ export default function AddFilm() {
                             <button
                                 type="submit"
                                 disabled={!canSubmit}
-                                className="rounded-xl bg-rose-500 px-6 py-2.5 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-rose-400 cursor-pointer disabled:cursor-not-allowed disabled:opacity-60"
+                                className="cursor-pointer rounded-xl bg-rose-500 px-6 py-2.5 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-rose-400 disabled:cursor-not-allowed disabled:opacity-60"
                             >
-                                {loading ? "Adding Film..." : "Add film"}
+                                {loading
+                                    ? isEdit
+                                        ? "Updating..."
+                                        : "Adding Film..."
+                                    : submitText}
                             </button>
                         </div>
                     </section>
-                </div>
-                </fieldset>
-            </form>
-        </div>
+            </fieldset>
+        </form>
     );
 }

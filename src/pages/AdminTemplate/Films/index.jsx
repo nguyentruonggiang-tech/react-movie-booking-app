@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { confirmDelete } from "@shared/libs/swal";
-import { notifyError, notifySuccess } from "@shared/libs/toast";
+import { confirmDelete } from "@shared/lib/swal";
+import { notifyError, notifySuccess } from "@shared/lib/toast";
 import ErrorBox from "../_components/ErrorBox";
 import NotFound from "../_components/NotFound";
 import Pagination from "../_components/Pagination";
