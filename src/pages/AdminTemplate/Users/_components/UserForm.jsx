@@ -17,18 +17,24 @@ function roleOptionLabel(row) {
 }
 
 export default function UserForm({
+    mode = "add",
     initialValues,
     onSubmit,
     submitText = "Create user",
     loading,
+    loadingLabel = "Updating…",
     error,
     roleTypeOptions,
     roleTypesLoading,
     roleTypesError,
     onRetryRoleTypes,
+    cancelTo = "/admin/users",
 }) {
     const [formValues, setFormValues] = useState(() => initialValues);
     const [fieldErrors, setFieldErrors] = useState({});
+    const [showPassword, setShowPassword] = useState(false);
+
+    const isEditMode = mode === "edit";
 
     const isSubmitting = Boolean(loading);
     const canSubmit = !isSubmitting;
@@ -152,7 +158,7 @@ export default function UserForm({
                         <span>{String(error)}</span>
                     </div>
                 ) : null}
-                
+
                 <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                     <label className="block">
                         <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white">
@@ -162,9 +168,12 @@ export default function UserForm({
                             name="taiKhoan"
                             value={formValues.taiKhoan}
                             onChange={handleTextChange}
+                            readOnly={isEditMode}
                             autoComplete="username"
                             placeholder="Unique login, at least 6 characters"
-                            className={inputShell(Boolean(fieldErrors.taiKhoan))}
+                            className={`${inputShell(Boolean(fieldErrors.taiKhoan))} ${
+                                isEditMode ? "cursor-not-allowed opacity-90" : ""
+                            }`}
                         />
                         {fieldErrors.taiKhoan ? (
                             <p className="mt-1 text-xs text-red-400">{fieldErrors.taiKhoan}</p>
@@ -193,15 +202,62 @@ export default function UserForm({
                         <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white">
                             Password <span className="text-red-400">*</span>
                         </span>
-                        <input
-                            type="password"
-                            name="matKhau"
-                            value={formValues.matKhau}
-                            onChange={handleTextChange}
-                            autoComplete="new-password"
-                            placeholder="At least 6 characters"
-                            className={inputShell(Boolean(fieldErrors.matKhau))}
-                        />
+                        <div className="relative">
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                name="matKhau"
+                                value={formValues.matKhau}
+                                onChange={handleTextChange}
+                                autoComplete="new-password"
+                                placeholder="At least 6 characters"
+                                className={`${inputShell(Boolean(fieldErrors.matKhau))} pr-10`}
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword((prev) => !prev)}
+                                disabled={isSubmitting}
+                                className="absolute inset-y-0 right-0 flex w-10 items-center justify-center text-zinc-500 transition hover:text-zinc-200 disabled:cursor-not-allowed disabled:opacity-50"
+                                aria-label={
+                                    showPassword ? "Hide password" : "Show password"
+                                }
+                                aria-pressed={showPassword}
+                            >
+                                {showPassword ? (
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth={1.8}
+                                        stroke="currentColor"
+                                        className="h-4 w-4"
+                                        aria-hidden
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M3 3l18 18M10.73 5.08A10.97 10.97 0 0112 5c5.25 0 9.27 3.86 10 7-.27 1.17-1.02 2.45-2.13 3.6M6.61 6.61C4.63 7.9 3.3 9.73 3 12c.73 3.14 4.75 7 10 7 2.19 0 4.17-.67 5.78-1.74M9.88 9.88a3 3 0 104.24 4.24"
+                                        />
+                                    </svg>
+                                ) : (
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth={1.8}
+                                        stroke="currentColor"
+                                        className="h-4 w-4"
+                                        aria-hidden
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M2.25 12s3.75-7.5 9.75-7.5 9.75 7.5 9.75 7.5-3.75 7.5-9.75 7.5S2.25 12 2.25 12z"
+                                        />
+                                        <circle cx="12" cy="12" r="3" />
+                                    </svg>
+                                )}
+                            </button>
+                        </div>
                         {fieldErrors.matKhau ? (
                             <p className="mt-1 text-xs text-red-400">{fieldErrors.matKhau}</p>
                         ) : null}
@@ -282,7 +338,7 @@ export default function UserForm({
 
                 <div className="flex flex-wrap items-center justify-end gap-3 border-t border-zinc-800 pt-4">
                     <Link
-                        to="/admin/users"
+                        to={cancelTo}
                         className="rounded-xl border border-zinc-600 bg-transparent px-4 py-2.5 text-sm font-semibold text-zinc-200 transition hover:border-zinc-500 hover:text-white"
                     >
                         Cancel
@@ -292,7 +348,7 @@ export default function UserForm({
                         disabled={!canSubmit}
                         className="cursor-pointer rounded-xl bg-rose-600 px-6 py-2.5 text-sm font-semibold uppercase tracking-wide text-white shadow-md shadow-rose-900/30 transition hover:bg-rose-500 disabled:cursor-not-allowed disabled:opacity-60"
                     >
-                        {loading ? "Creating…" : submitText}
+                        {loading ? loadingLabel : submitText}
                     </button>
                 </div>
             </fieldset>

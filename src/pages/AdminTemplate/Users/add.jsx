@@ -91,6 +91,7 @@ export default function AddUser() {
                 key="add-user"
                 initialValues={initialFormValues}
                 loading={loading === true}
+                loadingLabel="Creating…"
                 error={error}
                 roleTypeOptions={roleTypeOptions}
                 roleTypesLoading={roleTypesLoading}

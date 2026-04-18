@@ -95,7 +95,7 @@ const routes = [
             },
             {
                 path: "users/edit/:taiKhoan",
-                element: lazy(() => import("../pages/AdminTemplate/EditUser")),
+                element: lazy(() => import("../pages/AdminTemplate/Users/edit")),
             },
         ],
     },
