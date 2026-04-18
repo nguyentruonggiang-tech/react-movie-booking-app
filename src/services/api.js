@@ -33,7 +33,7 @@ function handleSessionExpired401() {
     if (isHandlingUnauthorized401) return;
     isHandlingUnauthorized401 = true;
     deleteLocalStorage(STORAGE_KEY_USER);
-    toast.error("Session expired. Please sign in again.", { toastId: "session-expired-401" });
+    toast.error("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.", { toastId: "session-expired-401" });
     const loginUrl = buildLoginUrlWithRedirect({
         pathname: window.location.pathname,
         search: window.location.search,

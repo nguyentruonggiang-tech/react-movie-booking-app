@@ -20,5 +20,5 @@ export default function ProtectedRoute({ children }) {
         return <Navigate to={buildLoginUrlWithRedirect(location)} replace />;
     }
 
-    return <Suspense fallback={<LoadingOverlay message="Loading…" />}>{children}</Suspense>;
+    return <Suspense fallback={<LoadingOverlay message="Đang tải…" />}>{children}</Suspense>;
 }

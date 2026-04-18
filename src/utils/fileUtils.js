@@ -42,7 +42,7 @@ export function validateFile(file, options = {}) {
     if (!file) {
         return {
             valid: false,
-            error: "File is required",
+            error: "Vui lòng chọn file.",
         };
     }
 
@@ -53,7 +53,7 @@ export function validateFile(file, options = {}) {
         if (!isValidExt) {
             return {
                 valid: false,
-                error: `File type is not allowed. Allowed: ${extensions.join(", ")}`,
+                error: `Định dạng không hợp lệ. Cho phép: ${extensions.join(", ")}`,
             };
         }
     }
@@ -65,7 +65,7 @@ export function validateFile(file, options = {}) {
         if (file.size > maxBytes) {
             return {
                 valid: false,
-                error: `File is too large. Max size is ${maxSize}MB`,
+                error: `File quá lớn. Tối đa ${maxSize}MB`,
             };
         }
     }

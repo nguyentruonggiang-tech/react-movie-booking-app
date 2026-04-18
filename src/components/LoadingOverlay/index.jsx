@@ -2,7 +2,7 @@ import "./LoadingOverlay.css";
 
 const BAR_COUNT = 12;
 
-export default function LoadingOverlay({ message = "Loading…", className = "" }) {
+export default function LoadingOverlay({ message = "Đang tải…", className = "" }) {
     const rootClassName = ["loading-overlay", className].filter(Boolean).join(" ");
 
     return (

@@ -2,12 +2,12 @@ import Swal from "sweetalert2";
 import { buildSwalOptions } from "./baseOptions";
 
 export async function showSwalConfirm({
-    title = "Confirm?",
-    text = "Are you sure you want to perform this action?",
+    title = "Xác nhận?",
+    text = "Bạn có chắc muốn thực hiện thao tác này?",
     icon = "warning",
     themeMode = "auto",
-    confirmButtonText = "Confirm",
-    cancelButtonText = "Cancel",
+    confirmButtonText = "Xác nhận",
+    cancelButtonText = "Hủy",
 }) {
     const result = await Swal.fire(
         buildSwalOptions({

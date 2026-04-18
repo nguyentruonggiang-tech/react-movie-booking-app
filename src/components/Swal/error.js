@@ -2,9 +2,9 @@ import Swal from "sweetalert2";
 import { buildSwalOptions } from "./baseOptions";
 
 export async function showSwalError({
-    title = "Something went wrong",
+    title = "Đã có lỗi xảy ra",
     text,
-    confirmButtonText = "OK",
+    confirmButtonText = "Đóng",
 }) {
     const result = await Swal.fire(
         buildSwalOptions({
