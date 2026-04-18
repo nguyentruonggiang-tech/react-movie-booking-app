@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { CalendarMonth } from "flowbite-react-icons/outline";
 import { MA_NHOM } from "@constants";
 import { validateFile } from "@utils/fileUtils";
-import { formatDateInput } from "@utils/dateUtils";
+import { formatDate } from "@utils/dateUtils";
 import { clampNumber } from "@utils/numberUtils";
 import RatingBadge from "@/pages/AdminTemplate/_components/RatingBade";
 
@@ -191,7 +191,7 @@ export default function FilmForm({
         );
         requestFormData.append(
             "ngayKhoiChieu",
-            formatDateInput(formValues.ngayKhoiChieu),
+            formatDate(String(formValues.ngayKhoiChieu ?? "").trim(), "dd/MM/yyyy"),
         );
         requestFormData.append("sapChieu", String(formValues.sapChieu));
         requestFormData.append("dangChieu", String(formValues.dangChieu));
