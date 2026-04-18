@@ -45,7 +45,7 @@ export const fetchUserList = createAsyncThunk(
             };
         } catch (error) {
             return rejectWithValue(
-                handleError(error, "Could not load user list."),
+                handleError(error, "Không thể tải danh sách người dùng."),
             );
         }
     },
@@ -58,13 +58,13 @@ export const fetchUserRoleTypes = createAsyncThunk(
             const { data } = await api.get(USER_ENDPOINTS.ROLE_TYPES);
             if (data?.statusCode != null && Number(data.statusCode) !== 200) {
                 return rejectWithValue(
-                    data?.message || "Could not load user types.",
+                    data?.message || "Không thể tải loại người dùng.",
                 );
             }
             return { items: data?.content };
         } catch (error) {
             return rejectWithValue(
-                handleError(error, "Could not load user types."),
+                handleError(error, "Không thể tải loại người dùng."),
             );
         }
     },
@@ -75,7 +75,7 @@ export const fetchUserForEdit = createAsyncThunk(
     async (taiKhoanRaw, { rejectWithValue }) => {
         const taiKhoan = String(taiKhoanRaw ?? "").trim();
         if (!taiKhoan) {
-            return rejectWithValue("Missing username.");
+            return rejectWithValue("Thiếu tên đăng nhập.");
         }
         try {
             const { data } = await api.request({
@@ -85,12 +85,12 @@ export const fetchUserForEdit = createAsyncThunk(
             });
             const user = data?.content;
             if (!user || typeof user !== "object") {
-                return rejectWithValue("User not found.");
+                return rejectWithValue("Không tìm thấy người dùng.");
             }
             return user;
         } catch (error) {
             return rejectWithValue(
-                handleError(error, "Could not load user."),
+                handleError(error, "Không thể tải thông tin người dùng."),
             );
         }
     },
@@ -115,7 +115,7 @@ export const createUser = createAsyncThunk(
             return data?.content ?? body;
         } catch (error) {
             return rejectWithValue(
-                handleError(error, "Could not create user."),
+                handleError(error, "Không thể tạo người dùng."),
             );
         }
     },
@@ -149,7 +149,7 @@ export const updateUser = createAsyncThunk(
             }
         } catch (error) {
             return rejectWithValue(
-                handleError(error, "Could not update user."),
+                handleError(error, "Không thể cập nhật người dùng."),
             );
         }
     },

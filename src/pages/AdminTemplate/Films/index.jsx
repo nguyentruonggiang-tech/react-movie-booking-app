@@ -63,12 +63,12 @@ export default function Films() {
             if (deletingMaPhim != null || maPhim == null) {
                 return;
             }
-            const title = film?.tenPhim?.trim() || "this film";
+            const title = film?.tenPhim?.trim() || "phim này";
             const isConfirmed = await confirmDelete(title, {
-                title: "Delete film?",
-                html: `Are you sure you want to delete <strong>"${title}"</strong>? This cannot be undone.`,
-                confirmButtonText: "Delete",
-                cancelButtonText: "Cancel",
+                title: "Xóa phim?",
+                html: `Bạn có chắc muốn xóa <strong>"${title}"</strong>? Thao tác này không thể hoàn tác.`,
+                confirmButtonText: "Xóa",
+                cancelButtonText: "Hủy",
             });
             if (!isConfirmed) {
                 return;
@@ -76,13 +76,13 @@ export default function Films() {
             setDeletingMaPhim(maPhim);
             try {
                 await dispatch(deleteFilm(maPhim)).unwrap();
-                notifySuccess("Film deleted successfully.");
+                notifySuccess("Đã xóa phim thành công.");
                 dispatch(fetchList(fetchListArgs));
             } catch (rejected) {
                 const message =
                     typeof rejected === "string" && rejected.trim() !== ""
                         ? rejected
-                        : "Could not delete this film. Please try again.";
+                        : "Không thể xóa phim. Vui lòng thử lại.";
                 notifyError(message);
             } finally {
                 setDeletingMaPhim(null);
@@ -107,9 +107,9 @@ export default function Films() {
         <div>
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-white">Film list</h1>
+                    <h1 className="text-2xl font-bold text-white">Danh sách phim</h1>
                     <p className="mt-1 text-sm text-zinc-400">
-                        Manage the film library and system showtimes
+                        Quản lý thư viện phim và lịch chiếu hệ thống
                     </p>
                 </div>
                 <div className="flex w-full flex-wrap items-center gap-3 sm:w-auto sm:max-w-md sm:flex-1 sm:justify-end">
@@ -117,7 +117,7 @@ export default function Films() {
                         to="/admin/films/addnew"
                         className="inline-flex shrink-0 items-center justify-center rounded-lg bg-rose-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-rose-900/30 transition hover:bg-rose-500"
                     >
-                        Add Film
+                        Thêm phim
                     </Link>
                     <FilmSearch
                         value={searchInput}
@@ -130,7 +130,7 @@ export default function Films() {
             <div className="mt-8">
                 {error ? (
                     <ErrorBox
-                        title="Could not load film list"
+                        title="Không thể tải danh sách phim"
                         message={error}
                         onRetry={loadFilmListPage}
                     />
@@ -144,15 +144,15 @@ export default function Films() {
 
                 {!error && !loading && items.length === 0 ? (
                     <NotFound
-                        title={debouncedTenPhim !== "" ? "No matching films" : "No films"}
+                        title={debouncedTenPhim !== "" ? "Không có phim phù hợp" : "Chưa có phim"}
                         message={
                             debouncedTenPhim !== ""
-                                ? "No films match your search."
-                                : "No films on this page."
+                                ? "Không có phim khớp tìm kiếm."
+                                : "Trang này chưa có phim."
                         }
                         {...(debouncedTenPhim !== ""
                             ? {
-                                  actionLabel: "Clear search",
+                                  actionLabel: "Xóa bộ lọc",
                                   onActionClick: handleSearchClear,
                               }
                             : {})}

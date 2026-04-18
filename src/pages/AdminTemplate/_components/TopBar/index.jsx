@@ -22,7 +22,7 @@ function getSessionDisplayName(user) {
     if (!user) return "";
     const hoTen = String(user.hoTen ?? "").trim();
     if (hoTen) return hoTen;
-    return String(user.taiKhoan ?? "").trim() || "User";
+    return String(user.taiKhoan ?? "").trim() || "Người dùng";
 }
 
 const USER_MENU_ID = "admin-user-menu";
@@ -84,7 +84,9 @@ export default function TopBar() {
                     aria-haspopup="menu"
                     aria-controls={USER_MENU_ID}
                     aria-label={
-                        displayName ? `Account menu for ${displayName}` : "Account menu"
+                        displayName
+                            ? `Menu tài khoản — ${displayName}`
+                            : "Menu tài khoản"
                     }
                     title={displayName || undefined}
                     onClick={() => setMenuOpen((v) => !v)}
@@ -114,7 +116,7 @@ export default function TopBar() {
                                     className={userDropdownLinkClass}
                                     onClick={closeMenu}
                                 >
-                                    Account Info
+                                    Thông tin tài khoản
                                 </NavLink>
                             </li>
                             <li>
@@ -124,7 +126,7 @@ export default function TopBar() {
                                     className={userDropdownSignOutClass}
                                     onClick={handleSignOut}
                                 >
-                                    Sign out
+                                    Đăng xuất
                                 </button>
                             </li>
                         </ul>

@@ -83,7 +83,7 @@ export default function FilmForm({
             setFieldErrors((previous) => ({
                 ...previous,
                 posterFile:
-                    posterCheckResult.error || "Poster file is not valid.",
+                    posterCheckResult.error || "File poster không hợp lệ.",
             }));
             if (posterInputRef.current) {
                 posterInputRef.current.value = "";
@@ -152,17 +152,17 @@ export default function FilmForm({
     const validateForm = () => {
         const nextErrors = {};
         if (!formValues.tenPhim.trim()) {
-            nextErrors.tenPhim = "Film title is required.";
+            nextErrors.tenPhim = "Vui lòng nhập tên phim.";
         }
         if (!formValues.ngayKhoiChieu) {
-            nextErrors.ngayKhoiChieu = "Release date is required.";
+            nextErrors.ngayKhoiChieu = "Vui lòng chọn ngày khởi chiếu.";
         }
         if (isEdit) {
             if (!posterFile && !String(serverPosterUrl || "").trim()) {
-                nextErrors.posterFile = "Poster image is required.";
+                nextErrors.posterFile = "Vui lòng chọn poster.";
             }
         } else if (!posterFile) {
-            nextErrors.posterFile = "Poster image is required.";
+            nextErrors.posterFile = "Vui lòng chọn poster.";
         }
         if (posterFile) {
             const posterCheck = validateFile(
@@ -171,7 +171,7 @@ export default function FilmForm({
             );
             if (!posterCheck.valid) {
                 nextErrors.posterFile =
-                    posterCheck.error || "Poster file is not valid.";
+                    posterCheck.error || "File poster không hợp lệ.";
             }
         }
         return nextErrors;
@@ -224,8 +224,8 @@ export default function FilmForm({
     };
 
     const posterAsideEmptyHint = isEdit
-        ? "No poster — upload a file above."
-        : "No file selected.";
+        ? "Chưa có poster — tải file ở trên."
+        : "Chưa chọn file.";
 
     return (
         <form onSubmit={handleSubmit}>
@@ -248,7 +248,7 @@ export default function FilmForm({
                                     <>
                                         <img
                                             src={posterDisplaySrc}
-                                            alt="Poster preview"
+                                            alt="Xem trước poster"
                                             className="h-full w-full object-cover"
                                             onError={(e) => {
                                                 e.currentTarget.src =
@@ -257,7 +257,7 @@ export default function FilmForm({
                                         />
                                         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-3 text-left">
                                             <p className="text-center text-xs font-semibold uppercase tracking-wide text-white">
-                                                Click to change poster
+                                                Bấm để đổi poster
                                             </p>
                                         </div>
                                     </>
@@ -267,15 +267,15 @@ export default function FilmForm({
                                             +
                                         </div>
                                         <p className="text-lg font-bold text-white">
-                                            Upload Poster{" "}
+                                            Tải poster{" "}
                                             <span className="text-red-400">*</span>
                                         </p>
                                         <p className="text-sm text-zinc-300">
-                                            JPG, PNG, GIF (recommended 1000x1500px, max size {POSTER_FILE_MAX_SIZE_MB}MB)
+                                            JPG, PNG, GIF (khuyến nghị 1000x1500px, tối đa {POSTER_FILE_MAX_SIZE_MB}MB)
                                         </p>
 
                                         <span className="rounded-lg border border-zinc-600 bg-zinc-800 px-4 py-2 text-sm font-semibold text-zinc-100 transition group-hover:border-rose-500 group-hover:text-white">
-                                            Choose file
+                                            Chọn file
                                         </span>
                                     </div>
                                 )}
@@ -297,14 +297,14 @@ export default function FilmForm({
                                             }
                                             className="rounded-md border border-rose-600/70 bg-rose-600/15 px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wide text-rose-200 transition hover:bg-rose-600/25"
                                         >
-                                            Change
+                                            Đổi
                                         </button>
                                         <button
                                             type="button"
                                             onClick={handleRemovePoster}
                                             className="rounded-md border border-zinc-600 bg-zinc-800/60 px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wide text-zinc-200 transition hover:border-zinc-500 hover:bg-zinc-800"
                                         >
-                                            Remove
+                                            Xóa ảnh
                                         </button>
                                     </div>
                                 ) : (
@@ -346,13 +346,13 @@ export default function FilmForm({
 
                         <label className="block">
                             <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white">
-                                Film title <span className="text-red-400">*</span>
+                                Tên phim <span className="text-red-400">*</span>
                             </span>
                             <input
                                 name="tenPhim"
                                 value={formValues.tenPhim}
                                 onChange={handleTextChange}
-                                placeholder="Enter official film title..."
+                                placeholder="Nhập tên phim chính thức…"
                                 className={`w-full rounded-md border bg-zinc-950/50 px-3 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-1 ${
                                     fieldErrors.tenPhim
                                         ? "border-red-500 focus:border-red-500 focus:ring-red-500/40"
@@ -369,7 +369,7 @@ export default function FilmForm({
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                             <label className="block">
                                 <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white">
-                                    Release date <span className="text-red-400">*</span>
+                                    Ngày khởi chiếu <span className="text-red-400">*</span>
                                 </span>
                                 <div
                                     className={`flex items-center overflow-hidden rounded-md border bg-zinc-950/50 ${
@@ -390,7 +390,7 @@ export default function FilmForm({
                                         type="button"
                                         onClick={handleOpenReleaseDatePicker}
                                         className="inline-flex h-[42px] w-[42px] shrink-0 items-center justify-center border-l border-zinc-700/80 text-zinc-100 transition hover:bg-zinc-800/60 hover:text-white"
-                                        aria-label="Open release date picker"
+                                        aria-label="Mở chọn ngày khởi chiếu"
                                     >
                                         <CalendarMonth className="h-4 w-4" aria-hidden />
                                     </button>
@@ -405,7 +405,7 @@ export default function FilmForm({
                             <label className="block">
                                 <div className="mb-2 flex items-center justify-between">
                                     <span className="block text-xs font-semibold uppercase tracking-wide text-white">
-                                        Rating
+                                        Đánh giá
                                     </span>
                                     <RatingBadge value={clampNumber(formValues.danhGia, 1, 10)} />
                                 </div>
@@ -431,7 +431,7 @@ export default function FilmForm({
 
                         <label className="block">
                             <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white">
-                                Trailer URL
+                                URL trailer
                             </span>
                             <input
                                 name="trailer"
@@ -444,14 +444,14 @@ export default function FilmForm({
 
                         <label className="block">
                             <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white">
-                                Description
+                                Mô tả
                             </span>
                             <textarea
                                 rows={5}
                                 name="moTa"
                                 value={formValues.moTa}
                                 onChange={handleTextChange}
-                                placeholder="Write an engaging summary to attract viewers..."
+                                placeholder="Nhập mô tả hấp dẫn cho khán giả…"
                                 className="w-full rounded-md border border-zinc-700 bg-zinc-950/50 px-3 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 focus:border-rose-500 focus:outline-none focus:ring-1 focus:ring-rose-500"
                             />
                         </label>
@@ -460,7 +460,7 @@ export default function FilmForm({
                             <label className="flex flex-col gap-1">
                                 <span className="inline-flex items-center gap-2">
                                     <span className="text-xs font-semibold uppercase tracking-wide text-zinc-200">
-                                        Now showing
+                                        Đang chiếu
                                     </span>
                                     <span className="relative inline-flex h-6 w-11 items-center">
                                         <input
@@ -478,7 +478,7 @@ export default function FilmForm({
                             <label className="flex flex-col gap-1">
                                 <span className="inline-flex items-center gap-2">
                                     <span className="text-xs font-semibold uppercase tracking-wide text-zinc-200">
-                                        Coming soon
+                                        Sắp chiếu
                                     </span>
                                     <span className="relative inline-flex h-6 w-11 items-center">
                                         <input
@@ -496,7 +496,7 @@ export default function FilmForm({
                             <label className="flex flex-col gap-1">
                                 <span className="inline-flex items-center gap-2">
                                     <span className="text-xs font-semibold uppercase tracking-wide text-zinc-200">
-                                        Hot
+                                        Nổi bật
                                     </span>
                                     <span className="relative inline-flex h-6 w-11 items-center">
                                         <input
@@ -517,7 +517,7 @@ export default function FilmForm({
                                 to="/admin/films"
                                 className="rounded-xl border border-transparent px-4 py-2 text-sm font-medium text-zinc-300 transition hover:text-white"
                             >
-                                Cancel
+                                Hủy
                             </Link>
                             <button
                                 type="submit"
@@ -526,8 +526,8 @@ export default function FilmForm({
                             >
                                 {loading
                                     ? isEdit
-                                        ? "Updating..."
-                                        : "Adding Film..."
+                                        ? "Đang cập nhật…"
+                                        : "Đang thêm phim…"
                                     : submitText}
                             </button>
                         </div>

@@ -93,8 +93,8 @@ export default function EditUser() {
             return undefined;
         }
         openLoading({
-            title: "Updating user…",
-            text: "Please wait a moment.",
+            title: "Đang cập nhật người dùng…",
+            text: "Vui lòng đợi trong giây lát.",
         });
         return () => {
             closeDialog();
@@ -112,10 +112,10 @@ export default function EditUser() {
         return (
             <div className="mx-auto w-full max-w-6xl">
                 <ErrorBox
-                    title="Invalid user"
-                    message="Missing account name in the URL."
+                    title="Người dùng không hợp lệ"
+                    message="Thiếu tên tài khoản trong URL."
                     backHref="/admin/users"
-                    backLabel="Back to user list"
+                    backLabel="Danh sách người dùng"
                 />
             </div>
         );
@@ -125,11 +125,11 @@ export default function EditUser() {
         return (
             <div className="mx-auto w-full max-w-6xl">
                 <ErrorBox
-                    title="Could not load user"
+                    title="Không thể tải người dùng"
                     message={detailError}
                     onRetry={handleRetryLoad}
                     backHref="/admin/users"
-                    backLabel="Back to user list"
+                    backLabel="Danh sách người dùng"
                 />
             </div>
         );
@@ -160,14 +160,14 @@ export default function EditUser() {
     return (
         <div className="mx-auto w-full max-w-6xl">
             <div className="mb-8">
-                <p className="text-sm text-zinc-400">Admin &gt; User management</p>
+                <p className="text-sm text-zinc-400">Quản trị &gt; Quản lý người dùng</p>
                 <div className="mt-2 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                     <div>
                         <h1 className="text-4xl font-black uppercase tracking-tight text-white">
-                            Edit user
+                            Sửa người dùng
                         </h1>
                         <p className="mt-2 max-w-2xl text-sm text-zinc-400">
-                            Update profile fields and password for{" "}
+                            Cập nhật thông tin và mật khẩu cho{" "}
                             <span className="font-semibold text-zinc-200">
                                 {detail.taiKhoan}
                             </span>
@@ -179,7 +179,7 @@ export default function EditUser() {
                         className="inline-flex shrink-0 items-center rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-zinc-200 transition hover:border-rose-500 hover:text-white"
                     >
                         <ChevronLeft className="mr-1 h-3.5 w-3.5" aria-hidden />
-                        Back to user list
+                        Danh sách người dùng
                     </Link>
                 </div>
                 <div className="mt-3 h-1 w-20 rounded-full bg-rose-500" />
@@ -191,22 +191,22 @@ export default function EditUser() {
                 initialValues={initialFormValues}
                 loading={updateLoading === true}
                 error={updateError}
-                loadingLabel="Updating…"
+                loadingLabel="Đang cập nhật…"
                 roleTypeOptions={roleTypeOptions}
                 roleTypesLoading={roleTypesLoading}
                 roleTypesError={roleTypesError}
                 onRetryRoleTypes={() => dispatch(fetchUserRoleTypes())}
-                submitText="Update user"
+                submitText="Cập nhật"
                 onSubmit={async (payload) => {
                     try {
                         await dispatch(updateUser(payload)).unwrap();
-                        notifySuccess("User updated successfully.");
+                        notifySuccess("Cập nhật người dùng thành công.");
                         navigate("/admin/users");
                     } catch (rejected) {
                         const message =
                             typeof rejected === "string" && rejected.trim() !== ""
                                 ? rejected
-                                : "Could not update this user. Please try again.";
+                                : "Không thể cập nhật người dùng. Vui lòng thử lại.";
                         notifyError(message);
                     }
                 }}

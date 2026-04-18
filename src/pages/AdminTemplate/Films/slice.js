@@ -47,7 +47,7 @@ export const fetchList = createAsyncThunk(
                 pageSize: payload.soPhanTuTrenTrang,
             };
         } catch (error) {
-            return rejectWithValue(handleError(error, "Fetch films failed"));
+            return rejectWithValue(handleError(error, "Không thể tải danh sách phim."));
         }
     }
 );
@@ -56,7 +56,7 @@ export const deleteFilm = createAsyncThunk(
     "films/delete",
     async (maPhim, { rejectWithValue }) => {
         const id = Number(maPhim);
-        if (!id) return rejectWithValue("Invalid film id");
+        if (!id) return rejectWithValue("Mã phim không hợp lệ.");
 
         try {
             await api.delete(FILM_ENDPOINTS.DELETE, {
@@ -64,7 +64,7 @@ export const deleteFilm = createAsyncThunk(
             });
             return id;
         } catch (error) {
-            return rejectWithValue(handleError(error, "Delete failed"));
+            return rejectWithValue(handleError(error, "Không thể xóa phim."));
         }
     }
 );
@@ -79,7 +79,7 @@ export const createFilm = createAsyncThunk(
             );
             return data?.content;
         } catch (error) {
-            return rejectWithValue(handleError(error, "Create failed"));
+            return rejectWithValue(handleError(error, "Không thể tạo phim."));
         }
     }
 );
@@ -94,7 +94,7 @@ export const updateFilm = createAsyncThunk(
             );
             return data?.content;
         } catch (error) {
-            return rejectWithValue(handleError(error, "Update failed"));
+            return rejectWithValue(handleError(error, "Không thể cập nhật phim."));
         }
     }
 );
@@ -108,7 +108,7 @@ export const fetchDetail = createAsyncThunk(
             });
             return data?.content;
         } catch (error) {
-            return rejectWithValue(handleError(error, "Fetch detail failed"));
+            return rejectWithValue(handleError(error, "Không thể tải chi tiết phim."));
         }
     }
 );

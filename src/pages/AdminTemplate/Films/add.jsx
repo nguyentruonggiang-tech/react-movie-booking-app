@@ -31,7 +31,7 @@ export default function AddFilm() {
 
     useEffect(() => {
         if (!data) return;
-        notifySuccess("Film created successfully.");
+        notifySuccess("Tạo phim thành công.");
         navigate("/admin/films");
     }, [data, navigate]);
 
@@ -40,8 +40,8 @@ export default function AddFilm() {
             return undefined;
         }
         openLoading({
-            title: "Adding film...",
-            text: "Please wait a moment.",
+            title: "Đang thêm phim…",
+            text: "Vui lòng đợi trong giây lát.",
         });
         return () => {
             closeDialog();
@@ -51,17 +51,17 @@ export default function AddFilm() {
     return (
         <div className="mx-auto w-full max-w-6xl">
             <div className="mb-8">
-                <p className="text-sm text-zinc-400">Admin &gt; Film management</p>
+                <p className="text-sm text-zinc-400">Quản trị &gt; Quản lý phim</p>
                 <div className="mt-2 flex items-start justify-between gap-4">
                     <h1 className="text-4xl font-black uppercase tracking-tight text-white">
-                        Add Film
+                        Thêm phim
                     </h1>
                     <Link
                         to="/admin/films"
                         className="inline-flex items-center rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-zinc-200 transition hover:border-rose-500 hover:text-white"
                     >
                         <ChevronLeft className="mr-1 h-3.5 w-3.5" aria-hidden />
-                        Back to film list
+                        Danh sách phim
                     </Link>
                 </div>
                 <div className="mt-3 h-1 w-20 rounded-full bg-rose-500" />
@@ -74,7 +74,7 @@ export default function AddFilm() {
                 initialValues={initialFormValues}
                 loading={loading === true}
                 error={error}
-                submitText="Add film"
+                submitText="Thêm mới"
                 onSubmit={(requestFormData) => {
                     dispatch(createFilm(requestFormData));
                 }}

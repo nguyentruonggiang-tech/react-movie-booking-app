@@ -89,25 +89,25 @@ export default function UserTable({
                 <thead className="bg-zinc-800">
                     <tr className="border-b border-zinc-800/90">
                         <th className="w-14 align-middle px-5 py-4 text-xs font-semibold uppercase tracking-wide text-zinc-400">
-                            No
+                            STT
                         </th>
                         <th className="align-middle px-5 py-4 text-xs font-semibold uppercase tracking-wide text-zinc-400">
-                            Account
+                            Tài khoản
                         </th>
                         <th className="align-middle px-5 py-4 text-xs font-semibold uppercase tracking-wide text-zinc-400">
-                            Full name
+                            Họ tên
                         </th>
                         <th className="align-middle px-5 py-4 text-xs font-semibold uppercase tracking-wide text-zinc-400">
                             Email
                         </th>
                         <th className="align-middle px-5 py-4 text-xs font-semibold uppercase tracking-wide text-zinc-400">
-                            Phone
+                            Điện thoại
                         </th>
                         <th className="align-middle px-5 py-4 text-center text-xs font-semibold uppercase tracking-wide text-zinc-400">
-                            Role
+                            Vai trò
                         </th>
                         <th className="align-middle px-5 py-4 text-right text-xs font-semibold uppercase tracking-wide text-zinc-400">
-                            Actions
+                            Thao tác
                         </th>
                     </tr>
                 </thead>
@@ -161,7 +161,7 @@ export default function UserTable({
                                         <Link
                                             to={editPath}
                                             className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-zinc-300 transition hover:bg-zinc-800/70 hover:text-rose-400"
-                                            title="Edit"
+                                            title="Sửa"
                                         >
                                             <Edit className="h-4 w-4 shrink-0" aria-hidden />
                                         </Link>

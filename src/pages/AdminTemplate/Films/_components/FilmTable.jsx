@@ -5,9 +5,9 @@ import { formatDateDisplay } from "@utils/dateUtils";
 import RatingBadge from "@/pages/AdminTemplate/_components/RatingBade";
 
 const FILM_LISTING_FLAGS = [
-    { field: "hot", label: "Hot" },
-    { field: "dangChieu", label: "Now showing" },
-    { field: "sapChieu", label: "Coming soon" },
+    { field: "hot", label: "Nổi bật" },
+    { field: "dangChieu", label: "Đang chiếu" },
+    { field: "sapChieu", label: "Sắp chiếu" },
 ];
 
 export default function FilmTable({ data, loading, onDelete, deletingMaPhim }) {
@@ -50,16 +50,16 @@ export default function FilmTable({ data, loading, onDelete, deletingMaPhim }) {
                 <thead className="bg-zinc-800">
                     <tr className="border-b border-zinc-800/90">
                         <th className="px-5 py-4 text-xs font-semibold uppercase tracking-wide text-zinc-400">
-                            Film
+                            Phim
                         </th>
                         <th className="px-5 py-4 text-xs font-semibold uppercase tracking-wide text-zinc-400">
-                            Release date
+                            Ngày khởi chiếu
                         </th>
-                        <th className="w-14 max-w-14 shrink-0 px-5 py-4 text-center text-xs font-semibold uppercase tracking-wide text-zinc-400">
-                            Rating
+                        <th className="min-w-[5.5rem] whitespace-nowrap px-4 py-4 text-center text-xs font-semibold uppercase tracking-wide text-zinc-400">
+                            Đánh giá
                         </th>
                         <th className="px-5 py-4 text-right text-xs font-semibold uppercase tracking-wide text-zinc-400">
-                            Actions
+                            Thao tác
                         </th>
                     </tr>
                 </thead>
@@ -118,7 +118,7 @@ export default function FilmTable({ data, loading, onDelete, deletingMaPhim }) {
                                     {formatDateDisplay(film.ngayKhoiChieu)}
                                 </span>
                             </td>
-                            <td className="w-14 max-w-14 shrink-0 whitespace-nowrap px-5 py-3 text-center tabular-nums text-zinc-200">
+                            <td className="min-w-[5.5rem] whitespace-nowrap px-4 py-3 text-center tabular-nums text-zinc-200">
                                 <RatingBadge value={film.danhGia} />
                             </td>
                             <td className="px-5 py-3">
@@ -126,13 +126,13 @@ export default function FilmTable({ data, loading, onDelete, deletingMaPhim }) {
                                     <Link
                                         to={`/admin/films/edit/${film.maPhim}`}
                                         className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-zinc-300 transition hover:bg-zinc-800/70 hover:text-rose-400"
-                                        title="Edit"
+                                        title="Sửa"
                                     >
                                         <Edit className="h-4 w-4 shrink-0" aria-hidden />
                                     </Link>
                                     <button
                                         type="button"
-                                        title="Delete"
+                                        title="Xóa"
                                         disabled={
                                             loading || deletingMaPhim === film.maPhim
                                         }
@@ -149,7 +149,7 @@ export default function FilmTable({ data, loading, onDelete, deletingMaPhim }) {
                                             className="h-3.5 w-3.5 shrink-0"
                                             aria-hidden
                                         />
-                                        Create showtime
+                                        Tạo lịch chiếu
                                     </Link>
                                 </div>
                             </td>

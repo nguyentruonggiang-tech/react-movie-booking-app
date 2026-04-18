@@ -1,7 +1,7 @@
 export default function ShowTime() {
   return (
     <div>
-        <h1>ShowTime</h1>
+        <h1>Lịch chiếu</h1>
     </div>
   )
 }

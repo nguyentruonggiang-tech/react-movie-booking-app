@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 
-const FALLBACK_ERROR_MESSAGE = "An unexpected error occurred.";
+const FALLBACK_ERROR_MESSAGE = "Đã xảy ra lỗi không mong muốn.";
 
 function resolveErrorMessage(message) {
     if (message == null) return FALLBACK_ERROR_MESSAGE;
@@ -27,7 +27,7 @@ export default function ErrorBox({
     message,
     onRetry,
     backHref = "/admin",
-    backLabel = "Back to admin",
+    backLabel = "Trang quản trị",
 }) {
     const errorText = resolveErrorMessage(message);
 
@@ -39,7 +39,7 @@ export default function ErrorBox({
                         <span className={ICON_WARNING_CLASS} aria-hidden>
                             ⚠
                         </span>
-                        <span className="sr-only">Error</span>
+                        <span className="sr-only">Lỗi</span>
                         <h3 className="font-medium text-red-50">{title}</h3>
                     </div>
                 </div>
@@ -47,7 +47,7 @@ export default function ErrorBox({
                 <div className="mt-4 flex flex-wrap items-center gap-2">
                     {onRetry ? (
                         <button type="button" onClick={onRetry} className={BTN_PRIMARY}>
-                            Retry
+                            Thử lại
                         </button>
                     ) : null}
                     <NavLink to={backHref} className={LINK_SECONDARY}>

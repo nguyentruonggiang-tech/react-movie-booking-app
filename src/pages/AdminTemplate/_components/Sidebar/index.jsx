@@ -86,7 +86,7 @@ export default function Sidebar() {
                     >
                         <span className="flex min-w-0 items-center gap-3">
                             <CalendarIcon className={iconMd} aria-hidden />
-                            <span className="truncate">Films</span>
+                            <span className="truncate">Phim</span>
                         </span>
                         <ChevronDown
                             className={`h-4 w-4 shrink-0 transition-transform duration-200 ${
@@ -116,7 +116,7 @@ export default function Sidebar() {
                                 className={iconSm}
                                 aria-hidden
                             />
-                            Film list
+                            Danh sách phim
                         </NavLink>
                         <NavLink
                             to="/admin/films/addnew"
@@ -127,7 +127,7 @@ export default function Sidebar() {
                             }
                         >
                             <Plus className={iconSm} aria-hidden />
-                            Add film
+                            Thêm phim
                         </NavLink>
                     </div>
                 </div>
@@ -154,7 +154,7 @@ export default function Sidebar() {
                     >
                         <span className="flex min-w-0 items-center gap-3">
                             <Users className={iconMd} aria-hidden />
-                            <span className="truncate">Users</span>
+                            <span className="truncate">Người dùng</span>
                         </span>
                         <ChevronDown
                             className={`h-4 w-4 shrink-0 transition-transform duration-200 ${
@@ -184,7 +184,7 @@ export default function Sidebar() {
                                 className={iconSm}
                                 aria-hidden
                             />
-                            User list
+                            Danh sách người dùng
                         </NavLink>
                         <NavLink
                             to="/admin/users/add"
@@ -195,7 +195,7 @@ export default function Sidebar() {
                             }
                         >
                             <Plus className={iconSm} aria-hidden />
-                            Add user
+                            Thêm người dùng
                         </NavLink>
                     </div>
                 </div>
@@ -208,7 +208,7 @@ export default function Sidebar() {
                     onClick={() => {}}
                 >
                     <BarsIcon className={iconMd} aria-hidden />
-                    Settings
+                    Cài đặt
                 </button>
                 <button
                     type="button"
@@ -216,7 +216,7 @@ export default function Sidebar() {
                     onClick={handleLogout}
                 >
                     <ArrowRightIcon className={iconMd} aria-hidden />
-                    Sign out
+                    Đăng xuất
                 </button>
             </div>
         </div>

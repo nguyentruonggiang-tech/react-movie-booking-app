@@ -20,9 +20,9 @@ export default function UserForm({
     mode = "add",
     initialValues,
     onSubmit,
-    submitText = "Create user",
+    submitText = "Thêm mới",
     loading,
-    loadingLabel = "Updating…",
+    loadingLabel = "Đang cập nhật…",
     error,
     roleTypeOptions,
     roleTypesLoading,
@@ -56,41 +56,41 @@ export default function UserForm({
         const nextErrors = {};
         const taiKhoan = String(formValues.taiKhoan ?? "").trim();
         if (!taiKhoan) {
-            nextErrors.taiKhoan = "Username is required.";
+            nextErrors.taiKhoan = "Vui lòng nhập tên đăng nhập.";
         } else if (
             !isEditMode &&
             taiKhoan.length < MIN_USERNAME_LENGTH
         ) {
-            nextErrors.taiKhoan = `Username must be at least ${MIN_USERNAME_LENGTH} characters.`;
+            nextErrors.taiKhoan = `Tên đăng nhập phải có ít nhất ${MIN_USERNAME_LENGTH} ký tự.`;
         }
 
         const matKhau = String(formValues.matKhau ?? "");
         if (!matKhau) {
-            nextErrors.matKhau = "Password is required.";
+            nextErrors.matKhau = "Vui lòng nhập mật khẩu.";
         } else if (matKhau.length < MIN_PASSWORD_LENGTH) {
-            nextErrors.matKhau = `Password must be at least ${MIN_PASSWORD_LENGTH} characters.`;
+            nextErrors.matKhau = `Mật khẩu phải có ít nhất ${MIN_PASSWORD_LENGTH} ký tự.`;
         }
 
         const email = String(formValues.email ?? "").trim();
         if (!email) {
-            nextErrors.email = "Email is required.";
+            nextErrors.email = "Vui lòng nhập email.";
         } else if (!EMAIL_REGEX.test(email)) {
-            nextErrors.email = "Email is not valid.";
+            nextErrors.email = "Email không hợp lệ.";
         }
 
         const soDt = String(formValues.soDt ?? "").trim();
         if (!soDt) {
-            nextErrors.soDt = "Phone number is required.";
+            nextErrors.soDt = "Vui lòng nhập số điện thoại.";
         }
 
         const hoTen = String(formValues.hoTen ?? "").trim();
         if (!hoTen) {
-            nextErrors.hoTen = "Full name is required.";
+            nextErrors.hoTen = "Vui lòng nhập họ tên.";
         }
 
         const maLoai = String(formValues.maLoaiNguoiDung ?? "").trim();
         if (!maLoai) {
-            nextErrors.maLoaiNguoiDung = "User type is required.";
+            nextErrors.maLoaiNguoiDung = "Vui lòng chọn loại người dùng.";
         }
 
         return nextErrors;
@@ -147,7 +147,7 @@ export default function UserForm({
                                 onClick={onRetryRoleTypes}
                                 className="shrink-0 rounded-md border border-amber-500/60 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-amber-100 transition hover:bg-amber-900/40"
                             >
-                                Retry
+                                Thử lại
                             </button>
                         ) : null}
                     </div>
@@ -165,7 +165,7 @@ export default function UserForm({
                 <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                     <label className="block">
                         <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white">
-                            Username <span className="text-red-400">*</span>
+                            Tên đăng nhập <span className="text-red-400">*</span>
                         </span>
                         <input
                             name="taiKhoan"
@@ -173,7 +173,7 @@ export default function UserForm({
                             onChange={handleTextChange}
                             readOnly={isEditMode}
                             autoComplete="username"
-                            placeholder="Unique login, at least 6 characters"
+                            placeholder="Tên đăng nhập duy nhất, tối thiểu 6 ký tự"
                             className={`${inputShell(Boolean(fieldErrors.taiKhoan))} ${
                                 isEditMode ? "cursor-not-allowed opacity-90" : ""
                             }`}
@@ -193,7 +193,7 @@ export default function UserForm({
                             value={formValues.email}
                             onChange={handleTextChange}
                             autoComplete="email"
-                            placeholder="you@example.com"
+                            placeholder="vidu@email.com"
                             className={inputShell(Boolean(fieldErrors.email))}
                         />
                         {fieldErrors.email ? (
@@ -203,7 +203,7 @@ export default function UserForm({
 
                     <label className="block">
                         <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white">
-                            Password <span className="text-red-400">*</span>
+                            Mật khẩu <span className="text-red-400">*</span>
                         </span>
                         <div className="relative">
                             <input
@@ -212,7 +212,7 @@ export default function UserForm({
                                 value={formValues.matKhau}
                                 onChange={handleTextChange}
                                 autoComplete="new-password"
-                                placeholder="At least 6 characters"
+                                placeholder="Tối thiểu 6 ký tự"
                                 className={`${inputShell(Boolean(fieldErrors.matKhau))} pr-10`}
                             />
                             <button
@@ -221,7 +221,7 @@ export default function UserForm({
                                 disabled={isSubmitting}
                                 className="absolute inset-y-0 right-0 flex w-10 items-center justify-center text-zinc-500 transition hover:text-zinc-200 disabled:cursor-not-allowed disabled:opacity-50"
                                 aria-label={
-                                    showPassword ? "Hide password" : "Show password"
+                                    showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"
                                 }
                                 aria-pressed={showPassword}
                             >
@@ -268,7 +268,7 @@ export default function UserForm({
 
                     <label className="block">
                         <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white">
-                            Phone <span className="text-red-400">*</span>
+                            Số điện thoại <span className="text-red-400">*</span>
                         </span>
                         <input
                             name="soDt"
@@ -276,7 +276,7 @@ export default function UserForm({
                             onChange={handleTextChange}
                             autoComplete="tel"
                             inputMode="tel"
-                            placeholder="e.g. 0901234567"
+                            placeholder="VD: 0901234567"
                             className={inputShell(Boolean(fieldErrors.soDt))}
                         />
                         {fieldErrors.soDt ? (
@@ -286,14 +286,14 @@ export default function UserForm({
 
                     <label className="block">
                         <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white">
-                            Full name <span className="text-red-400">*</span>
+                            Họ tên <span className="text-red-400">*</span>
                         </span>
                         <input
                             name="hoTen"
                             value={formValues.hoTen}
                             onChange={handleTextChange}
                             autoComplete="name"
-                            placeholder="Full name"
+                            placeholder="Họ tên"
                             className={inputShell(Boolean(fieldErrors.hoTen))}
                         />
                         {fieldErrors.hoTen ? (
@@ -303,7 +303,7 @@ export default function UserForm({
 
                     <label className="block">
                         <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white">
-                            User type <span className="text-red-400">*</span>
+                            Loại người dùng <span className="text-red-400">*</span>
                         </span>
                         <select
                             name="maLoaiNguoiDung"
@@ -314,8 +314,8 @@ export default function UserForm({
                         >
                             <option value="">
                                 {roleTypesLoading
-                                    ? "Loading roles…"
-                                    : "Select user role"}
+                                    ? "Đang tải vai trò…"
+                                    : "Chọn vai trò"}
                             </option>
                             {safeRoleOptions.map((row) => {
                                 const value = String(
@@ -344,7 +344,7 @@ export default function UserForm({
                         to={cancelTo}
                         className="rounded-xl border border-zinc-600 bg-transparent px-4 py-2.5 text-sm font-semibold text-zinc-200 transition hover:border-zinc-500 hover:text-white"
                     >
-                        Cancel
+                        Hủy
                     </Link>
                     <button
                         type="submit"

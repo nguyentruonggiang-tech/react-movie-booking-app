@@ -44,7 +44,7 @@ function UsersListBody({ debouncedTuKhoa, onClearSearch }) {
     const totalCount = pagination?.totalCount ?? 0;
     const currentPage = pagination?.currentPage ?? page;
     const pageSize = pagination?.pageSize ?? ADMIN_PAGE_SIZE;
-    // Backend may overcount, 
+    // Backend may overcount,
     // so always recalculate totalPages from totalCount and pageSize
     const totalPages = Math.max(
         1,
@@ -58,7 +58,7 @@ function UsersListBody({ debouncedTuKhoa, onClearSearch }) {
         <div className="mt-8">
             {error ? (
                 <ErrorBox
-                    title="Could not load user list"
+                    title="Không thể tải danh sách"
                     message={error}
                     onRetry={loadUserList}
                 />
@@ -78,17 +78,17 @@ function UsersListBody({ debouncedTuKhoa, onClearSearch }) {
                 <NotFound
                     title={
                         debouncedTuKhoa !== ""
-                            ? "No matching users"
-                            : "No users"
+                            ? "Không có người dùng phù hợp"
+                            : "Chưa có người dùng"
                     }
                     message={
                         debouncedTuKhoa !== ""
-                            ? "No users match your search."
-                            : "No users on this page."
+                            ? "Không có kết quả tìm kiếm phù hợp."
+                            : "Trang này chưa có người dùng."
                     }
                     {...(debouncedTuKhoa !== ""
                         ? {
-                              actionLabel: "Clear search",
+                              actionLabel: "Xóa bộ lọc",
                               onActionClick: onClearSearch,
                           }
                         : {})}
@@ -137,9 +137,9 @@ export default function Users() {
         <div>
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-white">User management</h1>
+                    <h1 className="text-2xl font-bold text-white">Quản lý người dùng</h1>
                     <p className="mt-1 text-sm text-zinc-400">
-                        System account list
+                        Danh sách tài khoản hệ thống
                     </p>
                 </div>
                 <div className="flex w-full flex-wrap items-center gap-3 sm:w-auto sm:max-w-xl sm:flex-1 sm:justify-end">
@@ -148,7 +148,7 @@ export default function Users() {
                         className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-rose-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-rose-900/30 transition hover:bg-rose-500"
                     >
                         <UserAdd className="h-4 w-4 shrink-0" aria-hidden />
-                        Add user
+                        Thêm người dùng
                     </Link>
                     <UserSearch
                         value={searchInput}

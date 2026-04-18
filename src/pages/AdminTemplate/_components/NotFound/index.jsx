@@ -7,7 +7,7 @@ export default function NotFound({
     title,
     message = "",
     backHref = "/admin",
-    backLabel = "Back to admin",
+    backLabel = "Trang quản trị",
     actionLabel,
     onActionClick,
 }) {
