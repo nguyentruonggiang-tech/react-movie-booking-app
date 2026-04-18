@@ -18,7 +18,7 @@ export const fetchTheaterSystems = createAsyncThunk(
             const message =
                 error.response?.data?.message ??
                 error.message ??
-                "Could not load theater systems.";
+                "Không tải được hệ thống rạp.";
             return rejectWithValue(message);
         }
     }
@@ -42,7 +42,7 @@ const theaterSystemsSlice = createSlice({
             .addCase(fetchTheaterSystems.rejected, (state, action) => {
                 state.loading = false;
                 state.error =
-                    action.payload || "Failed to load theater systems";
+                    action.payload || "Không tải được hệ thống rạp.";
             });
     },
 });
@@ -68,7 +68,7 @@ export const fetchTheaterClusters = createAsyncThunk(
             const message = 
                 error.response?.data?.message ??
                 error.message ??
-                "Could not load theater clusters.";
+                "Không tải được cụm rạp.";
             return rejectWithValue(message);
         }
     }
@@ -93,7 +93,7 @@ const theaterClustersSlice = createSlice({
             .addCase(fetchTheaterClusters.rejected, (state, action) => {
                 state.loading = false;
                 state.error =
-                    action.payload || "Failed to load theater clusters";
+                    action.payload || "Không tải được cụm rạp.";
             });
     },
 });
@@ -147,7 +147,7 @@ export const fetchTheaterShowtimes = createAsyncThunk(
             const message =
                 error.response?.data?.message ??
                 error.message ??
-                "Could not load theater showtimes.";
+                "Không tải được lịch chiếu.";
             return rejectWithValue(message);
         }
     },
@@ -175,7 +175,7 @@ const theaterShowtimesSlice = createSlice({
                 state.error =
                     action.payload ??
                     action.error?.message ??
-                    "Could not load theater showtimes.";
+                    "Không tải được lịch chiếu.";
             });
     },
 });

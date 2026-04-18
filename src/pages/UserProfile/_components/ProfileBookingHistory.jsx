@@ -10,10 +10,10 @@ export default function ProfileBookingHistory({ tickets }) {
         return (
             <div className="rounded-2xl border border-dashed border-zinc-700 bg-zinc-900/40 p-10 text-center">
                 <p className="text-lg font-semibold text-zinc-200">
-                    No bookings yet
+                    Chưa có vé đã đặt
                 </p>
                 <p className="mt-2 text-sm text-zinc-500">
-                    After you book a showtime, your tickets will appear here.
+                    Sau khi bạn đặt vé, danh sách sẽ hiển thị tại đây.
                 </p>
             </div>
         );
@@ -23,7 +23,7 @@ export default function ProfileBookingHistory({ tickets }) {
         <div className="flex min-h-0 flex-col gap-4">
             <div className="shrink-0 border-b border-zinc-800 pb-4">
                 <h2 className="text-2xl font-bold tracking-tight text-white">
-                    Booking history
+                    Lịch sử đặt vé
                 </h2>
             </div>
             <div
@@ -31,7 +31,7 @@ export default function ProfileBookingHistory({ tickets }) {
                 style={{ maxHeight: bookingListMaxHeight }}
                 tabIndex={0}
                 role="region"
-                aria-label="Booked tickets list"
+                aria-label="Danh sách vé đã đặt"
             >
                 <ul className="space-y-4 pb-2">
                     {danhSachVe.map((ticket) => {

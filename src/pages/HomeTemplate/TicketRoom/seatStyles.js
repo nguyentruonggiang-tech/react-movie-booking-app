@@ -67,7 +67,7 @@ export function getSeatCellClassName(seat) {
 export const SEAT_LEGEND_ITEMS = [
     {
         key: "standard",
-        label: "Standard",
+        label: "Thường",
         boxClass:
             "rounded-md border border-white/12 bg-[#2a3148] shadow-[inset_0_1px_0_rgba(255,255,255,0.07)]",
     },
@@ -79,14 +79,14 @@ export const SEAT_LEGEND_ITEMS = [
     },
     {
         key: "vip-selected",
-        label: "VIP selected",
+        label: "VIP đã chọn",
         boxClass:
             "rounded-md border-2 border-amber-400/95 bg-gradient-to-br from-amber-50 via-[#ffc9bd] to-[#FB7A6E] text-xs font-bold text-zinc-900 shadow-[0_0_10px_rgba(251,191,36,0.38),0_0_8px_rgba(251,137,126,0.3)]",
         symbol: "✓",
     },
     {
         key: "selected",
-        label: "Selected",
+        label: "Đã chọn",
         boxClass:
             "rounded-md border border-zinc-600 bg-gradient-to-br from-[#FF9B8F] to-[#FB7A6E] text-sm font-bold text-zinc-900 shadow-[0_0_12px_rgba(251,137,126,0.45)]",
         symbol: "✓",
@@ -100,7 +100,7 @@ export const SEAT_LEGEND_ITEMS = [
     },
     {
         key: "held",
-        label: "Held",
+        label: "Đang giữ",
         boxClass:
             "rounded-md border-2 border-amber-500/85 bg-[repeating-linear-gradient(-45deg,_rgb(30_41_59)_0px,_rgb(30_41_59)_2px,_rgba(245,158,11,0.42)_2px,_rgba(245,158,11,0.42)_4px)] text-[10px] font-bold text-amber-100",
     },

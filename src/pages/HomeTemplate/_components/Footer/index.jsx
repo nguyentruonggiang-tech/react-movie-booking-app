@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import { SITE_NAME } from "@constants";
 
 const footerLinkClass = ({ isActive }) =>
     [
@@ -17,28 +18,28 @@ export default function Footer() {
             <span className="text-slate-400 sm:text-center">
                 © {year}{" "}
                 <NavLink to="/" end className="text-red-600 hover:underline">
-                    Movie Booking
+                    {SITE_NAME}
                 </NavLink>
             </span>
             <ul className="mt-3 flex flex-wrap items-center text-sm font-medium sm:mt-0">
                 <li>
                     <NavLink to="/about-us" className={footerLinkClass} end>
-                        About us
+                        Về chúng tôi
                     </NavLink>
                 </li>
                 <li>
                     <NavLink to="/privacy-policy" className={footerLinkClass} end>
-                        Privacy policy
+                        Chính sách bảo mật
                     </NavLink>
                 </li>
                 <li>
                     <NavLink to="/terms-of-service" className={footerLinkClass} end>
-                        Terms of service
+                        Điều khoản dịch vụ
                     </NavLink>
                 </li>
                 <li>
                     <NavLink to="/contact" className={footerLinkClassLast} end>
-                        Contact
+                        Liên hệ
                     </NavLink>
                 </li>
             </ul>

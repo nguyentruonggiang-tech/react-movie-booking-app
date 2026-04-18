@@ -21,7 +21,7 @@ export const fetchMovieShowtimes = createAsyncThunk(
             const message =
                 error.response?.data?.message ??
                 error.message ??
-                "Could not load showtimes.";
+                "Không tải được lịch chiếu.";
             return rejectWithValue(message);
         }
     },

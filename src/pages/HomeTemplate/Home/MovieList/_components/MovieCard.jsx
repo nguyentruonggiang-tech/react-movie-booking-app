@@ -13,7 +13,7 @@ function formatRating(value) {
 function MovieCard({ movie }) {
     const [imgFailed, setImgFailed] = useState(false);
     const maPhim = movie?.maPhim;
-    const title = movie?.tenPhim ?? "Untitled";
+    const title = movie?.tenPhim ?? "Chưa có tên";
     const poster = movie?.hinhAnh || "";
     const rating = formatRating(movie?.danhGia);
 
@@ -32,14 +32,14 @@ function MovieCard({ movie }) {
                     />
                 ) : (
                     <div className="flex h-full w-full items-center justify-center bg-zinc-800 text-center text-xs text-white/40">
-                        No poster
+                        Không có poster
                     </div>
                 )}
 
                 {isHot ? (
                     <div
                         className="absolute left-4 top-4 rounded bg-amber-500 px-2 py-1 text-[10px] font-black uppercase tracking-wide text-zinc-900 shadow-sm"
-                        title="Hot"
+                        title="Phim hot"
                     >
                         Hot
                     </div>
@@ -60,7 +60,7 @@ function MovieCard({ movie }) {
                             <PlayIcon
                                 className={`${movieCardActionIconClassName} transition-transform duration-200 ease-out group-hover/btn:scale-110`}
                             />
-                            Book now
+                            Đặt vé ngay
                         </NavLink>
                         <NavLink
                             to={detailTo}
@@ -69,7 +69,7 @@ function MovieCard({ movie }) {
                             <InfoIcon
                                 className={`${movieCardActionIconClassName} transition-transform duration-200 ease-out group-hover/btn2:scale-110`}
                             />
-                            View details
+                            Xem chi tiết
                         </NavLink>
                     </div>
                 </div>

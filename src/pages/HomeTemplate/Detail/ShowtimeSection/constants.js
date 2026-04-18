@@ -1,13 +1,14 @@
 import noImageSvgUrl from "@/assets/noimage.svg";
 
-export const WEEKDAY_LABELS_EN = [
-    "SUN",
-    "MON",
-    "TUE",
-    "WED",
-    "THU",
-    "FRI",
-    "SAT",
+/** Short labels for `Date#getDay()` (0 = Sunday). */
+export const WEEKDAY_LABELS_VI = [
+    "CN",
+    "T2",
+    "T3",
+    "T4",
+    "T5",
+    "T6",
+    "T7",
 ];
 
 export const SHOWTIME_COLUMN_CLASS =

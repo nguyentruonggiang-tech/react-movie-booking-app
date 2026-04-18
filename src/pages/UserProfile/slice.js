@@ -26,14 +26,14 @@ export const fetchAccountProfile = createAsyncThunk(
     async (username, { rejectWithValue }) => {
         const taiKhoan = String(username ?? "").trim();
         if (!taiKhoan) {
-            return rejectWithValue("Missing signed-in username.");
+            return rejectWithValue("Thiếu tên đăng nhập.");
         }
         try {
             const { data } = await api.post(PROFILE_READ_PATH, { taiKhoan });
             return data?.content ?? null;
         } catch (error) {
             return rejectWithValue(
-                parseRequestError(error, "Could not load profile."),
+                parseRequestError(error, "Không thể tải hồ sơ."),
             );
         }
     },
@@ -44,7 +44,7 @@ export const updateProfile = createAsyncThunk(
     async (accountForm, { rejectWithValue }) => {
         const taiKhoan = String(accountForm?.taiKhoan ?? "").trim();
         if (!taiKhoan) {
-            return rejectWithValue("Missing username.");
+            return rejectWithValue("Thiếu tên đăng nhập.");
         }
         try {
             const maNhom = (MA_NHOM && String(MA_NHOM).trim()) || "GP01";
@@ -64,7 +64,7 @@ export const updateProfile = createAsyncThunk(
             return data?.content ?? body;
         } catch (error) {
             return rejectWithValue(
-                parseRequestError(error, "Could not update profile."),
+                parseRequestError(error, "Không thể cập nhật hồ sơ."),
             );
         }
     },
@@ -98,7 +98,7 @@ const profileSlice = createSlice({
                     typeof action.payload === "string" &&
                     String(action.payload).trim() !== ""
                         ? action.payload
-                        : "Could not load profile.";
+                        : "Không thể tải hồ sơ.";
                 state.data = null;
             })
             .addCase(updateProfile.pending, (state) => {
@@ -115,7 +115,7 @@ const profileSlice = createSlice({
                     typeof action.payload === "string" &&
                     String(action.payload).trim() !== ""
                         ? action.payload
-                        : "Could not update profile.";
+                        : "Không thể cập nhật hồ sơ.";
             });
     },
 });

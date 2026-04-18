@@ -30,14 +30,14 @@ export const actLogin = createAsyncThunk("authLogin/actLogin", async (user, { re
         const { data } = await api.post(LOGIN_ENDPOINT, payload);
         const userInfo = data?.content ?? null;
         if (!userInfo?.accessToken) {
-            return rejectWithValue("Sign-in failed. Please try again.");
+            return rejectWithValue("Đăng nhập thất bại. Vui lòng thử lại.");
         }
         const userWithIssuedAt = { ...userInfo, accessTokenIssuedAt: Date.now() };
         setLocalStorage(STORAGE_KEY_USER, userWithIssuedAt);
         return userWithIssuedAt;
     } catch (error) {
         const message = error?.response?.data?.content || error?.response?.data?.message;
-        return rejectWithValue(message || "Sign-in failed. Please try again.");
+        return rejectWithValue(message || "Đăng nhập thất bại. Vui lòng thử lại.");
     }
 });
 
@@ -98,7 +98,7 @@ export const actRegister = createAsyncThunk("authRegister/actRegister", async (u
         return data?.content ?? null;
     } catch (error) {
         const message = error?.response?.data?.content || error?.response?.data?.message;
-        return rejectWithValue(message || "Registration failed. Please try again.");
+        return rejectWithValue(message || "Đăng ký thất bại. Vui lòng thử lại.");
     }
 });
 

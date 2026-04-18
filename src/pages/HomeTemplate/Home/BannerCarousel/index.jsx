@@ -96,7 +96,7 @@ export default function BannerCarousel() {
             <div className={WRAPPER_CLASS}>
                 <div className="flex h-full w-full items-center justify-center">
                     <ErrorBox
-                        title="Banner"
+                        title="Banner quảng cáo"
                         message={error}
                         onRetry={refetch}
                     />

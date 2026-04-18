@@ -29,7 +29,7 @@ export default function MovieInfo({ data }) {
                                 to="/"
                                 className="transition-colors hover:text-white"
                             >
-                                Home
+                                Trang chủ
                             </NavLink>
                         </li>
                         <li className="text-zinc-500">|</li>
@@ -61,7 +61,7 @@ export default function MovieInfo({ data }) {
                             {ratingText != null ? (
                                 <div
                                     className="inline-flex h-7 items-center gap-1.5 rounded-md border border-white/10 bg-white/10 px-2.5 backdrop-blur-md"
-                                    aria-label={`Rating ${ratingText}`}
+                                    aria-label={`Đánh giá ${ratingText}`}
                                 >
                                     <IconStarFilled className="h-3.5 w-3.5 shrink-0 text-amber-200" />
                                     <span className="text-xs font-black tabular-nums leading-none text-white sm:text-sm">
@@ -69,18 +69,18 @@ export default function MovieInfo({ data }) {
                                     </span>
                                 </div>
                             ) : (
-                                <span className="text-sm text-zinc-500">No rating</span>
+                                <span className="text-sm text-zinc-500">Chưa có đánh giá</span>
                             )}
 
                             {isNowShowing && (
                                 <span className="inline-flex h-7 items-center rounded-md border border-red-500/50 bg-red-500/10 px-2.5 text-xs font-bold uppercase leading-none text-red-400">
-                                    Now showing
+                                    Đang chiếu
                                 </span>
                             )}
 
                             {isComingSoon && (
                                 <span className="inline-flex h-7 items-center rounded-md border border-zinc-500/50 bg-zinc-500/10 px-2.5 text-xs font-bold uppercase leading-none text-zinc-300">
-                                    Coming soon
+                                    Sắp chiếu
                                 </span>
                             )}
 
@@ -101,7 +101,7 @@ export default function MovieInfo({ data }) {
                         <div className="mt-5 border-t border-white/10 pt-4">
                             <p className="text-sm text-white">
                                 <span className="font-semibold uppercase tracking-wide text-sky-400">
-                                    Release date:
+                                    Ngày khởi chiếu:
                                 </span>{" "}
                                 {releaseDate}
                             </p>
@@ -116,7 +116,7 @@ export default function MovieInfo({ data }) {
                                     className="group/trailer inline-flex w-fit max-w-full items-center justify-center gap-1.5 rounded-lg border border-white/10 bg-white/10 px-3.5 py-2 text-xs font-bold uppercase tracking-wide text-white backdrop-blur-md transition-all duration-200 ease-out hover:border-white/25 hover:bg-white/20 hover:shadow-lg hover:shadow-black/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50 active:scale-[0.98]"
                                 >
                                     <PlayIcon className="h-4 w-4 shrink-0 text-white transition-transform duration-200 ease-out group-hover/trailer:scale-110" />
-                                    Watch trailer
+                                    Xem trailer
                                 </a>
                             )}
                         </div>

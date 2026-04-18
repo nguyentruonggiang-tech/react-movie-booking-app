@@ -4,6 +4,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { actLogin } from "@pages/Auth/slice";
 import { getPathAfterLogin } from "@/utils/authRedirect";
+import { SITE_NAME } from "@constants";
 import LoadingOverlay from "@components/LoadingOverlay";
 import LoginBackground from "../_components/LoginBackground";
 
@@ -38,16 +39,16 @@ export default function Login() {
         switch (name) {
             case "taiKhoan":
                 if (inputValue === "") {
-                    mess = "Username is required";
+                    mess = "Vui lòng nhập tên đăng nhập.";
                 } else if (inputValue.length < 6) {
-                    mess = "Username must be at least 6 characters";
+                    mess = "Tên đăng nhập cần ít nhất 6 ký tự.";
                 }
                 break;
             case "matKhau":
                 if (inputValue === "") {
-                    mess = "Password is required";
+                    mess = "Vui lòng nhập mật khẩu.";
                 } else if (inputValue.length < 6) {
-                    mess = "Password must be at least 6 characters";
+                    mess = "Mật khẩu cần ít nhất 6 ký tự.";
                 }
                 break;
             default:
@@ -87,8 +88,8 @@ export default function Login() {
 
         toast.success(
             <div className="text-left">
-                <p className="text-sm font-semibold text-white">Signed in successfully</p>
-                <p className="mt-1 text-xs text-slate-400">Redirecting in a few seconds…</p>
+                <p className="text-sm font-semibold text-white">Đăng nhập thành công</p>
+                <p className="mt-1 text-xs text-slate-400">Đang chuyển hướng sau vài giây…</p>
             </div>,
             {
                 toastId: LOGIN_SUCCESS_TOAST_ID,
@@ -116,7 +117,7 @@ export default function Login() {
         return (
             <div className="relative flex min-h-screen flex-1 flex-col overflow-hidden bg-[#030308] text-slate-100 antialiased md:flex-row">
                 <LoginBackground className="pointer-events-none absolute inset-0 z-0 h-full min-h-screen w-full" />
-                <LoadingOverlay message="Redirecting…" />
+                <LoadingOverlay message="Đang chuyển hướng…" />
             </div>
         );
     }
@@ -132,14 +133,13 @@ export default function Login() {
                 <div className="pointer-events-none flex h-full min-h-[520px] flex-col justify-end px-8 py-12 lg:px-12 lg:py-14">
                     <div className="max-w-sm text-balance rounded-2xl border border-white/15 bg-slate-950/55 px-5 py-6 text-center shadow-xl shadow-black/30 backdrop-blur-md md:text-left">
                         <p className="text-xs font-semibold uppercase tracking-[0.35em] text-red-400/90 drop-shadow-sm">
-                            Movie Booking
+                            {SITE_NAME}
                         </p>
                         <h1 className="mt-3 text-2xl font-bold leading-snug text-white drop-shadow-md sm:text-3xl lg:text-[2rem] lg:leading-tight">
-                            Sign in to continue your cinema journey
+                            Đăng nhập để tiếp tục đặt vé xem phim
                         </h1>
                         <p className="mt-3 text-sm leading-relaxed text-slate-300/95 drop-shadow-sm">
-                            Seats are waiting — pick a film and showtime, and check out faster with an
-                            account.
+                            Chọn phim và suất chiếu, đặt ghế nhanh hơn khi bạn đã có tài khoản.
                         </p>
                     </div>
                 </div>
@@ -161,15 +161,15 @@ export default function Login() {
                 <div className="relative mx-auto w-full max-w-md">
                     <div className="mb-8 md:hidden">
                         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-red-500">
-                            Sign in
+                            Đăng nhập
                         </p>
-                        <h2 className="mt-2 text-2xl font-bold text-white">Welcome back</h2>
+                        <h2 className="mt-2 text-2xl font-bold text-white">Chào mừng trở lại</h2>
                     </div>
 
                     <div className="mb-10 hidden md:block">
-                        <h2 className="text-2xl font-bold text-white lg:text-3xl">Sign in</h2>
+                        <h2 className="text-2xl font-bold text-white lg:text-3xl">Đăng nhập</h2>
                         <p className="mt-2 text-sm text-slate-400">
-                            Enter your username and password.
+                            Nhập tên đăng nhập và mật khẩu.
                         </p>
                     </div>
 
@@ -193,7 +193,7 @@ export default function Login() {
                                 htmlFor="login-taiKhoan"
                                 className="mb-1.5 block text-sm font-medium text-slate-200"
                             >
-                                Username
+                                Tên đăng nhập
                             </label>
                             <input
                                 id="login-taiKhoan"
@@ -205,7 +205,7 @@ export default function Login() {
                                 onBlur={validateForm}
                                 disabled={loading || isRedirecting}
                                 className="block w-full rounded-lg border border-slate-700/80 bg-slate-950/90 px-4 py-3 text-sm text-white shadow-inner outline-none ring-red-500/0 transition placeholder:text-slate-500 focus:border-red-500/60 focus:ring-2 focus:ring-red-500/30 disabled:cursor-not-allowed disabled:opacity-60"
-                                placeholder="Username"
+                                placeholder="Tên đăng nhập"
                             />
                             {errors.taiKhoan ? (
                                 <p className="mt-1.5 text-xs text-red-400">{errors.taiKhoan}</p>
@@ -217,7 +217,7 @@ export default function Login() {
                                 htmlFor="login-matKhau"
                                 className="mb-1.5 block text-sm font-medium text-slate-200"
                             >
-                                Password
+                                Mật khẩu
                             </label>
                             <div className="relative">
                                 <input
@@ -230,14 +230,14 @@ export default function Login() {
                                     onBlur={validateForm}
                                     disabled={loading || isRedirecting}
                                     className="block w-full rounded-lg border border-slate-700/80 bg-slate-950/90 px-4 py-3 pr-11 text-sm text-white shadow-inner outline-none ring-red-500/0 transition placeholder:text-slate-500 focus:border-red-500/60 focus:ring-2 focus:ring-red-500/30 disabled:cursor-not-allowed disabled:opacity-60"
-                                    placeholder="Password"
+                                    placeholder="Mật khẩu"
                                 />
                                 <button
                                     type="button"
                                     onClick={() => setShowPassword((prev) => !prev)}
                                     disabled={loading || isRedirecting}
                                     className="absolute inset-y-0 right-0 flex w-11 items-center justify-center text-slate-400 transition hover:text-slate-200 disabled:cursor-not-allowed disabled:opacity-50"
-                                    aria-label={showPassword ? "Hide password" : "Show password"}
+                                    aria-label={showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
                                     aria-pressed={showPassword}
                                 >
                                     {showPassword ? (
@@ -290,22 +290,22 @@ export default function Login() {
                                     : "flex w-full items-center justify-center rounded-lg bg-red-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-red-900/30 transition hover:bg-red-500 cursor-pointer disabled:cursor-not-allowed disabled:pointer-events-none disabled:opacity-60"
                             }
                         >
-                            {loading ? "Signing in…" : "Sign in"}
+                            {loading ? "Đang đăng nhập…" : "Đăng nhập"}
                         </button>
                     </form>
 
                     <p className="mt-8 text-center text-sm text-slate-400">
-                        Don&apos;t have an account?{" "}
+                        Chưa có tài khoản?{" "}
                         <Link
                             to="/register"
                             className="font-medium text-red-400 underline-offset-2 transition hover:text-red-300 hover:underline"
                         >
-                            Sign up
+                            Đăng ký
                         </Link>
                     </p>
                 </div>
 
-                {loading ? <LoadingOverlay message="Signing in…" /> : null}
+                {loading ? <LoadingOverlay message="Đang đăng nhập…" /> : null}
             </div>
         </div>
     );

@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { actLogout } from "@pages/Auth/slice";
+import { SITE_NAME } from "@constants";
 import { HOME_HEADER_BAR_CLASS } from "../../constants";
+
+const DEFAULT_DISPLAY_NAME = "Tài khoản";
 
 const navDesktopUnderline =
     "md:relative md:inline-block md:pb-2 md:transition-colors md:duration-200 " +
@@ -51,7 +54,7 @@ function authDesktopSignUpClass(isActive) {
 
 function userMenuAvatarInitials(displayLabel, loginName) {
     const fromName = String(displayLabel || "").trim();
-    if (fromName && fromName !== "My account") {
+    if (fromName && fromName !== DEFAULT_DISPLAY_NAME) {
         const parts = fromName.split(/\s+/).filter(Boolean);
         if (parts.length >= 2) {
             return `${parts[0][0] ?? ""}${parts[parts.length - 1][0] ?? ""}`.toUpperCase();
@@ -93,7 +96,7 @@ function UserAccountDropdownPanel({
                         className={userDropdownLinkClass}
                         role="menuitem"
                     >
-                        Account Info
+                        Thông tin tài khoản
                     </NavLink>
                 </li>
                 <li>
@@ -103,7 +106,7 @@ function UserAccountDropdownPanel({
                         className={userDropdownSignOutClass}
                         role="menuitem"
                     >
-                        Sign out
+                        Đăng xuất
                     </button>
                 </li>
             </ul>
@@ -148,7 +151,7 @@ export default function Header() {
     const hamburgerRef = useRef(null);
 
     const isAuthenticated = Boolean(authUser?.accessToken || authUser?.taiKhoan);
-    const displayName = authUser?.hoTen?.trim() || "My account";
+    const displayName = authUser?.hoTen?.trim() || DEFAULT_DISPLAY_NAME;
     const accountEmail = authUser?.email?.trim() || authUser?.taiKhoan?.trim() || "";
     const avatarInitials = userMenuAvatarInitials(displayName, authUser?.taiKhoan);
 
@@ -157,7 +160,7 @@ export default function Header() {
         setDesktopUserHovered(false);
         setMenuOpen(false);
         dispatch(actLogout());
-        toast.success("Signed out successfully.", {
+        toast.success("Đăng xuất thành công.", {
             toastId: LOGOUT_SUCCESS_TOAST_ID,
         });
         navigate("/", { replace: true });
@@ -220,7 +223,7 @@ export default function Header() {
                     className="relative z-20 flex shrink-0 items-center space-x-3 rtl:space-x-reverse"
                 >
                     <span className="self-center whitespace-nowrap text-2xl font-black uppercase text-red-600">
-                        Movie Booking
+                        {SITE_NAME}
                     </span>
                 </NavLink>
 
@@ -240,7 +243,7 @@ export default function Header() {
                                         setUserMenuOpen((open) => !open);
                                     }}
                                 >
-                                    <span className="sr-only">Open user menu</span>
+                                    <span className="sr-only">Mở menu tài khoản</span>
                                     <span
                                         className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-red-600 to-red-800 text-xs font-semibold text-white"
                                         aria-hidden
@@ -298,7 +301,7 @@ export default function Header() {
                                             }
                                         }}
                                     >
-                                        <span className="sr-only">Open user menu</span>
+                                        <span className="sr-only">Mở menu tài khoản</span>
                                         <span
                                             className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-red-600 to-red-800 text-xs font-semibold text-white"
                                             aria-hidden
@@ -330,10 +333,10 @@ export default function Header() {
                     ) : (
                         <div className="hidden items-center gap-2 md:flex">
                             <NavLink to="/register" end className={({ isActive }) => authDesktopSignUpClass(isActive)}>
-                                Sign up
+                                Đăng ký
                             </NavLink>
                             <NavLink to="/login" end className={({ isActive }) => authDesktopSignInClass(isActive)}>
-                                Sign in
+                                Đăng nhập
                             </NavLink>
                         </div>
                     )}
@@ -350,7 +353,7 @@ export default function Header() {
                         aria-controls="navbar-main"
                         aria-expanded={menuOpen}
                     >
-                        <span className="sr-only">Open main menu</span>
+                        <span className="sr-only">Mở menu chính</span>
                         <svg
                             className="h-6 w-6"
                             aria-hidden
@@ -386,17 +389,17 @@ export default function Header() {
                     <ul className="flex max-md:mt-0 flex-col gap-1 font-medium md:mt-0 md:flex-row md:items-center md:gap-8">
                         <li className="list-none">
                             <NavLink to="/" end className={({ isActive }) => navMainLinkClass(isActive)}>
-                                Home
+                                Trang chủ
                             </NavLink>
                         </li>
                         <li className="list-none">
                             <NavLink to="/contact" end className={({ isActive }) => navMainLinkClass(isActive)}>
-                                Contact
+                                Liên hệ
                             </NavLink>
                         </li>
                         <li className="list-none">
                             <NavLink to="/news" end className={({ isActive }) => navMainLinkClass(isActive)}>
-                                News
+                                Tin tức
                             </NavLink>
                         </li>
                         {!isAuthenticated ? (
@@ -406,12 +409,12 @@ export default function Header() {
                                 </li>
                                 <li className="list-none md:hidden">
                                     <NavLink to="/register" className={({ isActive }) => navMainLinkClass(isActive)}>
-                                        Sign up
+                                        Đăng ký
                                     </NavLink>
                                 </li>
                                 <li className="list-none md:hidden">
                                     <NavLink to="/login" className={({ isActive }) => navMainLinkClass(isActive)}>
-                                        Sign in
+                                        Đăng nhập
                                     </NavLink>
                                 </li>
                             </>

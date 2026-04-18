@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { WRAPPER_CLASS } from "../constants";
 
-function BannerEmpty({ message = "No banners available", action }) {
+function BannerEmpty({ message = "Chưa có banner.", action }) {
     return (
         <div
             className={`${WRAPPER_CLASS} flex flex-col items-center justify-center gap-4`}

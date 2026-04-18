@@ -42,7 +42,7 @@ export default function ShowtimeList({ movies, clusterName, clusterAddress }) {
                 <div className="flex min-h-0 min-w-0 flex-1 items-center justify-center">
                     <ColumnEmpty
                         className="rounded-lg border border-white/10 bg-zinc-900/40 px-4 py-10 text-center"
-                        description="No showtimes found for this cluster."
+                        description="Không có suất chiếu cho cụm rạp này."
                     />
                 </div>
             </div>

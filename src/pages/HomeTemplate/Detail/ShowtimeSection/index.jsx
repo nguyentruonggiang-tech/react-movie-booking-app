@@ -77,7 +77,7 @@ const ShowtimeSection = () => {
     if (error) {
         return (
             <ErrorBox
-                title="Showtimes"
+                title="Lịch chiếu"
                 message={error}
                 onRetry={handleRetryShowtimes}
             />
@@ -87,8 +87,8 @@ const ShowtimeSection = () => {
     if (!theaterSystems.length) {
         return (
             <NotFound
-                title="Showtimes"
-                message="No showtimes available."
+                title="Lịch chiếu"
+                message="Hiện chưa có suất chiếu."
             />
         );
     }
@@ -102,7 +102,7 @@ const ShowtimeSection = () => {
                 id="movie-showtimes-heading"
                 className="mb-8 text-4xl font-black uppercase tracking-tight text-white"
             >
-                Showtimes
+                Lịch chiếu
             </h2>
 
             <div className="grid w-full min-w-0 grid-cols-1 gap-4 lg:grid-cols-[96px_minmax(0,1fr)] lg:items-stretch">

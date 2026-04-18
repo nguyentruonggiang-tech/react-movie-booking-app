@@ -24,7 +24,7 @@ function Breadcrumb({ film, detailMaPhim }) {
             <ol className="flex min-w-0 flex-wrap items-center gap-2">
                 <li>
                     <NavLink to="/" className={linkClass}>
-                        Home
+                        Trang chủ
                     </NavLink>
                 </li>
 
@@ -55,7 +55,7 @@ function Breadcrumb({ film, detailMaPhim }) {
                 </li>
                 <li>
                     <span aria-current="page" className="font-medium text-white/90">
-                        Select tickets
+                        Chọn vé
                     </span>
                 </li>
             </ol>
@@ -178,15 +178,14 @@ export default function TicketRoom() {
                 {loading && <SeatMapSkeleton />}
 
                 {!loading && error && <ErrorBox 
-                    title="Could not load ticket room"
+                    title="Không tải được phòng vé"
                     message={error}
                     onRetry={() => dispatch(fetchTicketRoom(maLichChieu))} 
                 />}
 
                 {!loading && !error && !film && <NotFound 
-                    title="Movie not found" 
-                    message="No movie data was returned for this id." 
-                    onRetry={() => dispatch(fetchTicketRoom(maLichChieu))} 
+                    title="Không tìm thấy phim"
+                    message="Không có dữ liệu phim cho mã này."
                 />}
 
                 {!loading && !error && film && (

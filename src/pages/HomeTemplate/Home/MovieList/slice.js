@@ -22,7 +22,7 @@ export const fetchMovieList = createAsyncThunk(
             const message =
                 error.response?.data?.message ??
                 error.message ??
-                "Could not load the movie list.";
+                "Không tải được danh sách phim.";
             return rejectWithValue(message);
         }
     },
@@ -48,7 +48,7 @@ const movieSlice = createSlice({
                 state.error =
                     action.payload ??
                     action.error?.message ??
-                    "Could not load the movie list.";
+                    "Không tải được danh sách phim.";
             });
     },
 });

@@ -1,6 +1,6 @@
 import { memo } from "react";
 
-import { WEEKDAY_LABELS_EN } from "../constants";
+import { WEEKDAY_LABELS_VI } from "../constants";
 
 function ShowingDateStrip({
     sortedShowingDateKeys,
@@ -12,13 +12,13 @@ function ShowingDateStrip({
             <div className="-mx-1 flex gap-1 overflow-x-auto pb-1 gap-2">
                 {!sortedShowingDateKeys.length && (
                     <p className="px-1 py-2 text-sm text-zinc-500">
-                        No showtimes for this chain.
+                        Chuỗi rạp này chưa có suất chiếu.
                     </p>
                 )}
                 {sortedShowingDateKeys.map((dateKey) => {
                     const dateObj = new Date(`${dateKey}T12:00:00`);
                     const isActive = dateKey === activeShowingDateKey;
-                    const weekdayLabel = WEEKDAY_LABELS_EN[dateObj.getDay()];
+                    const weekdayLabel = WEEKDAY_LABELS_VI[dateObj.getDay()];
                     const dayOfMonth = dateObj.getDate();
                     const monthNum = dateObj.getMonth() + 1;
 

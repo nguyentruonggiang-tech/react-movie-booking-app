@@ -45,7 +45,7 @@ function SeatItem({ seat, row, readOnly, onToggleSeat }) {
                     onToggleSeat?.(seat);
                 }
             }}
-            aria-label={`Seat ${seat.soGhe || seat.tenGhe || ""}`}
+            aria-label={`Ghế ${seat.soGhe || seat.tenGhe || ""}`}
         >
             {displayLabel}
         </button>
@@ -80,7 +80,7 @@ function Screen() {
     return (
         <div className="mx-auto mb-5 w-full max-w-[760px] text-center">
             <div className="relative mx-auto max-w-[min(100%,640px)] rounded-sm bg-gradient-to-b from-zinc-600/40 to-zinc-800/30 px-6 py-2 text-xs text-white/40 text-center">
-                SCREEN
+                MÀN HÌNH
             </div>
             <div className="screen-triangle" />
         </div>
@@ -91,7 +91,7 @@ function Legend() {
     return (
         <div
             className="mx-auto mt-0 flex w-full max-w-[760px] flex-wrap justify-center gap-x-6 gap-y-3 px-2 sm:gap-x-8"
-            aria-label="Seat legend"
+            aria-label="Chú thích"
         >
             {SEAT_LEGEND_ITEMS.map((item) => (
                 <div key={item.key} className="flex items-center gap-2.5 text-sm">

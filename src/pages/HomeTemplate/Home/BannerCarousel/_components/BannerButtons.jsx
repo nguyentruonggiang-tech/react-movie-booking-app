@@ -13,12 +13,12 @@ function BannerButtons({ movieId }) {
         <div className="flex flex-wrap items-center justify-center gap-4">
             <NavLink to={`/detail/${movieId}`} className={BTN_PRIMARY}>
                 <PlayIcon className="h-6 w-6 shrink-0" />
-                Book now
+                Đặt vé ngay
             </NavLink>
 
             <NavLink to={`/detail/${movieId}`} className={BTN_SECONDARY}>
                 <InfoIcon className="h-6 w-6 shrink-0" />
-                View details
+                Xem chi tiết
             </NavLink>
         </div>
     );

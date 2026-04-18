@@ -56,7 +56,7 @@ function TheaterClusterSessions({
                                                 rel="noreferrer"
                                                 className="font-semibold text-red-500 hover:underline"
                                             >
-                                                [Map]
+                                                [Bản đồ]
                                             </a>
                                         </p>
 
@@ -81,8 +81,8 @@ function TheaterClusterSessions({
                                                 </div>
                                             ) : (
                                                 <p className="text-sm text-zinc-500">
-                                                    No movie showtimes on this
-                                                    date.
+                                                    Không có suất chiếu vào ngày
+                                                    này.
                                                 </p>
                                             )}
                                         </div>
@@ -94,7 +94,7 @@ function TheaterClusterSessions({
 
                     {!theaterClusters.length && (
                         <p className="py-6 text-sm text-zinc-500">
-                            No clusters returned for this chain.
+                            Chuỗi rạp này chưa có cụm rạp.
                         </p>
                     )}
                 </div>

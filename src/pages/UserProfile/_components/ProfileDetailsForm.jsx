@@ -56,7 +56,7 @@ export default function ProfileDetailsForm({ profile }) {
     const displayName =
         String(formValues.hoTen || "").trim() ||
         String(formValues.taiKhoan || "").trim() ||
-        "User";
+        "Người dùng";
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -75,33 +75,33 @@ export default function ProfileDetailsForm({ profile }) {
         const nextErrors = {};
         const taiKhoan = String(formValues.taiKhoan ?? "").trim();
         if (!taiKhoan) {
-            nextErrors.taiKhoan = "Username is required.";
+            nextErrors.taiKhoan = "Vui lòng nhập tên đăng nhập.";
         } else if (taiKhoan.length < MIN_USERNAME_LENGTH) {
-            nextErrors.taiKhoan = `Username must be at least ${MIN_USERNAME_LENGTH} characters.`;
+            nextErrors.taiKhoan = `Tên đăng nhập cần ít nhất ${MIN_USERNAME_LENGTH} ký tự.`;
         }
 
         const email = String(formValues.email ?? "").trim();
         if (!email) {
-            nextErrors.email = "Email is required.";
+            nextErrors.email = "Vui lòng nhập email.";
         } else if (!EMAIL_REGEX.test(email)) {
-            nextErrors.email = "Email is not valid.";
+            nextErrors.email = "Email không hợp lệ.";
         }
 
         const matKhau = String(formValues.matKhau ?? "");
         if (!matKhau.trim()) {
-            nextErrors.matKhau = "Password is required.";
+            nextErrors.matKhau = "Vui lòng nhập mật khẩu.";
         } else if (matKhau.length < MIN_PASSWORD_LENGTH) {
-            nextErrors.matKhau = `Password must be at least ${MIN_PASSWORD_LENGTH} characters.`;
+            nextErrors.matKhau = `Mật khẩu cần ít nhất ${MIN_PASSWORD_LENGTH} ký tự.`;
         }
 
         const phoneNumber = String(formValues.soDT ?? "").trim();
         if (!phoneNumber) {
-            nextErrors.soDT = "Phone number is required.";
+            nextErrors.soDT = "Vui lòng nhập số điện thoại.";
         }
 
         const hoTen = String(formValues.hoTen ?? "").trim();
         if (!hoTen) {
-            nextErrors.hoTen = "Full name is required.";
+            nextErrors.hoTen = "Vui lòng nhập họ tên.";
         }
 
         return nextErrors;
@@ -128,7 +128,7 @@ export default function ProfileDetailsForm({ profile }) {
 
         try {
             const saveResponse = await dispatch(updateProfile(updateBody)).unwrap();
-            notifySuccess("Profile updated successfully.");
+            notifySuccess("Cập nhật hồ sơ thành công.");
 
             const phoneAfterSave = String(
                 saveResponse?.soDT ??
@@ -158,7 +158,7 @@ export default function ProfileDetailsForm({ profile }) {
                 typeof rejectedMessage === "string" &&
                 rejectedMessage.trim() !== ""
                     ? rejectedMessage
-                    : "Could not update profile.";
+                    : "Không thể cập nhật hồ sơ.";
             notifyError(message);
         }
     };
@@ -184,7 +184,7 @@ export default function ProfileDetailsForm({ profile }) {
                     <div className="grid min-w-0 grid-cols-1 gap-5 md:grid-cols-2">
                         <label className="block min-w-0">
                             <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white">
-                                Username <span className="text-red-400">*</span>
+                                Tên đăng nhập <span className="text-red-400">*</span>
                             </span>
                             <input
                                 name="taiKhoan"
@@ -209,7 +209,7 @@ export default function ProfileDetailsForm({ profile }) {
                                 value={formValues.email}
                                 onChange={handleChange}
                                 autoComplete="email"
-                                placeholder="you@example.com"
+                                placeholder="email@example.com"
                                 className={inputShell(Boolean(fieldErrors.email))}
                             />
                             {fieldErrors.email ? (
@@ -220,7 +220,7 @@ export default function ProfileDetailsForm({ profile }) {
                         </label>
                         <label className="block min-w-0">
                             <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white">
-                                Password <span className="text-red-400">*</span>
+                                Mật khẩu <span className="text-red-400">*</span>
                             </span>
                             <div className="relative w-full min-w-0">
                                 <input
@@ -229,7 +229,7 @@ export default function ProfileDetailsForm({ profile }) {
                                     value={formValues.matKhau ?? ""}
                                     onChange={handleChange}
                                     autoComplete="current-password"
-                                    placeholder="Password"
+                                    placeholder="Mật khẩu"
                                     className={`${inputShell(
                                         Boolean(fieldErrors.matKhau),
                                     )} pr-10`}
@@ -239,7 +239,7 @@ export default function ProfileDetailsForm({ profile }) {
                                     onClick={() => setShowPassword((prev) => !prev)}
                                     className="absolute inset-y-0 right-0 flex w-10 items-center justify-center text-zinc-500 transition hover:text-zinc-200"
                                     aria-label={
-                                        showPassword ? "Hide password" : "Show password"
+                                        showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"
                                     }
                                     aria-pressed={showPassword}
                                 >
@@ -287,7 +287,7 @@ export default function ProfileDetailsForm({ profile }) {
                         </label>
                         <label className="block min-w-0">
                             <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white">
-                                Phone number <span className="text-red-400">*</span>
+                                Số điện thoại <span className="text-red-400">*</span>
                             </span>
                             <input
                                 name="soDT"
@@ -295,7 +295,7 @@ export default function ProfileDetailsForm({ profile }) {
                                 onChange={handleChange}
                                 autoComplete="tel"
                                 inputMode="tel"
-                                placeholder="e.g. 0901234567"
+                                placeholder="Ví dụ: 0901234567"
                                 className={inputShell(Boolean(fieldErrors.soDT))}
                             />
                             {fieldErrors.soDT ? (
@@ -306,14 +306,14 @@ export default function ProfileDetailsForm({ profile }) {
                         </label>
                         <label className="block min-w-0">
                             <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white">
-                                Full name <span className="text-red-400">*</span>
+                                Họ tên <span className="text-red-400">*</span>
                             </span>
                             <input
                                 name="hoTen"
                                 value={formValues.hoTen}
                                 onChange={handleChange}
                                 autoComplete="name"
-                                placeholder="Full name"
+                                placeholder="Họ tên"
                                 className={inputShell(Boolean(fieldErrors.hoTen))}
                             />
                             {fieldErrors.hoTen ? (
@@ -330,7 +330,7 @@ export default function ProfileDetailsForm({ profile }) {
                             disabled={updateLoading}
                             className="inline-flex cursor-pointer items-center justify-center rounded-xl bg-rose-600 px-8 py-2.5 text-sm font-semibold uppercase tracking-wide text-white shadow-md shadow-rose-900/30 transition hover:bg-rose-500 disabled:cursor-not-allowed disabled:opacity-60"
                         >
-                            {updateLoading ? "Updating…" : "Update"}
+                            {updateLoading ? "Đang cập nhật…" : "Cập nhật"}
                         </button>
                     </div>
                 </div>

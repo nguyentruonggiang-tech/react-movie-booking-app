@@ -20,12 +20,12 @@ function navItemClass(isActive) {
 const menuItems = [
     {
         id: PROFILE_TAB_PERSONAL,
-        label: "Account Information",
+        label: "Thông tin tài khoản",
         Icon: User,
     },
     {
         id: PROFILE_TAB_BOOKING,
-        label: "Booking history",
+        label: "Lịch sử đặt vé",
         Icon: Clock,
     },
 ];
@@ -34,7 +34,7 @@ export default function ProfileMenu({ activeTab, onSelectTab, onLogout }) {
     return (
         <nav
             className="rounded-l-lg rounded-r-xl border border-zinc-800 bg-zinc-900/80 p-2 shadow-sm shadow-black/20"
-            aria-label="Profile"
+            aria-label="Menu hồ sơ"
         >
             <ul className="space-y-0.5">
                 {menuItems.map((item) => {
@@ -69,7 +69,7 @@ export default function ProfileMenu({ activeTab, onSelectTab, onLogout }) {
                         className="h-5 w-5 shrink-0"
                         aria-hidden
                     />
-                    Sign out
+                    Đăng xuất
                 </button>
             </div>
         </nav>

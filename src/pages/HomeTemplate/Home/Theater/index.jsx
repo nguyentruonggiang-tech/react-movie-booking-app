@@ -89,7 +89,7 @@ export default function Theater() {
                 id="theater-heading"
                 className="mb-8 text-4xl font-black uppercase tracking-tight text-white"
             >
-                Theater systems
+                Hệ thống rạp
             </h2>
 
             <div className="grid w-full min-w-0 grid-cols-1 gap-4 lg:grid-cols-[96px_320px_minmax(0,1fr)] lg:items-stretch">
@@ -102,15 +102,15 @@ export default function Theater() {
                         />
                     ) : theaterSystemsState?.error ? (
                         <ErrorBox
-                            title="Theater systems"
+                            title="Hệ thống rạp"
                             message={theaterSystemsState.error}
                             onRetry={() => dispatch(fetchTheaterSystems())}
                         />
                     ) : theaterSystems.length === 0 ? (
                         <ColumnEmpty
                             className={emptyTheaterColumn}
-                            title="No theater systems"
-                            description="The API returned no theater chains. Try again later."
+                            title="Chưa có hệ thống rạp"
+                            description="API hiện không trả về chuỗi rạp. Vui lòng thử lại sau."
                         />
                     ) : (
                         <TheaterSystemList
@@ -131,7 +131,7 @@ export default function Theater() {
                         />
                     ) : theaterClustersState?.error ? (
                         <ErrorBox
-                            title="Theater clusters"
+                            title="Cụm rạp"
                             message={theaterClustersState.error}
                             onRetry={() =>
                                 dispatch(
@@ -142,14 +142,14 @@ export default function Theater() {
                     ) : !currentSystemCode ? (
                         <ColumnEmpty
                             className={emptyTheaterColumn}
-                            title="Select a chain"
-                            description="Pick a theater chain in the first column."
+                            title="Chọn chuỗi rạp"
+                            description="Hãy chọn một chuỗi rạp ở cột đầu tiên."
                         />
                     ) : theaterClusters.length === 0 ? (
                         <ColumnEmpty
                             className={emptyTheaterColumn}
-                            title="No clusters"
-                            description="This chain has no clusters in the API response."
+                            title="Chưa có cụm rạp"
+                            description="Chuỗi rạp này chưa có cụm rạp trong dữ liệu trả về."
                         />
                     ) : (
                         <TheaterClusterList
@@ -170,7 +170,7 @@ export default function Theater() {
                         />
                     ) : theaterShowtimesState?.error ? (
                         <ErrorBox
-                            title="Showtimes"
+                            title="Lịch chiếu"
                             message={theaterShowtimesState.error}
                             onRetry={() =>
                                 dispatch(
@@ -184,8 +184,8 @@ export default function Theater() {
                     ) : !currentSystemCode || !currentClusterCode ? (
                         <ColumnEmpty
                             className={emptyTheaterColumn}
-                            title="Showtimes"
-                            description="Pick a chain and a cluster to load showtimes."
+                            title="Lịch chiếu"
+                            description="Chọn chuỗi rạp và cụm rạp để tải lịch chiếu."
                         />
                     ) : (
                         <ShowtimeList

@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import LoadingOverlay from "@components/LoadingOverlay";
 import { actRegister } from "@pages/Auth/slice";
 import { getPathAfterLogin } from "@/utils/authRedirect";
+import { SITE_NAME } from "@constants";
 import LoginBackground from "../_components/LoginBackground";
 
 const REGISTER_SUCCESS_TOAST_ID = "register-success-redirect";
@@ -38,32 +39,32 @@ function getFieldError(name, value, formValues = null) {
 
     switch (name) {
         case "taiKhoan":
-            if (inputValue === "") return "Username is required";
+            if (inputValue === "") return "Vui lòng nhập tên đăng nhập.";
             if (inputValue.length < MIN_USERNAME_LENGTH) {
-                return `Username must be at least ${MIN_USERNAME_LENGTH} characters`;
+                return `Tên đăng nhập cần ít nhất ${MIN_USERNAME_LENGTH} ký tự.`;
             }
             break;
         case "matKhau":
-            if (inputValue === "") return "Password is required";
+            if (inputValue === "") return "Vui lòng nhập mật khẩu.";
             if (inputValue.length < MIN_PASSWORD_LENGTH) {
-                return `Password must be at least ${MIN_PASSWORD_LENGTH} characters`;
+                return `Mật khẩu cần ít nhất ${MIN_PASSWORD_LENGTH} ký tự.`;
             }
             break;
         case "confirmPassword": {
-            if (inputValue === "") return "Please re-enter your password";
+            if (inputValue === "") return "Vui lòng nhập lại mật khẩu.";
             const password = String(formValues?.matKhau ?? "").trim();
-            if (password !== inputValue) return "Passwords do not match";
+            if (password !== inputValue) return "Mật khẩu xác nhận không khớp.";
             break;
         }
         case "email":
-            if (inputValue === "") return "Email is required";
-            if (!EMAIL_REGEX.test(inputValue)) return "Email is not valid";
+            if (inputValue === "") return "Vui lòng nhập email.";
+            if (!EMAIL_REGEX.test(inputValue)) return "Email không hợp lệ.";
             break;
         case "soDt":
-            if (inputValue === "") return "Phone number is required";
+            if (inputValue === "") return "Vui lòng nhập số điện thoại.";
             break;
         case "hoTen":
-            if (inputValue === "") return "Full name is required";
+            if (inputValue === "") return "Vui lòng nhập họ tên.";
             break;
         default:
             break;
@@ -109,9 +110,11 @@ export default function Register() {
         toast.success(
             <div className="text-left">
                 <p className="text-sm font-semibold text-white">
-                    {accountLabel ? `Account "${accountLabel}" created` : "Account created"}
+                    {accountLabel
+                        ? `Đã tạo tài khoản "${accountLabel}"`
+                        : "Đã tạo tài khoản"}
                 </p>
-                <p className="mt-1 text-xs text-slate-400">Redirecting to sign in…</p>
+                <p className="mt-1 text-xs text-slate-400">Đang chuyển đến trang đăng nhập…</p>
             </div>,
             {
                 toastId: REGISTER_SUCCESS_TOAST_ID,
@@ -196,7 +199,7 @@ export default function Register() {
         return (
             <div className="relative flex min-h-screen flex-1 flex-col overflow-hidden bg-[#030308] text-slate-100 antialiased md:flex-row">
                 <LoginBackground className="pointer-events-none absolute inset-0 z-0 h-full min-h-screen w-full" />
-                <LoadingOverlay message="Redirecting…" />
+                <LoadingOverlay message="Đang chuyển hướng…" />
             </div>
         );
     }
@@ -209,13 +212,13 @@ export default function Register() {
                 <div className="pointer-events-none flex h-full min-h-[520px] flex-col justify-end px-8 py-12 lg:px-12 lg:py-14">
                     <div className="max-w-sm text-balance rounded-2xl border border-white/15 bg-slate-950/55 px-5 py-6 text-center shadow-xl shadow-black/30 backdrop-blur-md md:text-left">
                         <p className="text-xs font-semibold uppercase tracking-[0.35em] text-red-400/90 drop-shadow-sm">
-                            Movie Booking
+                            {SITE_NAME}
                         </p>
                         <h1 className="mt-3 text-2xl font-bold leading-snug text-white drop-shadow-md sm:text-3xl lg:text-[2rem] lg:leading-tight">
-                            Create your account in a few steps
+                            Tạo tài khoản chỉ với vài bước
                         </h1>
                         <p className="mt-3 text-sm leading-relaxed text-slate-300/95 drop-shadow-sm">
-                            Join to book seats faster and keep your cinema history in one place.
+                            Đăng ký để đặt vé nhanh hơn và theo dõi lịch sử xem phim tại một nơi.
                         </p>
                     </div>
                 </div>
@@ -237,13 +240,13 @@ export default function Register() {
 
                 <div className="relative mx-auto w-full max-w-md">
                     <div className="mb-8 md:hidden">
-                        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-red-500">Register</p>
-                        <h2 className="mt-2 text-2xl font-bold text-white">Sign up</h2>
+                        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-red-500">Đăng ký</p>
+                        <h2 className="mt-2 text-2xl font-bold text-white">Tạo tài khoản</h2>
                     </div>
 
                     <div className="mb-8 hidden md:block">
-                        <h2 className="text-2xl font-bold text-white lg:text-3xl">Sign up</h2>
-                        <p className="mt-2 text-sm text-slate-400">Fill in your details to sign up.</p>
+                        <h2 className="text-2xl font-bold text-white lg:text-3xl">Đăng ký</h2>
+                        <p className="mt-2 text-sm text-slate-400">Điền thông tin để tạo tài khoản.</p>
                     </div>
 
                     {registerError ? (
@@ -263,7 +266,7 @@ export default function Register() {
                     >
                         <div>
                             <label htmlFor="register-taiKhoan" className="mb-1.5 block text-sm font-medium text-slate-200">
-                                Username
+                                Tên đăng nhập
                             </label>
                             <input
                                 id="register-taiKhoan"
@@ -275,14 +278,14 @@ export default function Register() {
                                 onBlur={validateField}
                                 disabled={registerLoading}
                                 className={inputClassName}
-                                placeholder="Username"
+                                placeholder="Tên đăng nhập"
                             />
                             {errors.taiKhoan ? <p className="mt-1.5 text-xs text-red-400">{errors.taiKhoan}</p> : null}
                         </div>
 
                         <div>
                             <label htmlFor="register-matKhau" className="mb-1.5 block text-sm font-medium text-slate-200">
-                                Password
+                                Mật khẩu
                             </label>
                             <div className="relative">
                                 <input
@@ -295,14 +298,14 @@ export default function Register() {
                                     onBlur={validateField}
                                     disabled={registerLoading}
                                     className={`${inputClassName} pr-11`}
-                                    placeholder="Password"
+                                    placeholder="Mật khẩu"
                                 />
                                 <button
                                     type="button"
                                     onClick={() => setShowPassword((prev) => !prev)}
                                     disabled={registerLoading}
                                     className="absolute inset-y-0 right-0 flex w-11 items-center justify-center text-slate-400 transition hover:text-slate-200 disabled:cursor-not-allowed disabled:opacity-50"
-                                    aria-label={showPassword ? "Hide password" : "Show password"}
+                                    aria-label={showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
                                     aria-pressed={showPassword}
                                 >
                                     {showPassword ? (
@@ -349,7 +352,7 @@ export default function Register() {
                                 htmlFor="register-confirmPassword"
                                 className="mb-1.5 block text-sm font-medium text-slate-200"
                             >
-                                Confirm password
+                                Xác nhận mật khẩu
                             </label>
                             <div className="relative">
                                 <input
@@ -362,14 +365,14 @@ export default function Register() {
                                     onBlur={validateField}
                                     disabled={registerLoading}
                                     className={`${inputClassName} pr-11`}
-                                    placeholder="Re-enter password"
+                                    placeholder="Nhập lại mật khẩu"
                                 />
                                 <button
                                     type="button"
                                     onClick={() => setShowPassword((prev) => !prev)}
                                     disabled={registerLoading}
                                     className="absolute inset-y-0 right-0 flex w-11 items-center justify-center text-slate-400 transition hover:text-slate-200 disabled:cursor-not-allowed disabled:opacity-50"
-                                    aria-label={showPassword ? "Hide password" : "Show password"}
+                                    aria-label={showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
                                     aria-pressed={showPassword}
                                 >
                                     {showPassword ? (
@@ -415,7 +418,7 @@ export default function Register() {
 
                         <div>
                             <label htmlFor="register-hoTen" className="mb-1.5 block text-sm font-medium text-slate-200">
-                                Full name
+                                Họ tên
                             </label>
                             <input
                                 id="register-hoTen"
@@ -427,7 +430,7 @@ export default function Register() {
                                 onBlur={validateField}
                                 disabled={registerLoading}
                                 className={inputClassName}
-                                placeholder="Full name"
+                                placeholder="Họ tên"
                             />
                             {errors.hoTen ? <p className="mt-1.5 text-xs text-red-400">{errors.hoTen}</p> : null}
                         </div>
@@ -446,14 +449,14 @@ export default function Register() {
                                 onBlur={validateField}
                                 disabled={registerLoading}
                                 className={inputClassName}
-                                placeholder="you@example.com"
+                                placeholder="email@example.com"
                             />
                             {errors.email ? <p className="mt-1.5 text-xs text-red-400">{errors.email}</p> : null}
                         </div>
 
                         <div>
                             <label htmlFor="register-soDt" className="mb-1.5 block text-sm font-medium text-slate-200">
-                                Phone number
+                                Số điện thoại
                             </label>
                             <input
                                 id="register-soDt"
@@ -465,7 +468,7 @@ export default function Register() {
                                 onBlur={validateField}
                                 disabled={registerLoading}
                                 className={inputClassName}
-                                placeholder="Phone number"
+                                placeholder="Ví dụ: 0901234567"
                             />
                             {errors.soDt ? <p className="mt-1.5 text-xs text-red-400">{errors.soDt}</p> : null}
                         </div>
@@ -479,21 +482,21 @@ export default function Register() {
                                     : "mt-2 flex w-full cursor-pointer items-center justify-center rounded-lg bg-red-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-red-900/30 transition hover:bg-red-500 disabled:cursor-not-allowed disabled:pointer-events-none disabled:opacity-60"
                             }
                         >
-                            {registerLoading ? "Creating account…" : "Create account"}
+                            {registerLoading ? "Đang tạo tài khoản…" : "Tạo tài khoản"}
                         </button>
                     </form>
 
                     <p className="mt-8 text-center text-sm text-slate-400">
-                        Already have an account?{" "}
+                        Đã có tài khoản?{" "}
                         <Link
                             to="/login"
                             className="font-medium text-red-400 underline-offset-2 transition hover:text-red-300 hover:underline"
                         >
-                            Sign in
+                            Đăng nhập
                         </Link>
                     </p>
                 </div>
-                {registerLoading ? <LoadingOverlay message="Creating account…" /> : null}
+                {registerLoading ? <LoadingOverlay message="Đang tạo tài khoản…" /> : null}
             </div>
         </div>
     );

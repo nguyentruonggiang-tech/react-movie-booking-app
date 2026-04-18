@@ -124,7 +124,7 @@ export const fetchTicketRoom = createAsyncThunk(
         const showtimeId = String(maLichChieu ?? "").trim();
 
         if (!showtimeId) {
-            return rejectWithValue("Missing showtime id in URL.");
+            return rejectWithValue("Thiếu mã lịch chiếu trong URL.");
         }
 
         try {
@@ -136,7 +136,7 @@ export const fetchTicketRoom = createAsyncThunk(
 
             if (!content?.thongTinPhim || !Array.isArray(content?.danhSachGhe)) {
                 return rejectWithValue(
-                    response?.data?.message || "Seat map response was empty.",
+                    response?.data?.message || "Dữ liệu sơ đồ ghế trống.",
                 );
             }
 
@@ -148,7 +148,7 @@ export const fetchTicketRoom = createAsyncThunk(
             return rejectWithValue(
                 error?.response?.data?.message ||
                     error?.message ||
-                    "Could not load ticket room.",
+                    "Không tải được phòng vé.",
             );
         }
     },
@@ -262,7 +262,7 @@ export const submitTicketBooking = createAsyncThunk(
         const showtimeId = String(maLichChieu ?? "").trim();
         const showtimeNumber = Number(showtimeId);
         if (!showtimeId || !Number.isFinite(showtimeNumber) || showtimeNumber <= 0) {
-            return rejectWithValue("Missing showtime id for booking.");
+            return rejectWithValue("Thiếu mã lịch chiếu để đặt vé.");
         }
        
         const selectedSeats =
@@ -278,7 +278,7 @@ export const submitTicketBooking = createAsyncThunk(
             );
 
         if (bookingSeatList.length === 0) {
-            return rejectWithValue("Please select at least one seat.");
+            return rejectWithValue("Vui lòng chọn ít nhất một ghế.");
         }
 
         try {
@@ -290,14 +290,14 @@ export const submitTicketBooking = createAsyncThunk(
             return {
                 message:
                     response?.data?.message ||
-                    "Booking tickets successfully.",
+                    "Đặt vé thành công.",
             };
         } catch (error) {
             return rejectWithValue(
                 error?.response?.data?.content ||
                     error?.response?.data?.message ||
                     error?.message ||
-                    "Could not complete booking tickets.",
+                    "Không thể hoàn tất đặt vé.",
             );
         }
     },
@@ -327,7 +327,7 @@ const ticketRoomSubmitBookingSlice = createSlice({
             .addCase(submitTicketBooking.rejected, (state, action) => {
                 state.loading = false;
                 state.data = null;
-                state.error = action.payload || "Booking failed.";
+                state.error = action.payload || "Đặt vé thất bại.";
             });
     },
 });

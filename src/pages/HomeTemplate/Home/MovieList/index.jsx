@@ -63,7 +63,7 @@ export default function MovieList() {
                         id="movie-list-heading"
                         className="mb-4 font-sans text-4xl font-black uppercase tracking-tight text-white"
                     >
-                        Movie list
+                        Danh sách phim
                     </h2>
                     <div className="flex gap-8">
                         <button
@@ -75,7 +75,7 @@ export default function MovieList() {
                             }`}
                             onClick={() => setTab(TAB_PLAYING)}
                         >
-                            Now showing
+                            Đang chiếu
                         </button>
                         <button
                             type="button"
@@ -86,7 +86,7 @@ export default function MovieList() {
                             }`}
                             onClick={() => setTab(TAB_UPCOMING)}
                         >
-                            Coming soon
+                            Sắp chiếu
                         </button>
                     </div>
                 </div>
@@ -96,18 +96,18 @@ export default function MovieList() {
                 <MovieListSkeleton />
             ) : error ? (
                 <ErrorBox
-                    title="Movie list"
+                    title="Danh sách phim"
                     message={error}
                     onRetry={refetch}
                 />
             ) : visible.length === 0 ? (
                 <div className="mx-auto w-full max-w-xl">
                     <NotFound
-                        title="Movie list"
+                        title="Danh sách phim"
                         message={
                             tab === TAB_UPCOMING
-                                ? "No upcoming movies yet."
-                                : "No movies in the list."
+                                ? "Chưa có phim sắp chiếu."
+                                : "Danh sách phim đang trống."
                         }
                     />
                 </div>

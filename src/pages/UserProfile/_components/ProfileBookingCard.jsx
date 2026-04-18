@@ -27,7 +27,7 @@ export default function ProfileBookingCard({ ticket }) {
     const giaHienThi = ticketPriceText(ticket?.giaVe);
     const phutPhim =
         ticket?.thoiLuongPhim != null && Number.isFinite(Number(ticket.thoiLuongPhim))
-            ? `${Number(ticket.thoiLuongPhim)} min`
+            ? `${Number(ticket.thoiLuongPhim)} phút`
             : "—";
 
     return (
@@ -56,12 +56,12 @@ export default function ProfileBookingCard({ ticket }) {
                             {tenPhim}
                         </h3>
                         <p className="mt-2 text-sm text-zinc-400">
-                            <span className="text-zinc-500">Ticket price:</span>{" "}
+                            <span className="text-zinc-500">Giá vé:</span>{" "}
                             <span className="text-zinc-200">{giaHienThi}</span>
                             <span className="mx-2 text-zinc-600" aria-hidden>
                                 |
                             </span>
-                            <span className="text-zinc-500">Runtime:</span>{" "}
+                            <span className="text-zinc-500">Thời lượng:</span>{" "}
                             <span className="text-zinc-200">{phutPhim}</span>
                         </p>
                     </div>
@@ -73,7 +73,7 @@ export default function ProfileBookingCard({ ticket }) {
                                 aria-hidden
                             />
                             <span>
-                                <span className="text-zinc-500">Chain:</span>{" "}
+                                <span className="text-zinc-500">Hệ thống rạp:</span>{" "}
                                 <span className="text-zinc-200">{tenHeThong}</span>
                             </span>
                         </p>
@@ -83,15 +83,15 @@ export default function ProfileBookingCard({ ticket }) {
                                 aria-hidden
                             />
                             <span>
-                                <span className="text-zinc-500">Complex:</span>{" "}
+                                <span className="text-zinc-500">Cụm rạp:</span>{" "}
                                 <span className="text-zinc-200">{tenCum}</span>
                             </span>
                         </p>
                     </div>
 
                     <div className="grid grid-cols-1 gap-4 border-t border-zinc-800/80 pt-4 sm:grid-cols-2">
-                        <InfoCell label="Booked at" value={bookingTimeText(ngayDat)} />
-                        <InfoCell label="Seats" value={seatNamesLine(ticket)} />
+                        <InfoCell label="Đặt lúc" value={bookingTimeText(ngayDat)} />
+                        <InfoCell label="Ghế" value={seatNamesLine(ticket)} />
                     </div>
                 </div>
             </div>

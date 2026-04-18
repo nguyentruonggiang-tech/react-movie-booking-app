@@ -51,21 +51,18 @@ function SelectedSeatTable() {
     );
 
     const selectedTicketCount = selectedSeats.length;
-    const ticketsLabel =
-        selectedTicketCount === 1 ? "ticket" : "tickets";
-
     return (
         <div className="flex min-h-0 flex-1 flex-col pt-5">
             <div className="mb-2 flex min-h-[2rem] shrink-0 flex-wrap items-center justify-between gap-2">
                 <h3 className="text-[0.95rem] font-bold tracking-wide text-amber-400">
-                    Selected seats
+                    Ghế đã chọn
                 </h3>
                 <span
                     className="rounded border border-amber-500/40 bg-amber-500/10 px-2 py-0.5 text-[11px] font-semibold tracking-wide text-amber-200/95 tabular-nums"
                     aria-live="polite"
-                    aria-label={`${selectedTicketCount} ${ticketsLabel} selected`}
+                    aria-label={`Đã chọn ${selectedTicketCount} vé`}
                 >
-                    {selectedTicketCount} {ticketsLabel}
+                    {selectedTicketCount} vé
                 </span>
             </div>
 
@@ -74,11 +71,11 @@ function SelectedSeatTable() {
                     {/* Same horizontal inset as each seat row (`li` px-2 sm:px-3) so column titles line up */}
                     <div className="px-2 sm:px-3">
                         <div className="grid grid-cols-[4.25rem_minmax(0,1fr)_7.5rem_2.25rem] items-center gap-x-2 text-[10px] font-semibold uppercase tracking-wider text-white/40">
-                            <span className="text-left">Type</span>
+                            <span className="text-left">Loại</span>
                             <span className="min-w-0 -translate-x-px ps-0">
-                                Seat
+                                Ghế
                             </span>
-                            <span className="text-right tabular-nums">Price</span>
+                            <span className="text-right tabular-nums">Giá</span>
                             <span className="w-9 shrink-0" aria-hidden="true" />
                         </div>
                     </div>
@@ -87,7 +84,7 @@ function SelectedSeatTable() {
                 <div className="theater-scrollbar max-h-[28rem] min-h-0 flex-1 overflow-y-auto overflow-x-hidden px-3 py-2">
                     {selectedSeats.length === 0 ? (
                         <div className="flex min-h-[5rem] items-center justify-center px-3 py-6 text-center text-sm text-white/45">
-                            No seats selected yet.
+                            Chưa chọn ghế nào.
                         </div>
                     ) : (
                         <ul className="flex flex-col gap-1.5">
@@ -99,7 +96,7 @@ function SelectedSeatTable() {
                                     Number(selectedSeat.gia) || 0;
                                 const isVip = isVipSeat(selectedSeat);
                                 const seatAriaLabel = [
-                                    "Seat",
+                                    "Ghế",
                                     primaryLabel,
                                     rowSubtitle,
                                     isVip ? "VIP" : "",
@@ -163,7 +160,7 @@ function SelectedSeatTable() {
                                                     dispatch(clearBookingFeedback());
                                                 }}
                                                 className="relative z-10 flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full border-2 border-red-500/75 bg-gradient-to-b from-red-500/30 to-red-700/25 font-bold leading-none text-red-50 shadow-[0_0_14px_rgba(239,68,68,0.45)] ring-1 ring-inset ring-red-300/25 transition-all hover:border-red-400 hover:from-red-500/45 hover:to-red-600/35 hover:shadow-[0_0_20px_rgba(248,113,113,0.55)] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
-                                                title="Remove seat"
+                                                title="Bỏ ghế"
                                             >
                                                 <span
                                                     className="text-2xl leading-none"
@@ -185,7 +182,7 @@ function SelectedSeatTable() {
                         <div className="grid grid-cols-[4.25rem_minmax(0,1fr)_7.5rem_2.25rem] items-center gap-x-2">
                             <span className="min-w-0" aria-hidden="true" />
                             <span className="min-w-0 -translate-x-px ps-0 text-sm font-bold text-white">
-                                Total
+                                Tổng cộng
                             </span>
                             <span className="text-right text-sm font-bold tabular-nums text-[#FB897E]">
                                 {formatPriceVnd(total)}
@@ -225,10 +222,10 @@ export default function TicketRoomSummary({ film, maLichChieu, onBookingSuccess 
 
         const selectedTicketCount = selectedSeats.length;
         const isConfirmed = await showSwalConfirm({
-            title: "Confirm booking?",
-            text: `Are you sure you want to book ${selectedTicketCount} ticket(s)?`,
-            confirmButtonText: "Confirm booking",
-            cancelButtonText: "Cancel",
+            title: "Xác nhận đặt vé?",
+            text: `Bạn có chắc muốn đặt ${selectedTicketCount} vé?`,
+            confirmButtonText: "Xác nhận đặt vé",
+            cancelButtonText: "Hủy",
         });
 
         if (!isConfirmed) {
@@ -238,8 +235,8 @@ export default function TicketRoomSummary({ film, maLichChieu, onBookingSuccess 
         try {
             await dispatch(submitTicketBooking(maLichChieu)).unwrap();
             await showSwalSuccess({
-                title: "Booking successful",
-                text: "Your seats have been booked.",
+                title: "Đặt vé thành công",
+                text: "Ghế của bạn đã được đặt.",
             });
             dispatch(clearBookingFeedback());
             onBookingSuccess?.();
@@ -247,9 +244,9 @@ export default function TicketRoomSummary({ film, maLichChieu, onBookingSuccess 
             const message =
                 typeof rejected === "string" && rejected.trim() !== ""
                     ? rejected
-                    : "Could not complete booking. Please try again.";
+                    : "Không thể hoàn tất đặt vé. Vui lòng thử lại.";
             await showSwalError({
-                title: "Booking failed",
+                title: "Đặt vé thất bại",
                 text: message,
             });
             dispatch(clearBookingFeedback());
@@ -261,7 +258,7 @@ export default function TicketRoomSummary({ film, maLichChieu, onBookingSuccess 
         createPortal(
             <div className="fixed inset-0 z-[1100]">
                 <LoadingOverlay
-                    message="Processing..."
+                    message="Đang xử lý…"
                     className="bg-black/55 backdrop-blur-[2px]"
                 />
             </div>,
@@ -283,7 +280,7 @@ export default function TicketRoomSummary({ film, maLichChieu, onBookingSuccess 
                 />
                 <div className="absolute left-4 top-4 z-10">
                     <span className="inline-block rounded-md border border-[#E85A4A]/50 bg-gradient-to-b from-[#FF9B8F] to-[#FB7A6E] px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-zinc-900 shadow-[0_2px_12px_rgba(251,137,126,0.45)]">
-                        Selecting tickets
+                        Đang chọn vé
                     </span>
                 </div>
                 <div className="absolute inset-x-0 bottom-0 z-10 px-4 pb-3 pt-10">
@@ -298,7 +295,7 @@ export default function TicketRoomSummary({ film, maLichChieu, onBookingSuccess 
                     <dl className="shrink-0 space-y-3">
                         <div className="rounded-lg bg-black/25 px-3 py-3 ring-1 ring-white/10">
                             <dt className="text-[10px] font-semibold uppercase tracking-wide text-white/45">
-                                Cinema
+                                Rạp
                             </dt>
                             <dd className="mt-1.5 text-lg font-semibold leading-snug text-white sm:text-xl">
                                 {film.tenCumRap}
@@ -307,11 +304,11 @@ export default function TicketRoomSummary({ film, maLichChieu, onBookingSuccess 
 
                         <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 sm:gap-3">
                             <SummaryInfoItem
-                                label="Showtime"
+                                label="Suất chiếu"
                                 value={`${film.gioChieu} · ${film.ngayChieu}`}
                             />
                             <SummaryInfoItem
-                                label="Auditorium"
+                                label="Phòng chiếu"
                                 value={film.tenRap}
                             />
                         </div>
@@ -326,14 +323,14 @@ export default function TicketRoomSummary({ film, maLichChieu, onBookingSuccess 
                         disabled={!hasSelectedSeats || bookingLoading}
                         title={
                             hasSelectedSeats
-                                ? "Book tickets for selected seats"
-                                : "Select at least one seat to continue"
+                                ? "Đặt vé cho các ghế đã chọn"
+                                : "Chọn ít nhất một ghế để tiếp tục"
                         }
                         onClick={handleStartBooking}
                         className={`inline-flex w-full items-center justify-center gap-2 border-none px-8 py-4 text-sm ${BOOKING_CTA} disabled:cursor-not-allowed disabled:opacity-50 disabled:saturate-90`}
                     >
                         <TicketIcon className="h-6 w-6 shrink-0 text-white" />
-                        {bookingLoading ? "Submitting..." : "Book tickets"}
+                        {bookingLoading ? "Đang gửi…" : "Đặt vé"}
                     </button>
                 </div>
             </div>

@@ -72,7 +72,7 @@ export default function ProfilePage({ variant = "home" }) {
                             to="/"
                             className="transition hover:text-rose-400"
                         >
-                            Home
+                            Trang chủ
                         </Link>
                         <span className="mx-2 text-slate-600" aria-hidden>
                             &gt;
@@ -84,7 +84,7 @@ export default function ProfilePage({ variant = "home" }) {
                             to="/admin"
                             className="transition hover:text-rose-400"
                         >
-                            Admin
+                            Quản trị
                         </Link>
                         <span className="mx-2 text-zinc-600" aria-hidden>
                             &gt;
@@ -95,12 +95,12 @@ export default function ProfilePage({ variant = "home" }) {
                     className={isHome ? "text-slate-300" : "text-zinc-300"}
                     aria-current="page"
                 >
-                    My account
+                    Tài khoản của tôi
                 </span>
             </nav>
 
             <h1 className="mt-4 text-3xl font-bold tracking-tight text-white">
-                User profile
+                Hồ sơ người dùng
             </h1>
 
             <div className="mt-8 flex flex-col gap-8 lg:flex-row lg:items-start">
@@ -115,11 +115,11 @@ export default function ProfilePage({ variant = "home" }) {
                 <div className="min-w-0 flex-1 space-y-8">
                     {profileError ? (
                         <ErrorBox
-                            title="Could not load profile"
+                            title="Không thể tải hồ sơ"
                             message={profileError}
                             onRetry={loadProfile}
                             backHref={isHome ? "/" : "/admin"}
-                            backLabel={isHome ? "Back to home" : "Back to admin"}
+                            backLabel={isHome ? "Trang chủ" : "Trang quản trị"}
                         />
                     ) : null}
 

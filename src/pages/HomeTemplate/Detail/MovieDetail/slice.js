@@ -21,7 +21,7 @@ export const fetchMovieDetail = createAsyncThunk(
             const message =
                 error.response?.data?.message ??
                 error.message ??
-                "Could not load movie detail.";
+                "Không tải được chi tiết phim.";
             return rejectWithValue(message);
         }
     },

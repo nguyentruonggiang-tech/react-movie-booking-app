@@ -32,7 +32,7 @@ export default function MovieDetail() {
     if (error) {
         return ( 
             <ErrorBox
-                title="Movie Detail Error"
+                title="Lỗi tải chi tiết phim"
                 message={error}
                 onRetry={() => dispatch(fetchMovieDetail(maPhim))}
             />
@@ -43,8 +43,8 @@ export default function MovieDetail() {
         return (
             <div className="w-full max-w-xl mx-auto">
                 <NotFound
-                    title="Movie not found"
-                    message="No movie data was returned for this id."
+                    title="Không tìm thấy phim"
+                    message="Không có dữ liệu phim cho mã này."
                 />
             </div>
         );

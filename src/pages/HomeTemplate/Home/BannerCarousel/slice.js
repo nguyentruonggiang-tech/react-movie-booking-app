@@ -17,7 +17,7 @@ export const fetchBannerList = createAsyncThunk(
             const message =
                 error.response?.data?.message ??
                 error.message ??
-                "Could not load banners.";
+                "Không tải được danh sách banner.";
             return rejectWithValue(message);
         }
     },

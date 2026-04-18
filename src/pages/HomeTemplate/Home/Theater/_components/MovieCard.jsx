@@ -17,7 +17,7 @@ export default function MovieCard({ movie }) {
         "https://placehold.co/96x144/18181b/e4e4e7?text=Movie";
     const title =
         typeof movie?.tenPhim === "string" ? movie.tenPhim.trim() : "";
-    const displayTitle = title || "Untitled movie";
+    const displayTitle = title || "Chưa có tên phim";
 
     const posterInner = (
         <img
