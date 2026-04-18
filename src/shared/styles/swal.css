@@ -1,0 +1,260 @@
+/* =========================================================
+   Base popup sizing + SweetAlert2 CSS variables
+========================================================= */
+
+.my-swal-popup.swal2-popup,
+.my-swal-confirm-popup.swal2-popup {
+  --swal2-icon-zoom: calc(2 / 3);
+  --swal2-title-padding: 0.45em 1em 0;
+  --swal2-html-container-padding: 0.65em 1.6em 0.3em;
+}
+
+.my-swal-popup.swal2-popup .swal2-icon,
+.my-swal-confirm-popup.swal2-popup .swal2-icon {
+  border-width: 0.35em;
+  margin: 1.05em auto 0.45em;
+}
+
+/* =========================================================
+   Shared popup shell
+========================================================= */
+
+.my-swal-popup {
+  width: min(32rem, calc(100vw - 2rem));
+  border-radius: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font-family: var(--font-sans, Arial, Helvetica, sans-serif);
+  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.45);
+}
+
+.my-swal-theme-dark {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: linear-gradient(180deg, #0f172a 0%, #020617 100%);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.58);
+}
+
+.my-swal-theme-light {
+  border-color: rgba(15, 23, 42, 0.12);
+  background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+}
+
+.my-swal-title {
+  font-size: 1.3rem;
+  line-height: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.my-swal-content {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.my-swal-theme-dark .my-swal-title {
+  color: #f8fafc;
+}
+
+.my-swal-theme-dark .my-swal-content {
+  color: #cbd5e1;
+}
+
+.my-swal-theme-light .my-swal-title {
+  color: #0f172a;
+}
+
+.my-swal-theme-light .my-swal-content {
+  color: #475569;
+}
+
+/* =========================================================
+   Shared buttons
+========================================================= */
+
+.my-swal-confirm-btn,
+.my-swal-cancel-btn {
+  min-width: 10rem;
+  border-radius: 9999px;
+  padding: 0.75rem 1.4rem;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  transition:
+    transform 150ms ease,
+    filter 150ms ease,
+    background-color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+  cursor: pointer;
+}
+
+.my-swal-confirm-btn {
+  border: 0;
+  background: linear-gradient(180deg, #ef4444 0%, #dc2626 100%);
+  color: #ffffff;
+  box-shadow: 0 12px 28px rgba(220, 38, 38, 0.35);
+}
+
+.my-swal-cancel-btn {
+  border: 1.5px solid rgba(148, 163, 184, 0.4);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(241, 245, 249, 0.96);
+}
+
+.my-swal-theme-light .my-swal-cancel-btn {
+  border-color: rgba(100, 116, 139, 0.35);
+  background: rgba(226, 232, 240, 0.55);
+  color: #334155;
+}
+
+.my-swal-theme-light .my-swal-confirm-btn {
+  box-shadow: 0 10px 24px rgba(220, 38, 38, 0.24);
+}
+
+.my-swal-confirm-btn:hover,
+.my-swal-cancel-btn:hover {
+  filter: brightness(1.06);
+}
+
+.my-swal-confirm-btn:active,
+.my-swal-cancel-btn:active {
+  transform: scale(0.98);
+}
+
+.swal2-actions {
+  gap: 0.75rem;
+}
+
+/* =========================================================
+   Icon tweaks
+========================================================= */
+
+.my-swal-popup .swal2-icon.swal2-question {
+  border-color: #f59e0b;
+  color: #f59e0b;
+}
+
+.my-swal-theme-light .swal2-icon.swal2-question {
+  border-color: #d97706;
+  color: #d97706;
+}
+
+/* =========================================================
+   Confirm popup variant
+========================================================= */
+
+.my-swal-confirm-popup {
+  width: min(28rem, calc(100vw - 2.5rem));
+  border-radius: 1.5rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.28);
+}
+
+/* confirm popup + dark theme */
+.my-swal-popup.my-swal-confirm-popup.my-swal-theme-dark {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: linear-gradient(180deg, #0f172a 0%, #020617 100%);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.58);
+}
+
+/* confirm popup + light theme */
+.my-swal-popup.my-swal-confirm-popup.my-swal-theme-light {
+  border-color: rgba(15, 23, 42, 0.08);
+  background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+}
+
+.my-swal-confirm-title {
+  color: #25262b;
+  font-size: clamp(1.35rem, 2.9vw, 1.75rem);
+  line-height: 1.2;
+  font-weight: 800;
+}
+
+.my-swal-confirm-text {
+  margin-top: 0.15rem;
+  color: #6b5e5e;
+  font-size: clamp(1rem, 2.6vw, 1.1rem);
+  line-height: 1.45;
+  font-weight: 500;
+}
+
+.my-swal-popup.my-swal-confirm-popup.my-swal-theme-dark .my-swal-confirm-title {
+  color: #f1f5f9;
+}
+
+.my-swal-popup.my-swal-confirm-popup.my-swal-theme-dark .my-swal-confirm-text {
+  color: #cbd5e1;
+}
+
+.my-swal-confirm-main-btn,
+.my-swal-confirm-cancel-btn {
+  min-width: 8.7rem;
+  border-radius: 0.5rem;
+  padding: 0.62rem 1.05rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  transition:
+    filter 150ms ease,
+    transform 150ms ease;
+  cursor: pointer;
+}
+
+.my-swal-confirm-main-btn {
+  border: 0;
+  background: linear-gradient(90deg, #d90416 0%, #ff0017 100%);
+  color: #ffffff;
+}
+
+.my-swal-confirm-cancel-btn {
+  border: 0;
+  background: #d8d8d8;
+  color: #596067;
+}
+
+.my-swal-popup.my-swal-confirm-popup.my-swal-theme-dark
+  .my-swal-confirm-cancel-btn {
+  background: rgba(255, 255, 255, 0.12);
+  color: #e2e8f0;
+}
+
+.my-swal-confirm-main-btn:hover,
+.my-swal-confirm-cancel-btn:hover {
+  filter: brightness(0.97);
+}
+
+.my-swal-confirm-main-btn:active,
+.my-swal-confirm-cancel-btn:active {
+  transform: scale(0.98);
+}
+
+/* info icon inside confirm popup */
+.swal2-popup.my-swal-confirm-popup .swal2-icon.swal2-info {
+  border-color: #c7d7f6;
+  color: #1d5fbf;
+  width: 4.2rem;
+  height: 4.2rem;
+}
+
+/* =========================================================
+   Small screens
+========================================================= */
+@media (max-width: 640px) {
+  .my-swal-popup,
+  .my-swal-confirm-popup {
+    width: calc(100vw - 1.5rem);
+  }
+
+  .my-swal-confirm-btn,
+  .my-swal-cancel-btn,
+  .my-swal-confirm-main-btn,
+  .my-swal-confirm-cancel-btn {
+    min-width: 100%;
+  }
+
+  .swal2-actions {
+    width: 100%;
+    flex-direction: column-reverse;
+  }
+}

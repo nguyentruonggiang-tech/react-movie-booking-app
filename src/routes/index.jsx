@@ -75,11 +75,11 @@ const routes = [
             },
             {
                 path: "films/addnew",
-                element: lazy(() => import("../pages/AdminTemplate/AddFilm")),
+                element: lazy(() => import("../pages/AdminTemplate/Films/add")),
             },
             {
                 path: "films/edit/:idFilm",
-                element: lazy(() => import("../pages/AdminTemplate/EditFilm")),
+                element: lazy(() => import("../pages/AdminTemplate/Films/edit")),
             },
             {
                 path: "films/showtime/:idFilm",

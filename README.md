@@ -60,12 +60,15 @@ Configured in `src/routes/index.jsx`.
 |----|--------|
 | T00–T05 | Setup through booking and auth |
 | T06 | Route guards and auth hardening |
-| T07–T09 | Admin: films, showtimes, users |
+| T07 | Admin: films (list, add, edit, delete) — **complete** |
+| T08–T09 | Admin: showtimes, users |
 | T10 | Review and refactor |
 | T11 | Profile UI and API |
 | T12 | Deploy |
 
-**Current focus:** T06 (route guards) complete; next: T07 (admin features per roadmap).
+**Completed:** T07 — Admin Films (list/search, add/edit/delete, unified `films` slice).
+
+**Current focus:** T08–T09 — Admin showtimes and users.
 
 ## Repository layout
 
