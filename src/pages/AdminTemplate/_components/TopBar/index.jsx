@@ -109,7 +109,7 @@ export default function TopBar() {
                         <ul className="p-2 text-sm font-medium">
                             <li>
                                 <NavLink
-                                    to="/profile"
+                                    to="/admin/profile"
                                     role="menuitem"
                                     className={userDropdownLinkClass}
                                     onClick={closeMenu}

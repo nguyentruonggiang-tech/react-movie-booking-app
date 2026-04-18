@@ -1,4 +1,6 @@
+import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
+import AdminFallBack from "./_components/AdminFallBack";
 import TopBar from "./_components/TopBar";
 import Footer from "./_components/Footer";
 import Sidebar from "./_components/Sidebar";
@@ -12,7 +14,9 @@ export default function AdminTemplate() {
             <div className="flex min-w-0 flex-1 flex-col">
                 <TopBar />
                 <main className="flex-1 grow p-6 lg:p-8">
-                    <Outlet />
+                    <Suspense fallback={<AdminFallBack />}>
+                        <Outlet />
+                    </Suspense>
                 </main>
                 <Footer />
             </div>
