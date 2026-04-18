@@ -34,9 +34,6 @@ const userDropdownLinkClass =
 const userDropdownSignOutClass =
     "inline-flex w-full cursor-pointer items-center rounded-md p-2 text-left text-red-300 transition-colors hover:bg-red-600/15 hover:text-red-200";
 
-/**
- * Admin top bar: avatar + account menu (profile, sign out).
- */
 export default function TopBar() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
