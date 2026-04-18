@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Edit } from "flowbite-react-icons/outline";
-import { USER_ROLE_ADMIN } from "@constants";
+import { USER_ROLE_ADMIN, USER_ROLE_CUSTOMER } from "@constants";
 import UserSkeleton from "./UserSkeleton";
 
 function formatPhoneDisplay(raw) {
@@ -24,20 +24,55 @@ function formatPhoneDisplay(raw) {
 }
 
 function roleBadgeClass(maLoaiNguoiDung) {
-    if (maLoaiNguoiDung === USER_ROLE_ADMIN) {
+    const code =
+        maLoaiNguoiDung == null ? "" : String(maLoaiNguoiDung).trim();
+    if (code === USER_ROLE_ADMIN) {
         return "bg-rose-600/90 text-white";
+    }
+    if (code === USER_ROLE_CUSTOMER) {
+        return "bg-sky-600/90 text-white";
     }
     return "bg-zinc-700 text-zinc-200";
 }
 
-function roleLabel(maLoaiNguoiDung) {
-    if (maLoaiNguoiDung === USER_ROLE_ADMIN) {
-        return "ADMIN";
+/**
+ * Prefer role name fields returned on each list row; otherwise map by `maLoaiNguoiDung`
+ * using `LayDanhSachLoaiNguoiDung` options (same shape as UserForm).
+ */
+function resolveRoleDisplayText(user, roleTypeRows) {
+    const fromListRow =
+        user?.tenLoaiNguoiDung ?? user?.tenLoai ?? user?.ten;
+    if (fromListRow != null && String(fromListRow).trim() !== "") {
+        return String(fromListRow).trim();
     }
-    return "USER";
+    const code = String(user?.maLoaiNguoiDung ?? user?.maLoai ?? "").trim();
+    if (!code) {
+        return "—";
+    }
+    const rows = Array.isArray(roleTypeRows) ? roleTypeRows : [];
+    const matched = rows.find(
+        (row) =>
+            String(row?.maLoaiNguoiDung ?? row?.maLoai ?? "").trim() === code,
+    );
+    if (matched) {
+        const name =
+            matched.tenLoai ??
+            matched.tenLoaiNguoiDung ??
+            matched.ten ??
+            "";
+        if (String(name).trim() !== "") {
+            return String(name).trim();
+        }
+    }
+    return code;
 }
 
-export default function UserTable({ data, loading, serialStart = 1 }) {
+export default function UserTable({
+    data,
+    loading,
+    serialStart = 1,
+    roleTypeOptions = [],
+}) {
     const items = Array.isArray(data) ? data : [];
 
     if (loading) {
@@ -68,7 +103,7 @@ export default function UserTable({ data, loading, serialStart = 1 }) {
                         <th className="align-middle px-5 py-4 text-xs font-semibold uppercase tracking-wide text-zinc-400">
                             Phone
                         </th>
-                        <th className="align-middle px-5 py-4 text-xs font-semibold uppercase tracking-wide text-zinc-400">
+                        <th className="align-middle px-5 py-4 text-center text-xs font-semibold uppercase tracking-wide text-zinc-400">
                             Role
                         </th>
                         <th className="align-middle px-5 py-4 text-right text-xs font-semibold uppercase tracking-wide text-zinc-400">
@@ -81,6 +116,10 @@ export default function UserTable({ data, loading, serialStart = 1 }) {
                         const taiKhoan = user?.taiKhoan ?? "";
                         const editPath = `/admin/users/edit/${encodeURIComponent(String(taiKhoan))}`;
                         const serialNumber = serialStart + index;
+                        const roleDisplayText = resolveRoleDisplayText(
+                            user,
+                            roleTypeOptions,
+                        );
 
                         return (
                             <tr key={`user-${taiKhoan || user?.email}`} className="align-middle">
@@ -109,11 +148,12 @@ export default function UserTable({ data, loading, serialStart = 1 }) {
                                 <td className="whitespace-nowrap px-5 py-3 align-middle tabular-nums text-zinc-300">
                                     {formatPhoneDisplay(user?.soDt)}
                                 </td>
-                                <td className="align-middle px-5 py-3">
+                                <td className="align-middle px-5 py-3 text-center">
                                     <span
-                                        className={`inline-flex rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${roleBadgeClass(user?.maLoaiNguoiDung)}`}
+                                        className={`inline-flex max-w-full flex-wrap items-center justify-center whitespace-normal break-words rounded-lg px-2.5 py-1 text-center text-xs font-semibold leading-snug ${roleBadgeClass(user?.maLoaiNguoiDung ?? user?.maLoai)}`}
+                                        title={roleDisplayText}
                                     >
-                                        {roleLabel(user?.maLoaiNguoiDung)}
+                                        {roleDisplayText}
                                     </span>
                                 </td>
                                 <td className="align-middle px-5 py-3">

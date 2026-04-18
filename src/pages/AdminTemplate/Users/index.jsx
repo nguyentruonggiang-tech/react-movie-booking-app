@@ -9,7 +9,7 @@ import UserSearch from "./_components/UserSearch";
 import UserTable from "./_components/UserTable";
 import { ADMIN_PAGE_SIZE, SEARCH_DEBOUNCE_MS } from "@constants";
 import useDebouncedValue from "@/hooks/useDebouncedValue";
-import { fetchUserList, usersSelectors } from "./slice";
+import { fetchUserList, fetchUserRoleTypes, usersSelectors } from "./slice";
 
 function UsersListBody({ debouncedTuKhoa, onClearSearch }) {
     const dispatch = useDispatch();
@@ -17,7 +17,12 @@ function UsersListBody({ debouncedTuKhoa, onClearSearch }) {
     const loading = useSelector(usersSelectors.loading);
     const error = useSelector(usersSelectors.error);
     const pagination = useSelector(usersSelectors.pagination);
+    const roleTypeOptions = useSelector(usersSelectors.roleTypes);
     const [page, setPage] = useState(1);
+
+    useEffect(() => {
+        dispatch(fetchUserRoleTypes());
+    }, [dispatch]);
 
     const fetchListArgs = useMemo(
         () => ({
@@ -61,7 +66,11 @@ function UsersListBody({ debouncedTuKhoa, onClearSearch }) {
 
             {!error && loading ? (
                 <div className="overflow-hidden rounded-xl border border-zinc-800">
-                    <UserTable data={[]} loading />
+                    <UserTable
+                        data={[]}
+                        loading
+                        roleTypeOptions={roleTypeOptions}
+                    />
                 </div>
             ) : null}
 
@@ -92,6 +101,7 @@ function UsersListBody({ debouncedTuKhoa, onClearSearch }) {
                         data={items}
                         loading={false}
                         serialStart={rangeStart}
+                        roleTypeOptions={roleTypeOptions}
                     />
                     <Pagination
                         rangeStart={rangeStart}
