@@ -1,59 +1,40 @@
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
-import "./swal.css";
+import "@/shared/styles/swal.css";
 
-const SWAL_BASE_OPTIONS = {
+const BASE_OPTIONS = {
     heightAuto: false,
     buttonsStyling: false,
 };
 
-function resolveSwalTheme(themeMode = "auto") {
+function resolveTheme(themeMode = "auto") {
     if (themeMode === "dark" || themeMode === "light") {
         return themeMode;
     }
 
     if (typeof document !== "undefined") {
         const rootClassList = document.documentElement.classList;
-        if (rootClassList.contains("dark")) {
-            return "dark";
-        }
-        if (rootClassList.contains("light")) {
-            return "light";
-        }
-        return "light";
+
+        if (rootClassList.contains("dark")) return "dark";
+        if (rootClassList.contains("light")) return "light";
     }
 
     return "light";
 }
 
-function buildThemeOptions(resolvedTheme) {
-    const isDarkTheme = resolvedTheme === "dark";
-
-    return {
-        color: isDarkTheme ? "#e5e7eb" : "#111827",
-        customClass: {
-            popup: `swal-popup ${isDarkTheme ? "swal-theme-dark" : "swal-theme-light"}`,
-            title: "swal-title",
-            htmlContainer: "swal-content",
-            confirmButton: "swal-confirm-btn",
-            cancelButton: "swal-cancel-btn",
-        },
-    };
-}
-
-function mergeCustomClass(themeClass = {}, customClass = {}) {
-    const merged = { ...themeClass };
+function mergeCustomClass(baseClass = {}, customClass = {}) {
+    const merged = { ...baseClass };
     const keys = new Set([
-        ...Object.keys(themeClass || {}),
+        ...Object.keys(baseClass || {}),
         ...Object.keys(customClass || {}),
     ]);
 
     keys.forEach((key) => {
-        const themeValue = themeClass?.[key];
+        const baseValue = baseClass?.[key];
         const customValue = customClass?.[key];
 
-        if (typeof themeValue === "string" && typeof customValue === "string") {
-            merged[key] = `${themeValue} ${customValue}`.trim();
+        if (typeof baseValue === "string" && typeof customValue === "string") {
+            merged[key] = `${baseValue} ${customValue}`.trim();
             return;
         }
 
@@ -62,26 +43,42 @@ function mergeCustomClass(themeClass = {}, customClass = {}) {
             return;
         }
 
-        merged[key] = themeValue;
+        merged[key] = baseValue;
     });
 
     return merged;
 }
 
-function buildSwalOptions(customOptions = {}) {
-    const { themeMode = "auto", customClass, ...restOptions } = customOptions;
-    const resolvedTheme = resolveSwalTheme(themeMode);
-    const themeOptions = buildThemeOptions(resolvedTheme);
+function buildThemeOptions(themeMode = "auto") {
+    const resolvedTheme = resolveTheme(themeMode);
+    const isDarkTheme = resolvedTheme === "dark";
 
     return {
-        ...SWAL_BASE_OPTIONS,
+        color: isDarkTheme ? "#e5e7eb" : "#111827",
+        customClass: {
+            popup: `my-swal-popup ${isDarkTheme ? "my-swal-theme-dark" : "my-swal-theme-light"
+                }`,
+            title: "my-swal-title",
+            htmlContainer: "my-swal-content",
+            confirmButton: "my-swal-confirm-btn",
+            cancelButton: "my-swal-cancel-btn",
+        },
+    };
+}
+
+function buildOptions(options = {}) {
+    const { themeMode = "auto", customClass, ...restOptions } = options;
+    const themeOptions = buildThemeOptions(themeMode);
+
+    return {
+        ...BASE_OPTIONS,
         ...themeOptions,
         ...restOptions,
         customClass: mergeCustomClass(themeOptions.customClass, customClass),
     };
 }
 
-export async function showSwalConfirm({
+export async function confirm({
     title = "Confirm?",
     text = "Are you sure you want to perform this action?",
     html,
@@ -89,15 +86,11 @@ export async function showSwalConfirm({
     themeMode = "auto",
     confirmButtonText = "Confirm",
     cancelButtonText = "Cancel",
-}) {
-    // SweetAlert2: use either `html` or `text`, not both for the main body.
-    const body =
-        html !== undefined
-            ? { html }
-            : { text };
+} = {}) {
+    const body = html !== undefined ? { html } : { text };
 
     const result = await Swal.fire(
-        buildSwalOptions({
+        buildOptions({
             title,
             ...body,
             icon,
@@ -106,51 +99,120 @@ export async function showSwalConfirm({
             confirmButtonText,
             cancelButtonText,
             reverseButtons: true,
+            focusCancel: true,
             customClass: {
-                popup: "swal-confirm-popup",
-                title: "swal-confirm-title",
-                htmlContainer: "swal-confirm-text",
-                confirmButton: "swal-confirm-main-btn",
-                cancelButton: "swal-confirm-cancel-btn",
+                popup: "my-swal-confirm-popup",
+                title: "my-swal-confirm-title",
+                htmlContainer: "my-swal-confirm-text",
+                confirmButton: "my-swal-confirm-main-btn",
+                cancelButton: "my-swal-confirm-cancel-btn",
             },
-        }),
+        })
     );
 
     return result.isConfirmed === true;
 }
 
-export async function showSwalSuccess({
+export async function alertSuccess({
     title = "Success",
-    text,
+    text = "",
+    html,
     confirmButtonText = "OK",
     timer,
-}) {
+    themeMode = "auto",
+} = {}) {
+    const body = html !== undefined ? { html } : { text };
+
     const result = await Swal.fire(
-        buildSwalOptions({
+        buildOptions({
             title,
-            text,
+            ...body,
             icon: "success",
             confirmButtonText,
+            themeMode,
             ...(timer ? { timer } : {}),
-        }),
+        })
     );
 
     return result.isConfirmed === true;
 }
 
-export async function showSwalError({
+export async function alertError({
     title = "Something went wrong",
-    text,
+    text = "",
+    html,
     confirmButtonText = "OK",
-}) {
+    themeMode = "auto",
+} = {}) {
+    const body = html !== undefined ? { html } : { text };
+
     const result = await Swal.fire(
-        buildSwalOptions({
+        buildOptions({
             title,
-            text,
+            ...body,
             icon: "error",
             confirmButtonText,
-        }),
+            themeMode,
+        })
     );
 
     return result.isConfirmed === true;
+}
+
+export async function alertInfo({
+    title = "Information",
+    text = "",
+    html,
+    confirmButtonText = "OK",
+    themeMode = "auto",
+} = {}) {
+    const body = html !== undefined ? { html } : { text };
+
+    const result = await Swal.fire(
+        buildOptions({
+            title,
+            ...body,
+            icon: "info",
+            confirmButtonText,
+            themeMode,
+        })
+    );
+
+    return result.isConfirmed === true;
+}
+
+export function openLoading({
+    title = "Processing...",
+    text = "Please wait a moment.",
+    themeMode = "auto",
+    allowOutsideClick = false,
+    allowEscapeKey = false,
+} = {}) {
+    Swal.fire(
+        buildOptions({
+            title,
+            text,
+            themeMode,
+            allowOutsideClick,
+            allowEscapeKey,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading();
+            },
+        })
+    );
+}
+
+export function closeDialog() {
+    Swal.close();
+}
+
+export function confirmDelete(name = "item", options = {}) {
+    return confirm({
+        title: `Delete ${name}?`,
+        text: "This action cannot be undone.",
+        confirmButtonText: "Delete",
+        cancelButtonText: "Cancel",
+        ...options,
+    });
 }

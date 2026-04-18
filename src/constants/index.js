@@ -19,4 +19,4 @@ export const STORAGE_KEY_SELECTED_SEATS = "SELECTED_SEATS";
 
 /** Admin page size */
 export const ADMIN_PAGE_SIZE = 10;
-export const SEARCH_DEBOUNCE_MS = 350;
+export const SEARCH_DEBOUNCE_MS = 500;

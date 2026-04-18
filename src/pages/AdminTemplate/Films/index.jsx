@@ -1,64 +1,41 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { CalendarMonth, CalendarPlus, Edit, Search, TrashBin } from "flowbite-react-icons/outline";
-import {
-    showSwalConfirm,
-    showSwalError,
-    showSwalSuccess,
-} from "@shared/libs/swal";
+import { confirmDelete } from "@shared/libs/swal";
+import { notifyError, notifySuccess } from "@shared/libs/toast";
 import ErrorBox from "../_components/ErrorBox";
 import NotFound from "../_components/NotFound";
 import Pagination from "../_components/Pagination";
-import TableSkeleton from "./TableSkeleton";
+import FilmSearch from "./_components/FilmSearch";
+import FilmTable from "./_components/FilmTable";
 import { ADMIN_PAGE_SIZE, SEARCH_DEBOUNCE_MS } from "@constants";
+import useDebouncedValue  from "@/hooks/useDebouncedValue";
 import { deleteFilm, fetchFilmList } from "./slice";
-
-/** Renders calendar date as `dd/mm/yyyy` (local timezone). */
-function formatReleaseDate(iso) {
-    if (!iso) return "—";
-    const d = new Date(iso);
-    if (Number.isNaN(d.getTime())) return "—";
-    const day = String(d.getDate()).padStart(2, "0");
-    const month = String(d.getMonth() + 1).padStart(2, "0");
-    const year = d.getFullYear();
-    return `${day}/${month}/${year}`;
-}
-
-function formatRating(value) {
-    if (value == null || value === "") return "—";
-    const n = Number(value);
-    if (Number.isNaN(n)) return "—";
-    return `${n}/10`;
-}
-
-const FILM_LISTING_FLAGS = [
-    { field: "hot", label: "Hot" },
-    { field: "dangChieu", label: "Now showing" },
-    { field: "sapChieu", label: "Coming soon" },
-];
 
 export default function Films() {
     const dispatch = useDispatch();
     const { data, loading, error } = useSelector((state) => state.fetchFilmsReducer);
     const [page, setPage] = useState(1);
     const [searchInput, setSearchInput] = useState("");
-    const [debouncedTenPhim, setDebouncedTenPhim] = useState("");
     const [deletingMaPhim, setDeletingMaPhim] = useState(null);
 
+    const debouncedSearchRaw = useDebouncedValue(searchInput, SEARCH_DEBOUNCE_MS);
+    const debouncedTenPhim = useMemo(
+        () => debouncedSearchRaw.trim(),
+        [debouncedSearchRaw],
+    );
+
+    const previousDebouncedTenPhimRef = useRef(undefined);
     useEffect(() => {
-        const debounceTimeoutId = window.setTimeout(() => {
-            const currentTenPhim = searchInput.trim();
-            setDebouncedTenPhim((previousTenPhim) => {
-                if (previousTenPhim === currentTenPhim) {
-                    return previousTenPhim;
-                }
-                setPage(1);
-                return currentTenPhim;
-            });
-        }, SEARCH_DEBOUNCE_MS);
-        return () => window.clearTimeout(debounceTimeoutId);
-    }, [searchInput]);
+        if (previousDebouncedTenPhimRef.current === undefined) {
+            previousDebouncedTenPhimRef.current = debouncedTenPhim;
+            return;
+        }
+        if (previousDebouncedTenPhimRef.current !== debouncedTenPhim) {
+            previousDebouncedTenPhimRef.current = debouncedTenPhim;
+            setPage(1);
+        }
+    }, [debouncedTenPhim]);
 
     const fetchListArgs = useMemo(
         () => ({
@@ -84,7 +61,7 @@ export default function Films() {
                 return;
             }
             const title = film?.tenPhim?.trim() || "this film";
-            const isConfirmed = await showSwalConfirm({
+            const isConfirmed = await confirmDelete(title, {
                 title: "Delete film?",
                 html: `Are you sure you want to delete <strong>"${title}"</strong>? This cannot be undone.`,
                 confirmButtonText: "Delete",
@@ -96,17 +73,14 @@ export default function Films() {
             setDeletingMaPhim(maPhim);
             try {
                 await dispatch(deleteFilm(maPhim)).unwrap();
-                toast.success("Film deleted successfully.");
+                notifySuccess("Film deleted successfully.");
                 dispatch(fetchFilmList(fetchListArgs));
             } catch (rejected) {
                 const message =
                     typeof rejected === "string" && rejected.trim() !== ""
                         ? rejected
                         : "Could not delete this film. Please try again.";
-                await showSwalError({
-                    title: "Delete failed",
-                    html: message,
-                });
+                notifyError(message);
             } finally {
                 setDeletingMaPhim(null);
             }
@@ -122,7 +96,11 @@ export default function Films() {
     const rangeStart =
         totalCount === 0 ? 0 : (currentPage - 1) * ADMIN_PAGE_SIZE + 1;
     const rangeEnd = Math.min(currentPage * ADMIN_PAGE_SIZE, totalCount);
-    
+
+    const handleSearchClear = useCallback(() => {
+        setSearchInput("");
+    }, []);
+
     return (
         <div>
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
@@ -139,20 +117,11 @@ export default function Films() {
                     >
                         Add Film
                     </Link>
-                    <label className="relative block min-w-[200px] flex-1">
-                        <span className="sr-only">Search films</span>
-                        <Search
-                            className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500"
-                            aria-hidden
-                        />
-                        <input
-                            type="search"
-                            placeholder="Search films…"
-                            value={searchInput}
-                            onChange={(e) => setSearchInput(e.target.value)}
-                            className="w-full rounded-lg border border-zinc-700 bg-zinc-950/50 py-2 pl-10 pr-3 text-sm text-zinc-100 placeholder:text-zinc-500 focus:border-rose-500 focus:outline-none focus:ring-1 focus:ring-rose-500"
-                        />
-                    </label>
+                    <FilmSearch
+                        value={searchInput}
+                        onChange={(e) => setSearchInput(e.target.value)}
+                        onClear={handleSearchClear}
+                    />
                 </div>
             </div>
 
@@ -167,15 +136,7 @@ export default function Films() {
 
                 {!error && loading ? (
                     <div className="overflow-hidden rounded-xl border border-zinc-800">
-                        <div
-                            className="border-b border-zinc-800/80 bg-zinc-800 px-5 py-4"
-                            aria-hidden
-                        >
-                            <div className="h-3 w-48 max-w-full rounded bg-zinc-700/40" />
-                        </div>
-                        <div className="bg-zinc-900 px-5 py-3">
-                            <TableSkeleton />
-                        </div>
+                        <FilmTable data={[]} loading deletingMaPhim={null} />
                     </div>
                 ) : null}
 
@@ -187,128 +148,23 @@ export default function Films() {
                                 ? "No films match your search."
                                 : "No films on this page."
                         }
+                        {...(debouncedTenPhim !== ""
+                            ? {
+                                  actionLabel: "Clear search",
+                                  onActionClick: handleSearchClear,
+                              }
+                            : {})}
                     />
                 ) : null}
 
                 {!error && !loading && items.length > 0 ? (
                     <div className="overflow-hidden rounded-xl border border-zinc-800">
-                        <div className="overflow-x-auto">
-                            <table className="w-full min-w-[680px] text-left text-sm">
-                                <thead className="bg-zinc-800">
-                                    <tr className="border-b border-zinc-800/90">
-                                        <th className="px-5 py-4 text-xs font-semibold uppercase tracking-wide text-zinc-400">
-                                            Film
-                                        </th>
-                                        <th className="px-5 py-4 text-xs font-semibold uppercase tracking-wide text-zinc-400">
-                                            Release date
-                                        </th>
-                                        <th className="w-14 max-w-14 shrink-0 px-5 py-4 text-center text-xs font-semibold uppercase tracking-wide text-zinc-400">
-                                            Rating
-                                        </th>
-                                        <th className="px-5 py-4 text-right text-xs font-semibold uppercase tracking-wide text-zinc-400">
-                                            Actions
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-zinc-800/70 bg-zinc-900">
-                                {items.map((film) => (
-                                    <tr key={film.maPhim} className="align-middle">
-                                        <td className="px-5 py-3 align-top">
-                                            <div className="flex items-stretch gap-2">
-                                                <Link to={`/admin/films/edit/${film.maPhim}`}>
-                                                    <img
-                                                        src={film.hinhAnh}
-                                                        alt=""
-                                                        className="h-12 w-9 shrink-0 self-start rounded object-cover"
-                                                        onError={(e) => {
-                                                            e.currentTarget.src =
-                                                                "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='48'%3E%3Crect fill='%233f3f46' width='36' height='48'/%3E%3C/svg%3E";
-                                                        }}
-                                                    />
-                                                </Link>
-                                          
-                                                <div className="flex min-h-12 min-w-0 max-w-[13rem] flex-1 flex-col justify-between gap-1 sm:max-w-[15rem]">
-                                                    <Link
-                                                        to={`/admin/films/edit/${film.maPhim}`}
-                                                        className="line-clamp-2 text-sm font-medium leading-tight text-white hover:text-rose-400"
-                                                        title={film.tenPhim}
-                                                    >
-                                                        {film.tenPhim}
-                                                    </Link>
-                                               
-                                                    <div className="flex flex-wrap gap-1">
-                                                        {FILM_LISTING_FLAGS.map(({ field, label }) => {
-                                                            const on = Boolean(film[field]);
-                                                            return (
-                                                                <span
-                                                                    key={field}
-                                                                    className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${
-                                                                        on
-                                                                            ? "bg-rose-600/25 text-rose-200"
-                                                                            : "bg-zinc-800/90 text-zinc-500 opacity-80"
-                                                                    }`}
-                                                                >
-                                                                    {label}
-                                                                </span>
-                                                            );
-                                                        })}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="px-5 py-3 text-zinc-300">
-                                            <span className="inline-flex items-center gap-1.5">
-                                                <CalendarMonth
-                                                    className="h-4 w-4 shrink-0 text-rose-500"
-                                                    aria-hidden
-                                                />
-                                                {formatReleaseDate(film.ngayKhoiChieu)}
-                                            </span>
-                                        </td>
-                                        <td className="w-14 max-w-14 shrink-0 whitespace-nowrap px-5 py-3 text-center tabular-nums text-zinc-200">
-                                            {formatRating(film.danhGia)}
-                                        </td>
-                                        <td className="px-5 py-3">
-                                            <div className="flex flex-wrap items-center justify-end gap-2">
-                                                <Link
-                                                    to={`/admin/films/edit/${film.maPhim}`}
-                                                    className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-zinc-300 transition hover:bg-zinc-800/70 hover:text-rose-400"
-                                                    title="Edit"
-                                                >
-                                                    <Edit className="h-4 w-4 shrink-0" aria-hidden />
-                                                </Link>
-                                                <button
-                                                    type="button"
-                                                    title="Delete"
-                                                    disabled={
-                                                        loading ||
-                                                        deletingMaPhim === film.maPhim
-                                                    }
-                                                    className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-zinc-300 transition hover:bg-zinc-800/70 hover:text-red-400 disabled:cursor-not-allowed disabled:opacity-40"
-                                                    onClick={() =>
-                                                        handleDeleteFilm(film)
-                                                    }
-                                                >
-                                                    <TrashBin className="h-4 w-4" aria-hidden />
-                                                </button>
-                                                <Link
-                                                    to={`/admin/films/showtime/${film.maPhim}`}
-                                                    className="inline-flex items-center gap-1.5 rounded-lg border border-rose-600 bg-rose-600/10 px-3 py-1.5 text-xs font-semibold text-rose-300 transition hover:bg-rose-600/20"
-                                                >
-                                                    <CalendarPlus
-                                                        className="h-3.5 w-3.5 shrink-0"
-                                                        aria-hidden
-                                                    />
-                                                    Create showtime
-                                                </Link>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
-                                </tbody>
-                            </table>
-                        </div>
-
+                        <FilmTable
+                            data={items}
+                            loading={false}
+                            deletingMaPhim={deletingMaPhim}
+                            onDelete={handleDeleteFilm}
+                        />
                         <Pagination
                             rangeStart={rangeStart}
                             rangeEnd={rangeEnd}
