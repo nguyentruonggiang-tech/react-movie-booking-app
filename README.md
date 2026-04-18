@@ -52,7 +52,9 @@ Configured in `src/routes/index.jsx`.
 | `/profile` | Profile |
 | `/news`, `/about-us`, … | Static / content pages |
 | `/admin`, `/admin/...` | Admin area |
-| `/admin/users`, `/admin/users/add`, `/admin/users/edit/:taiKhoan` | Admin user management |
+| `/admin/users` | Admin user list (search + pagination) |
+| `/admin/users/add` | Add user (`Users/add.jsx`, same pattern as `Films/add.jsx`) |
+| `/admin/users/edit/:taiKhoan` | Edit user (placeholder UI; wiring TBD) |
 | `*` | Not found |
 
 ## Roadmap (T00–T12)
@@ -67,14 +69,23 @@ Configured in `src/routes/index.jsx`.
 | T11 | Profile UI and API |
 | T12 | Deploy |
 
-**Completed:** T07 — Admin Films (list/search, add/edit/delete, unified `films` slice). **T09 Step 1** — Admin users (list/search, paginated list API + Redux `users` slice, lazy routes for list/add/edit-by-`taiKhoan`, sidebar **Users** submenu like Films with a different icon, table + **Add user** CTA, loading/error/empty).
+**Completed (T09 partial):** Admin users — list/search with pagination (`Users/index.jsx` + `users` Redux slice), **Add user** flow with `UserForm` and `ThemNguoiDung` (`Users/add.jsx`, parallel to `Films/add.jsx`), lazy routes, sidebar **Users** submenu (same idea as Films), table + CTA, loading/error/empty states.
 
-**Current focus:** T08 admin showtimes; T09 — add user, edit user, optional delete/disable if supported by the API.
+**Current focus:** T08 admin showtimes; T09 — **edit user** (`EditUser` still stub), optional delete/disable if the API supports it.
 
 ## Repository layout
 
 ```text
 src/
-  App.jsx, main.jsx, routes/, pages/, components/, store/, services/, utils/
+  App.jsx, main.jsx
+  routes/index.jsx          — route table + lazy imports
+  pages/
+    HomeTemplate/ …
+    AdminTemplate/
+      Films/                — index.jsx (list), add.jsx, edit.jsx, slice.js, _components/
+      Users/                — index.jsx (list), add.jsx, slice.js, _components/ (UserForm, …)
+      EditUser/index.jsx    — placeholder for /admin/users/edit/:taiKhoan
+      ShowTime/, Dashboard/, _components/ (Sidebar, …)
+  components/, store/, services/, shared/, utils/
 public/
 ```
