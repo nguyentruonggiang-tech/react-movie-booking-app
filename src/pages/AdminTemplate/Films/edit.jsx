@@ -3,63 +3,51 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ChevronLeft } from "flowbite-react-icons/outline";
 import { closeDialog, openLoading } from "@shared/lib/swal";
-import { notifySuccess } from "@/shared/lib/toast";
+import { notifyError, notifySuccess } from "@/shared/lib/toast";
 import ErrorBox from "../_components/ErrorBox";
 import FilmForm from "./_components/FilmForm";
 import {
-    fetchFilm,
-    resetEditFilmDetailState,
-} from "./detailSlice";
-import { resetEditFilm, updateFilm } from "./editSlice";
+    fetchDetail,
+    filmsSelectors,
+    resetDetail,
+    resetUpdate,
+    updateFilm,
+} from "./slice";
+import { formatDateInput } from "@utils/dateUtils";
+import { clampNumber } from "@utils/numberUtils";
 
-function ngayKhoiChieuFromApiToPickerString(raw) {
-    if (raw == null || raw === "") return "";
-    const date = new Date(raw);
-    if (Number.isNaN(date.getTime())) return "";
-    return date.toISOString().slice(0, 10);
-}
-
-function clampDanhGia(value) {
-    const parsed = Number(value);
-    if (Number.isNaN(parsed)) return 1;
-    if (parsed < 1) return 1;
-    if (parsed > 10) return 10;
-    return parsed;
-}
-
-function phimToAdminFilmFormDraft(phim) {
+function filmToForm(phim) {
     return {
         tenPhim: phim.tenPhim ?? "",
         trailer: phim.trailer ?? "",
         moTa: phim.moTa ?? "",
-        ngayKhoiChieu: ngayKhoiChieuFromApiToPickerString(phim.ngayKhoiChieu),
-        sapChieu: Boolean(phim.sapChieu),
-        dangChieu: Boolean(phim.dangChieu),
-        hot: Boolean(phim.hot),
-        danhGia: clampDanhGia(phim.danhGia ?? 5),
+        ngayKhoiChieu: formatDateInput(phim.ngayKhoiChieu),
+        sapChieu: !!phim.sapChieu,
+        dangChieu: !!phim.dangChieu,
+        hot: !!phim.hot,
+        danhGia: clampNumber(phim.danhGia ?? 5, 1, 10),
     };
 }
 
-export default function EditFilmPage() {
+export default function EditFilm() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { idFilm } = useParams();
 
-    const { data, error } = useSelector((state) => state.editFilmDetailReducer);
-    const { loading: updateLoading, error: updateError } = useSelector(
-        (state) => state.editFilmReducer,
-    );
+    const { data, error } = useSelector(filmsSelectors.detail);
+    const { loading: updateLoading, error: updateError } =
+        useSelector(filmsSelectors.update);
 
     useEffect(() => {
         return () => {
-            dispatch(resetEditFilmDetailState());
-            dispatch(resetEditFilm());
+            dispatch(resetDetail());
+            dispatch(resetUpdate());
         };
     }, [dispatch]);
 
     useEffect(() => {
         if (!idFilm) return;
-        dispatch(fetchFilm(idFilm));
+        dispatch(fetchDetail(idFilm));
     }, [idFilm, dispatch]);
 
     useEffect(() => {
@@ -77,7 +65,7 @@ export default function EditFilmPage() {
 
     const handleRetryLoad = () => {
         if (!idFilm) return;
-        dispatch(fetchFilm(idFilm));
+        dispatch(fetchDetail(idFilm));
     };
 
     if (!idFilm) {
@@ -158,19 +146,21 @@ export default function EditFilmPage() {
                 key={data.maPhim}
                 mode="edit"
                 film={data}
-                initialValues={phimToAdminFilmFormDraft(data)}
-                loading={updateLoading}
+                initialValues={filmToForm(data)}
+                loading={updateLoading === true}
                 error={updateError}
                 submitText="Update"
                 onSubmit={async (requestFormData) => {
                     try {
                         await dispatch(updateFilm(requestFormData)).unwrap();
                         notifySuccess("Film updated successfully.");
-                        dispatch(resetEditFilmDetailState());
-                        dispatch(resetEditFilm());
                         navigate("/admin/films");
-                    } catch {
-                        void 0;
+                    } catch (rejected) {
+                        const message =
+                            typeof rejected === "string" && rejected.trim() !== ""
+                                ? rejected
+                                : "Could not update this film. Please try again.";
+                        notifyError(message);
                     }
                 }}
             />

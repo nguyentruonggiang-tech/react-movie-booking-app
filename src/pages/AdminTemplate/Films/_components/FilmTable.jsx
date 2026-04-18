@@ -1,23 +1,8 @@
 import { Link } from "react-router-dom";
 import { CalendarMonth, CalendarPlus, Edit, TrashBin } from "flowbite-react-icons/outline";
 import FilmSkeleton from "./FilmSkeleton";
-
-function formatReleaseDate(iso) {
-    if (!iso) return "—";
-    const d = new Date(iso);
-    if (Number.isNaN(d.getTime())) return "—";
-    const day = String(d.getDate()).padStart(2, "0");
-    const month = String(d.getMonth() + 1).padStart(2, "0");
-    const year = d.getFullYear();
-    return `${day}/${month}/${year}`;
-}
-
-function formatRating(value) {
-    if (value == null || value === "") return "—";
-    const n = Number(value);
-    if (Number.isNaN(n)) return "—";
-    return `${n}/10`;
-}
+import { formatDateDisplay } from "@utils/dateUtils";    
+import RatingBadge from "@/pages/AdminTemplate/_components/RatingBade";
 
 const FILM_LISTING_FLAGS = [
     { field: "hot", label: "Hot" },
@@ -130,11 +115,11 @@ export default function FilmTable({ data, loading, onDelete, deletingMaPhim }) {
                                         className="h-4 w-4 shrink-0 text-rose-500"
                                         aria-hidden
                                     />
-                                    {formatReleaseDate(film.ngayKhoiChieu)}
+                                    {formatDateDisplay(film.ngayKhoiChieu)}
                                 </span>
                             </td>
                             <td className="w-14 max-w-14 shrink-0 whitespace-nowrap px-5 py-3 text-center tabular-nums text-zinc-200">
-                                {formatRating(film.danhGia)}
+                                <RatingBadge value={film.danhGia} />
                             </td>
                             <td className="px-5 py-3">
                                 <div className="flex flex-wrap items-center justify-end gap-2">

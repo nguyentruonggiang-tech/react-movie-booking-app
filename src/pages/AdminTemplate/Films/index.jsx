@@ -9,12 +9,15 @@ import Pagination from "../_components/Pagination";
 import FilmSearch from "./_components/FilmSearch";
 import FilmTable from "./_components/FilmTable";
 import { ADMIN_PAGE_SIZE, SEARCH_DEBOUNCE_MS } from "@constants";
-import useDebouncedValue  from "@/hooks/useDebouncedValue";
-import { deleteFilm, fetchFilmList } from "./slice";
+import useDebouncedValue from "@/hooks/useDebouncedValue";
+import { deleteFilm, fetchList, filmsSelectors } from "./slice";
 
 export default function Films() {
     const dispatch = useDispatch();
-    const { data, loading, error } = useSelector((state) => state.fetchFilmsReducer);
+    const items = useSelector(filmsSelectors.list);
+    const loading = useSelector(filmsSelectors.loading);
+    const error = useSelector(filmsSelectors.error);
+    const pagination = useSelector(filmsSelectors.pagination);
     const [page, setPage] = useState(1);
     const [searchInput, setSearchInput] = useState("");
     const [deletingMaPhim, setDeletingMaPhim] = useState(null);
@@ -47,11 +50,11 @@ export default function Films() {
     );
 
     useEffect(() => {
-        dispatch(fetchFilmList(fetchListArgs));
+        dispatch(fetchList(fetchListArgs));
     }, [dispatch, fetchListArgs]);
 
     const loadFilmListPage = useCallback(() => {
-        dispatch(fetchFilmList(fetchListArgs));
+        dispatch(fetchList(fetchListArgs));
     }, [dispatch, fetchListArgs]);
 
     const handleDeleteFilm = useCallback(
@@ -74,7 +77,7 @@ export default function Films() {
             try {
                 await dispatch(deleteFilm(maPhim)).unwrap();
                 notifySuccess("Film deleted successfully.");
-                dispatch(fetchFilmList(fetchListArgs));
+                dispatch(fetchList(fetchListArgs));
             } catch (rejected) {
                 const message =
                     typeof rejected === "string" && rejected.trim() !== ""
@@ -88,14 +91,13 @@ export default function Films() {
         [deletingMaPhim, dispatch, fetchListArgs],
     );
 
-    const items = data?.items ?? [];
-
-    const totalCount = data?.totalCount ?? 0;
-    const totalPages = Math.max(1, data?.totalPages ?? 1);
-    const currentPage = data?.currentPage ?? page;
+    const totalCount = pagination?.totalCount ?? 0;
+    const totalPages = Math.max(1, pagination?.totalPages ?? 1);
+    const currentPage = pagination?.currentPage ?? page;
+    const pageSize = pagination?.pageSize ?? ADMIN_PAGE_SIZE;
     const rangeStart =
-        totalCount === 0 ? 0 : (currentPage - 1) * ADMIN_PAGE_SIZE + 1;
-    const rangeEnd = Math.min(currentPage * ADMIN_PAGE_SIZE, totalCount);
+        totalCount === 0 ? 0 : (currentPage - 1) * pageSize + 1;
+    const rangeEnd = Math.min(currentPage * pageSize, totalCount);
 
     const handleSearchClear = useCallback(() => {
         setSearchInput("");

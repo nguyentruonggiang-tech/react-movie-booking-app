@@ -2,47 +2,19 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { CalendarMonth } from "flowbite-react-icons/outline";
 import { MA_NHOM } from "@constants";
+import { validateFile } from "@utils/fileUtils";
+import { formatDateInput } from "@utils/dateUtils";
+import { clampNumber } from "@utils/numberUtils";
+import RatingBadge from "@/pages/AdminTemplate/_components/RatingBade";
 
-function ngayKhoiChieuFromPickerToApiString(pickerValue) {
-    if (!pickerValue) return "";
-    const date = new Date(pickerValue);
-    if (Number.isNaN(date.getTime())) return "";
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
-}
+const POSTER_FILE_ALLOWED_EXTENSIONS = ["jpg", "png", "gif"];
+const POSTER_FILE_MAX_SIZE_MB = 10;
 
-function clampDanhGia(value) {
-    const parsed = Number(value);
-    if (Number.isNaN(parsed)) return 1;
-    if (parsed < 1) return 1;
-    if (parsed > 10) return 10;
-    return parsed;
-}
+const POSTER_FILE_VALIDATE_OPTIONS = {
+    extensions: POSTER_FILE_ALLOWED_EXTENSIONS,
+    maxSize: POSTER_FILE_MAX_SIZE_MB,
+};
 
-function posterFileIsJpegPngOrGif(file) {
-    if (!file) return false;
-    const allowedMimeTypes = ["image/jpeg", "image/png", "image/gif"];
-    if (allowedMimeTypes.includes(file.type)) return true;
-    const lowerName = String(file.name || "").toLowerCase();
-    return (
-        lowerName.endsWith(".jpg") ||
-        lowerName.endsWith(".jpeg") ||
-        lowerName.endsWith(".png") ||
-        lowerName.endsWith(".gif")
-    );
-}
-
-/**
- * @param {"add"|"edit"} props.mode
- * @param {object|null} props.film — required when mode is "edit" (maPhim, maNhom, hinhAnh)
- * @param {object} props.initialValues — form field values
- * @param {(formData: FormData) => void | Promise<void>} props.onSubmit
- * @param {string} props.submitText — idle submit label
- * @param {boolean} props.loading
- * @param {unknown} [props.error]
- */
 export default function FilmForm({
     mode,
     film,
@@ -103,10 +75,15 @@ export default function FilmForm({
             setPosterPreview("");
             return;
         }
-        if (!posterFileIsJpegPngOrGif(nextFile)) {
+        const posterCheckResult = validateFile(
+            nextFile,
+            POSTER_FILE_VALIDATE_OPTIONS,
+        );
+        if (!posterCheckResult.valid) {
             setFieldErrors((previous) => ({
                 ...previous,
-                posterFile: "Poster file must be .jpg, .png, or .gif.",
+                posterFile:
+                    posterCheckResult.error || "Poster file is not valid.",
             }));
             if (posterInputRef.current) {
                 posterInputRef.current.value = "";
@@ -187,6 +164,16 @@ export default function FilmForm({
         } else if (!posterFile) {
             nextErrors.posterFile = "Poster image is required.";
         }
+        if (posterFile) {
+            const posterCheck = validateFile(
+                posterFile,
+                POSTER_FILE_VALIDATE_OPTIONS,
+            );
+            if (!posterCheck.valid) {
+                nextErrors.posterFile =
+                    posterCheck.error || "Poster file is not valid.";
+            }
+        }
         return nextErrors;
     };
 
@@ -204,12 +191,15 @@ export default function FilmForm({
         );
         requestFormData.append(
             "ngayKhoiChieu",
-            ngayKhoiChieuFromPickerToApiString(formValues.ngayKhoiChieu),
+            formatDateInput(formValues.ngayKhoiChieu),
         );
         requestFormData.append("sapChieu", String(formValues.sapChieu));
         requestFormData.append("dangChieu", String(formValues.dangChieu));
         requestFormData.append("hot", String(formValues.hot));
-        requestFormData.append("danhGia", String(clampDanhGia(formValues.danhGia)));
+        requestFormData.append(
+            "danhGia",
+            String(clampNumber(formValues.danhGia, 1, 10)),
+        );
         if (posterFile) {
             requestFormData.append(
                 "hinhAnh",
@@ -281,7 +271,7 @@ export default function FilmForm({
                                             <span className="text-red-400">*</span>
                                         </p>
                                         <p className="text-sm text-zinc-300">
-                                            JPG, PNG, GIF (recommended 1000x1500px)
+                                            JPG, PNG, GIF (recommended 1000x1500px, max size {POSTER_FILE_MAX_SIZE_MB}MB)
                                         </p>
 
                                         <span className="rounded-lg border border-zinc-600 bg-zinc-800 px-4 py-2 text-sm font-semibold text-zinc-100 transition group-hover:border-rose-500 group-hover:text-white">
@@ -417,9 +407,7 @@ export default function FilmForm({
                                     <span className="block text-xs font-semibold uppercase tracking-wide text-white">
                                         Rating
                                     </span>
-                                    <span className="rounded-md border border-rose-600/60 bg-rose-600/15 px-2 py-0.5 text-xs font-semibold text-rose-200">
-                                        {clampDanhGia(formValues.danhGia)}/10
-                                    </span>
+                                    <RatingBadge value={clampNumber(formValues.danhGia, 1, 10)} />
                                 </div>
                                 <input
                                     type="range"
@@ -427,7 +415,7 @@ export default function FilmForm({
                                     max={10}
                                     step={1}
                                     name="danhGia"
-                                    value={clampDanhGia(formValues.danhGia)}
+                                    value={clampNumber(formValues.danhGia, 1, 10)}
                                     onChange={handleTextChange}
                                     className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-zinc-700 accent-rose-400 [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-rose-400 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-rose-400"
                                 />

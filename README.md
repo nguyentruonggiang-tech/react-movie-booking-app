@@ -60,14 +60,15 @@ Configured in `src/routes/index.jsx`.
 |----|--------|
 | T00–T05 | Setup through booking and auth |
 | T06 | Route guards and auth hardening |
-| T07–T09 | Admin: films, showtimes, users |
+| T07 | Admin: films (list, add, edit, delete) — **complete** |
+| T08–T09 | Admin: showtimes, users |
 | T10 | Review and refactor |
 | T11 | Profile UI and API |
 | T12 | Deploy |
 
-**Current focus:** T07 **Step 3** (Admin Films) — edit film: `/admin/films/edit/:idFilm`, load `LayThongTinPhim`, form aligned with Add Film, `POST QuanLyPhim/CapNhatPhimUpload` via `updateFilm`, slice shape `{ data, loading, error }`, success toast + back to list.
+**Completed:** T07 — Admin Films (list/search, add/edit/delete, unified `films` slice).
 
-**Next:** Step 4 — delete film (confirm, refetch list, polish errors/toast).
+**Current focus:** T08–T09 — Admin showtimes and users.
 
 ## Repository layout
 

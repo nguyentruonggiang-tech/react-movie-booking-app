@@ -5,7 +5,7 @@ import { ChevronLeft } from "flowbite-react-icons/outline";
 import { closeDialog, openLoading } from "@shared/lib/swal";
 import { notifySuccess } from "@/shared/lib/toast";
 import FilmForm from "./_components/FilmForm";
-import { createFilm, resetCreateFilmState } from "./addSlice";
+import { createFilm, filmsSelectors, resetCreate } from "./slice";
 
 const initialFormValues = {
     tenPhim: "",
@@ -18,25 +18,22 @@ const initialFormValues = {
     danhGia: 5,
 };
 
-export default function AddFilmPage() {
+export default function AddFilm() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { loading, error, data } = useSelector(
-        (state) => state.addFilmReducer,
-    );
+    const { loading, error, data } = useSelector(filmsSelectors.create);
 
     useEffect(() => {
         return () => {
-            dispatch(resetCreateFilmState());
+            dispatch(resetCreate());
         };
     }, [dispatch]);
 
     useEffect(() => {
         if (!data) return;
         notifySuccess("Film created successfully.");
-        dispatch(resetCreateFilmState());
         navigate("/admin/films");
-    }, [data, dispatch, navigate]);
+    }, [data, navigate]);
 
     useEffect(() => {
         if (loading !== true) {
