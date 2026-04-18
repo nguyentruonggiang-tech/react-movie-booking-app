@@ -5,6 +5,7 @@ import { ADMIN_PAGE_SIZE, MA_NHOM } from "@constants";
 const USER_ENDPOINTS = {
     LIST: "QuanLyNguoiDung/LayDanhSachNguoiDungPhanTrang",
     ROLE_TYPES: "QuanLyNguoiDung/LayDanhSachLoaiNguoiDung",
+    DETAIL_BY_USERNAME: "QuanLyNguoiDung/LayThongTinNguoiDung",
     CREATE: "QuanLyNguoiDung/ThemNguoiDung",
     UPDATE: "QuanLyNguoiDung/CapNhatThongTinNguoiDung",
 };
@@ -77,24 +78,16 @@ export const fetchUserForEdit = createAsyncThunk(
             return rejectWithValue("Missing username.");
         }
         try {
-            const maNhom = (MA_NHOM && String(MA_NHOM).trim()) || "GP01";
-            const { data } = await api.get(USER_ENDPOINTS.LIST, {
-                params: {
-                    maNhom,
-                    tuKhoa: taiKhoan,
-                    soTrang: 1,
-                    soPhanTuTrenTrang: 50,
-                },
+            const { data } = await api.request({
+                method: "post",
+                url: USER_ENDPOINTS.DETAIL_BY_USERNAME,
+                params: { taiKhoan },
             });
-            const content = data?.content || {};
-            const items = Array.isArray(content.items) ? content.items : [];
-            const found = items.find(
-                (row) => String(row?.taiKhoan ?? "").trim() === taiKhoan,
-            );
-            if (!found) {
+            const user = data?.content;
+            if (!user || typeof user !== "object") {
                 return rejectWithValue("User not found.");
             }
-            return found;
+            return user;
         } catch (error) {
             return rejectWithValue(
                 handleError(error, "Could not load user."),

@@ -42,7 +42,7 @@ function userRowToFormValues(user) {
         taiKhoan: String(user.taiKhoan ?? "").trim(),
         email: String(user.email ?? "").trim(),
         matKhau: String(user.matKhau ?? ""),
-        soDt: String(user.soDt ?? "").trim(),
+        soDt: String(user.soDT ?? "").trim(),
         hoTen: String(user.hoTen ?? "").trim(),
         maLoaiNguoiDung: String(user.maLoaiNguoiDung ?? "").trim(),
     };

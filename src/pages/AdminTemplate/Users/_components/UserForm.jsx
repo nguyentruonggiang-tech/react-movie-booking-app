@@ -57,7 +57,10 @@ export default function UserForm({
         const taiKhoan = String(formValues.taiKhoan ?? "").trim();
         if (!taiKhoan) {
             nextErrors.taiKhoan = "Username is required.";
-        } else if (taiKhoan.length < MIN_USERNAME_LENGTH) {
+        } else if (
+            !isEditMode &&
+            taiKhoan.length < MIN_USERNAME_LENGTH
+        ) {
             nextErrors.taiKhoan = `Username must be at least ${MIN_USERNAME_LENGTH} characters.`;
         }
 
