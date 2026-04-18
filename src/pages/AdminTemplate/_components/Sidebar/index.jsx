@@ -10,6 +10,7 @@ import {
     ChevronDown,
     Plus,
     RectangleList,
+    Users,
 } from "flowbite-react-icons/outline";
 import { actLogout } from "@pages/Auth/slice";
 import { SITE_NAME } from "@constants";
@@ -20,6 +21,7 @@ import {
 } from "./adminNavStyles";
 
 const FILMS_PATH_PREFIX = "/admin/films";
+const USERS_PATH_PREFIX = "/admin/users";
 
 export default function Sidebar() {
     const dispatch = useDispatch();
@@ -27,13 +29,21 @@ export default function Sidebar() {
     const location = useLocation();
 
     const isUnderFilms = location.pathname.startsWith(FILMS_PATH_PREFIX);
+    const isUnderUsers = location.pathname.startsWith(USERS_PATH_PREFIX);
     const [filmsOpen, setFilmsOpen] = useState(isUnderFilms);
+    const [usersOpen, setUsersOpen] = useState(isUnderUsers);
 
     useEffect(() => {
         if (isUnderFilms) {
             setFilmsOpen(true);
         }
     }, [isUnderFilms]);
+
+    useEffect(() => {
+        if (isUnderUsers) {
+            setUsersOpen(true);
+        }
+    }, [isUnderUsers]);
 
     function handleLogout() {
         dispatch(actLogout());
@@ -104,6 +114,63 @@ export default function Sidebar() {
                             >
                                 <Plus className={iconSm} aria-hidden />
                                 Add film
+                            </NavLink>
+                        </div>
+                    ) : null}
+                </div>
+
+                <div className="rounded-md">
+                    <button
+                        type="button"
+                        aria-expanded={usersOpen}
+                        aria-controls="sidebar-users-submenu"
+                        id="sidebar-users-trigger"
+                        onClick={() => setUsersOpen((open) => !open)}
+                        className={`${itemBase} w-full justify-between ${adminSidebarParentTriggerClass({
+                            isOnRoute: isUnderUsers,
+                            isExpanded: usersOpen,
+                        })}`}
+                    >
+                        <span className="flex min-w-0 items-center gap-3">
+                            <Users className={iconMd} aria-hidden />
+                            <span className="truncate">Users</span>
+                        </span>
+                        <ChevronDown
+                            className={`h-4 w-4 shrink-0 transition-transform duration-200 ${
+                                usersOpen ? "rotate-180" : ""
+                            }`}
+                            aria-hidden
+                        />
+                    </button>
+
+                    {usersOpen ? (
+                        <div
+                            id="sidebar-users-submenu"
+                            role="group"
+                            aria-labelledby="sidebar-users-trigger"
+                            className={submenuIndent}
+                        >
+                            <NavLink
+                                to="/admin/users"
+                                end
+                                className={({ isActive }) =>
+                                    adminSidebarSubNavLinkClass({ isActive })
+                                }
+                            >
+                                <RectangleList
+                                    className={iconSm}
+                                    aria-hidden
+                                />
+                                User list
+                            </NavLink>
+                            <NavLink
+                                to="/admin/users/add"
+                                className={({ isActive }) =>
+                                    adminSidebarSubNavLinkClass({ isActive })
+                                }
+                            >
+                                <Plus className={iconSm} aria-hidden />
+                                Add user
                             </NavLink>
                         </div>
                     ) : null}

@@ -52,6 +52,7 @@ Configured in `src/routes/index.jsx`.
 | `/profile` | Profile |
 | `/news`, `/about-us`, … | Static / content pages |
 | `/admin`, `/admin/...` | Admin area |
+| `/admin/users`, `/admin/users/add`, `/admin/users/edit/:taiKhoan` | Admin user management |
 | `*` | Not found |
 
 ## Roadmap (T00–T12)
@@ -66,9 +67,9 @@ Configured in `src/routes/index.jsx`.
 | T11 | Profile UI and API |
 | T12 | Deploy |
 
-**Completed:** T07 — Admin Films (list/search, add/edit/delete, unified `films` slice).
+**Completed:** T07 — Admin Films (list/search, add/edit/delete, unified `films` slice). **T09 Step 1** — Admin users (list/search, paginated list API + Redux `users` slice, lazy routes for list/add/edit-by-`taiKhoan`, sidebar **Users** submenu like Films with a different icon, table + **Add user** CTA, loading/error/empty).
 
-**Current focus:** T08–T09 — Admin showtimes and users.
+**Current focus:** T08 admin showtimes; T09 — add user, edit user, optional delete/disable if supported by the API.
 
 ## Repository layout
 
