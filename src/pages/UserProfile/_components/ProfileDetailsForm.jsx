@@ -151,9 +151,7 @@ export default function ProfileDetailsForm({ profile }) {
                         setFormValues(profileRecordToFormValues(refreshedProfile));
                         setFieldErrors({});
                     }
-                } catch {
-                    /* optional refetch after save */
-                }
+                } catch {}
             }
         } catch (rejectedMessage) {
             const message =
