@@ -1,7 +1,5 @@
+import ProfilePage from "@pages/UserProfile/ProfilePage";
+
 export default function Profile() {
-  return (
-    <div>
-        <h1>Profile</h1>
-    </div>
-  )
+    return <ProfilePage variant="home" />;
 }

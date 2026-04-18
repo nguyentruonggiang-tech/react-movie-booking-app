@@ -12,6 +12,7 @@ import ticketRoomReducer from "@pages/HomeTemplate/TicketRoom/slice";
 import { authLoginReducer, authRegisterReducer } from "@pages/Auth/slice";
 import { filmsReducer } from "@pages/AdminTemplate/Films/slice";
 import { usersReducer } from "@pages/AdminTemplate/Users/slice";
+import { profileReducer } from "@pages/UserProfile/slice";
 
 const store = configureStore({
     reducer: {
@@ -19,6 +20,7 @@ const store = configureStore({
         authRegisterReducer,
         films: filmsReducer,
         users: usersReducer,
+        profile: profileReducer,
         bannerReducer,
         movieReducer,
         theaterSystemsReducer,

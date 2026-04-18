@@ -59,6 +59,25 @@ function parseStoredUserJson(key = STORAGE_KEY_USER) {
     }
 }
 
+export function getStoredUsername(key = STORAGE_KEY_USER) {
+    const user = parseStoredUserJson(key);
+    return String(user?.taiKhoan ?? "").trim();
+}
+
+export function mergeStoredUserFields(partialFields, key = STORAGE_KEY_USER) {
+    const prev = parseStoredUserJson(key);
+    if (!prev || !partialFields || typeof partialFields !== "object") {
+        return;
+    }
+    const next = { ...prev };
+    for (const [fieldKey, value] of Object.entries(partialFields)) {
+        if (value !== undefined && value !== null) {
+            next[fieldKey] = value;
+        }
+    }
+    setLocalStorage(key, next);
+}
+
 export function isClientAccessTokenExpired(key = STORAGE_KEY_USER) {
     const user = parseStoredUserJson(key);
     const issued = user ? Number(user.accessTokenIssuedAt) : NaN;
