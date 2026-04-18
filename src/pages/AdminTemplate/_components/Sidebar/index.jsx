@@ -36,12 +36,14 @@ export default function Sidebar() {
     useEffect(() => {
         if (isUnderFilms) {
             setFilmsOpen(true);
+            setUsersOpen(false);
         }
     }, [isUnderFilms]);
 
     useEffect(() => {
         if (isUnderUsers) {
             setUsersOpen(true);
+            setFilmsOpen(false);
         }
     }, [isUnderUsers]);
 
@@ -68,7 +70,15 @@ export default function Sidebar() {
                         aria-expanded={filmsOpen}
                         aria-controls="sidebar-films-submenu"
                         id="sidebar-films-trigger"
-                        onClick={() => setFilmsOpen((open) => !open)}
+                        onClick={() =>
+                            setFilmsOpen((wasOpen) => {
+                                const next = !wasOpen;
+                                if (next) {
+                                    setUsersOpen(false);
+                                }
+                                return next;
+                            })
+                        }
                         className={`${itemBase} w-full justify-between ${adminSidebarParentTriggerClass({
                             isOnRoute: isUnderFilms,
                             isExpanded: filmsOpen,
@@ -86,37 +96,40 @@ export default function Sidebar() {
                         />
                     </button>
 
-                    {filmsOpen ? (
-                        <div
-                            id="sidebar-films-submenu"
-                            role="group"
-                            aria-labelledby="sidebar-films-trigger"
-                            className={submenuIndent}
+                    <div
+                        id="sidebar-films-submenu"
+                        role="group"
+                        aria-labelledby="sidebar-films-trigger"
+                        hidden={!filmsOpen}
+                        className={submenuIndent}
+                    >
+                        <NavLink
+                            to="/admin/films"
+                            end
+                            className={({ isActive }) =>
+                                adminSidebarSubNavLinkClass({
+                                    isActive: Boolean(isActive && filmsOpen),
+                                })
+                            }
                         >
-                            <NavLink
-                                to="/admin/films"
-                                end
-                                className={({ isActive }) =>
-                                    adminSidebarSubNavLinkClass({ isActive })
-                                }
-                            >
-                                <RectangleList
-                                    className={iconSm}
-                                    aria-hidden
-                                />
-                                Film list
-                            </NavLink>
-                            <NavLink
-                                to="/admin/films/addnew"
-                                className={({ isActive }) =>
-                                    adminSidebarSubNavLinkClass({ isActive })
-                                }
-                            >
-                                <Plus className={iconSm} aria-hidden />
-                                Add film
-                            </NavLink>
-                        </div>
-                    ) : null}
+                            <RectangleList
+                                className={iconSm}
+                                aria-hidden
+                            />
+                            Film list
+                        </NavLink>
+                        <NavLink
+                            to="/admin/films/addnew"
+                            className={({ isActive }) =>
+                                adminSidebarSubNavLinkClass({
+                                    isActive: Boolean(isActive && filmsOpen),
+                                })
+                            }
+                        >
+                            <Plus className={iconSm} aria-hidden />
+                            Add film
+                        </NavLink>
+                    </div>
                 </div>
 
                 <div className="rounded-md">
@@ -125,7 +138,15 @@ export default function Sidebar() {
                         aria-expanded={usersOpen}
                         aria-controls="sidebar-users-submenu"
                         id="sidebar-users-trigger"
-                        onClick={() => setUsersOpen((open) => !open)}
+                        onClick={() =>
+                            setUsersOpen((wasOpen) => {
+                                const next = !wasOpen;
+                                if (next) {
+                                    setFilmsOpen(false);
+                                }
+                                return next;
+                            })
+                        }
                         className={`${itemBase} w-full justify-between ${adminSidebarParentTriggerClass({
                             isOnRoute: isUnderUsers,
                             isExpanded: usersOpen,
@@ -143,37 +164,40 @@ export default function Sidebar() {
                         />
                     </button>
 
-                    {usersOpen ? (
-                        <div
-                            id="sidebar-users-submenu"
-                            role="group"
-                            aria-labelledby="sidebar-users-trigger"
-                            className={submenuIndent}
+                    <div
+                        id="sidebar-users-submenu"
+                        role="group"
+                        aria-labelledby="sidebar-users-trigger"
+                        hidden={!usersOpen}
+                        className={submenuIndent}
+                    >
+                        <NavLink
+                            to="/admin/users"
+                            end
+                            className={({ isActive }) =>
+                                adminSidebarSubNavLinkClass({
+                                    isActive: Boolean(isActive && usersOpen),
+                                })
+                            }
                         >
-                            <NavLink
-                                to="/admin/users"
-                                end
-                                className={({ isActive }) =>
-                                    adminSidebarSubNavLinkClass({ isActive })
-                                }
-                            >
-                                <RectangleList
-                                    className={iconSm}
-                                    aria-hidden
-                                />
-                                User list
-                            </NavLink>
-                            <NavLink
-                                to="/admin/users/add"
-                                className={({ isActive }) =>
-                                    adminSidebarSubNavLinkClass({ isActive })
-                                }
-                            >
-                                <Plus className={iconSm} aria-hidden />
-                                Add user
-                            </NavLink>
-                        </div>
-                    ) : null}
+                            <RectangleList
+                                className={iconSm}
+                                aria-hidden
+                            />
+                            User list
+                        </NavLink>
+                        <NavLink
+                            to="/admin/users/add"
+                            className={({ isActive }) =>
+                                adminSidebarSubNavLinkClass({
+                                    isActive: Boolean(isActive && usersOpen),
+                                })
+                            }
+                        >
+                            <Plus className={iconSm} aria-hidden />
+                            Add user
+                        </NavLink>
+                    </div>
                 </div>
             </nav>
 
