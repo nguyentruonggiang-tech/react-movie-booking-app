@@ -10,6 +10,7 @@ export default function Pagination({
     onPrevious,
     onNext,
     itemLabel = "items",
+    rangeSummary = null,
     className = "",
 }) {
     const rootClassName = [
@@ -21,15 +22,19 @@ export default function Pagination({
 
     return (
         <div className={rootClassName}>
-            <p className="text-zinc-500">
-                Showing{" "}
-                <span className="font-medium tabular-nums text-white">
-                    {rangeStart}–{rangeEnd}
-                </span>{" "}
-                of{" "}
-                <span className="font-medium tabular-nums text-white">{totalCount}</span>{" "}
-                {itemLabel}
-            </p>
+            {rangeSummary ? (
+                <p className="text-zinc-500">{rangeSummary}</p>
+            ) : (
+                <p className="text-zinc-500">
+                    Showing{" "}
+                    <span className="font-medium tabular-nums text-white">
+                        {rangeStart}–{rangeEnd}
+                    </span>{" "}
+                    of{" "}
+                    <span className="font-medium tabular-nums text-white">{totalCount}</span>{" "}
+                    {itemLabel}
+                </p>
+            )}
             <div className="flex items-center gap-2">
                 <button
                     type="button"

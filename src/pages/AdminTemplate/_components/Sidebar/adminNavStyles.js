@@ -55,7 +55,7 @@ export function adminSidebarParentTriggerClass({
 }) {
     const { parent } = adminSidebarNav;
 
-    if (isOnRoute) return parent.onRoute;
+    if (isOnRoute && isExpanded) return parent.onRoute;
     if (isExpanded) return parent.expanded;
     return parent.collapsed;
 }

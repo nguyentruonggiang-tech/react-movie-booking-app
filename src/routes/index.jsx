@@ -91,11 +91,11 @@ const routes = [
             },
             {
                 path: "users/add",
-                element: lazy(() => import("../pages/AdminTemplate/AddUser")),
+                element: lazy(() => import("../pages/AdminTemplate/Users/add")),
             },
             {
                 path: "users/edit/:taiKhoan",
-                element: lazy(() => import("../pages/AdminTemplate/EditUser")),
+                element: lazy(() => import("../pages/AdminTemplate/Users/edit")),
             },
         ],
     },

@@ -1,6 +1,6 @@
 # React Movie Booking App
 
-Movie ticket booking frontend: public site and admin, built with React and a REST API (Cybersoft-style endpoints).
+Movie ticket booking frontend: public site and admin, built with React and a REST API.
 
 **Purpose:** This repository is a **learning / coursework** project (training exercise). It is **not** intended as a production-ready product; focus is on practicing React, routing, state, and API integration step by step.
 
@@ -14,7 +14,7 @@ cp .env.example .env
 npm run dev
 ```
 
-Set variables in `.env` (see `.env.example`): `VITE_API_BASE_URL`, `VITE_TOKEN_CYBERSOFT`, `VITE_MA_NHOM`. Open the URL shown in the terminal (usually `http://localhost:5173`).
+Configure `.env` using `.env.example` as a template. Open the URL shown in the terminal (usually `http://localhost:5173`).
 
 ## Scripts
 
@@ -52,6 +52,9 @@ Configured in `src/routes/index.jsx`.
 | `/profile` | Profile |
 | `/news`, `/about-us`, … | Static / content pages |
 | `/admin`, `/admin/...` | Admin area |
+| `/admin/users` | Admin user list (search + pagination) |
+| `/admin/users/add` | Add user (`Users/add.jsx`, same pattern as `Films/add.jsx`) |
+| `/admin/users/edit/:taiKhoan` | Edit user (`Users/edit.jsx`) |
 | `*` | Not found |
 
 ## Roadmap (T00–T12)
@@ -63,17 +66,25 @@ Configured in `src/routes/index.jsx`.
 | T07 | Admin: films (list, add, edit, delete) — **complete** |
 | T08–T09 | Admin: showtimes, users |
 | T10 | Review and refactor |
-| T11 | Profile UI and API |
+| T11 | Profile screen |
 | T12 | Deploy |
 
-**Completed:** T07 — Admin Films (list/search, add/edit/delete, unified `films` slice).
+**Completed (T09 partial):** Admin users — list/search with pagination (`Users/index.jsx` + `users` Redux slice), **Add user** (`Users/add.jsx`), **Edit user** (`Users/edit.jsx`, load user then save), shared `UserForm` (add/edit), lazy routes, sidebar **Users** submenu, table + CTA, loading/error/empty states.
 
-**Current focus:** T08–T09 — Admin showtimes and users.
+**Current focus:** T08 admin showtimes; T09 — optional user delete/disable when supported; polish validation/UX.
 
 ## Repository layout
 
 ```text
 src/
-  App.jsx, main.jsx, routes/, pages/, components/, store/, services/, utils/
+  App.jsx, main.jsx
+  routes/index.jsx          — route table + lazy imports
+  pages/
+    HomeTemplate/ …
+    AdminTemplate/
+      Films/                — index.jsx (list), add.jsx, edit.jsx, slice.js, _components/
+      Users/                — index.jsx (list), add.jsx, edit.jsx, slice.js, _components/ (UserForm, …)
+      ShowTime/, Dashboard/, _components/ (Sidebar, …)
+  components/, store/, services/, shared/, utils/
 public/
 ```
