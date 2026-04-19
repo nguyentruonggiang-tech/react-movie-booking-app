@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import { actLogin } from "@pages/Auth/slice";
+import { actLogin, clearLoginError } from "@pages/Auth/slice";
+import { notifySuccess } from "@shared/lib/toast";
 import { getPathAfterLogin } from "@/utils/authRedirect";
 import { SITE_NAME } from "@constants";
 import LoadingOverlay from "@components/LoadingOverlay";
@@ -25,6 +25,10 @@ export default function Login() {
 
     const [searchParams] = useSearchParams();
     const redirectURLParam = searchParams.get("redirect");
+
+    useLayoutEffect(() => {
+        dispatch(clearLoginError());
+    }, [dispatch]);
 
     const handleOnchange = (event) => {
         const { name, value } = event.target;
@@ -87,7 +91,7 @@ export default function Login() {
             setIsRedirecting(true);
         });
 
-        toast.success(
+        notifySuccess(
             <div className="text-left">
                 <p className="text-sm font-semibold text-slate-900 dark:text-white">Đăng nhập thành công</p>
                 <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">Đang chuyển hướng sau vài giây…</p>
@@ -108,7 +112,6 @@ export default function Login() {
         return () => {
             cancelAnimationFrame(redirectingRafId);
             clearTimeout(redirectTimer);
-            toast.dismiss(LOGIN_SUCCESS_TOAST_ID);
             setIsRedirecting(false);
         };
     }, [data, hasSubmittedLogin, navigate, redirectURLParam]);

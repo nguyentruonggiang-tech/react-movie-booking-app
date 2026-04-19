@@ -19,8 +19,8 @@ function buildToastOptions(overrides = {}) {
     };
 }
 
-export const notifySuccess = (message) => {
-    toast.success(message, buildToastOptions());
+export const notifySuccess = (message, options = {}) => {
+    toast.success(message, buildToastOptions(options));
 };
 
 export const notifyError = (message) => {

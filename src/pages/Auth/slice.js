@@ -49,7 +49,12 @@ export const actLogout = createAsyncThunk("authLogin/actLogout", async () => {
 const authLoginSlice = createSlice({
     name: "authLogin",
     initialState: authLoginInitialState,
-    reducers: {},
+    reducers: {
+        /** Clears API error so a return to Login (e.g. after Register) does not show a stale message. */
+        clearLoginError: (state) => {
+            state.error = null;
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(actLogin.pending, (state) => {
@@ -126,5 +131,6 @@ const authRegisterSlice = createSlice({
     },
 });
 
+export const { clearLoginError } = authLoginSlice.actions;
 export const authLoginReducer = authLoginSlice.reducer;
 export const authRegisterReducer = authRegisterSlice.reducer;

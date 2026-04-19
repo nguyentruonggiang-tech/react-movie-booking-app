@@ -90,11 +90,20 @@
 }
 
 
-/* react-toastify — login success toast, matches auth slate panels */
+/* react-toastify — login/register success toast: light default, dark when html.dark */
 .login-toast.login-toast--success.Toastify__toast--success {
+    background: rgb(255 255 255 / 0.97);
+    border: 1px solid rgb(226 232 240);
+    border-radius: 0.75rem;
+    box-shadow:
+        0 4px 6px -1px rgb(15 23 42 / 0.08),
+        0 25px 50px -12px rgb(15 23 42 / 0.12);
+    color: rgb(15 23 42);
+}
+
+.dark .login-toast.login-toast--success.Toastify__toast--success {
     background: rgb(2 6 23 / 0.96);
     border: 1px solid rgb(255 255 255 / 0.1);
-    border-radius: 0.75rem;
     box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.55);
     color: rgb(241 245 249);
 }

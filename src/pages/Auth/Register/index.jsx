@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import LoadingOverlay from "@components/LoadingOverlay";
+import { notifySuccess } from "@shared/lib/toast";
 import AuthThemeCorner from "../_components/AuthThemeCorner";
 import { actRegister } from "@pages/Auth/slice";
 import { getPathAfterLogin } from "@/utils/authRedirect";
@@ -108,7 +108,7 @@ export default function Register() {
                 ? String(registerData.taiKhoan).trim()
                 : "";
 
-        toast.success(
+        notifySuccess(
             <div className="text-left">
                 <p className="text-sm font-semibold text-slate-900 dark:text-white">
                     {accountLabel
@@ -132,7 +132,6 @@ export default function Register() {
 
         return () => {
             clearTimeout(redirectTimer);
-            toast.dismiss(REGISTER_SUCCESS_TOAST_ID);
         };
     }, [registerLoading, registerError, registerData, hasSubmittedRegister, navigate]);
 
