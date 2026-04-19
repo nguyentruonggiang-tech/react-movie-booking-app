@@ -113,17 +113,17 @@ export default function Films() {
                     </p>
                 </div>
                 <div className="flex w-full flex-wrap items-center gap-3 sm:w-auto sm:max-w-md sm:flex-1 sm:justify-end">
+                    <FilmSearch
+                        value={searchInput}
+                        onChange={(e) => setSearchInput(e.target.value)}
+                        onClear={handleSearchClear}
+                    />
                     <Link
                         to="/admin/films/addnew"
                         className="inline-flex shrink-0 items-center justify-center rounded-lg bg-rose-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-rose-900/30 transition hover:bg-rose-500"
                     >
                         Thêm phim
                     </Link>
-                    <FilmSearch
-                        value={searchInput}
-                        onChange={(e) => setSearchInput(e.target.value)}
-                        onClear={handleSearchClear}
-                    />
                 </div>
             </div>
 

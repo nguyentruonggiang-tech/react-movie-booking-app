@@ -143,6 +143,11 @@ export default function Users() {
                     </p>
                 </div>
                 <div className="flex w-full flex-wrap items-center gap-3 sm:w-auto sm:max-w-xl sm:flex-1 sm:justify-end">
+                    <UserSearch
+                        value={searchInput}
+                        onChange={(e) => setSearchInput(e.target.value)}
+                        onClear={handleSearchClear}
+                    />
                     <Link
                         to="/admin/users/add"
                         className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-rose-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-rose-900/30 transition hover:bg-rose-500"
@@ -150,11 +155,6 @@ export default function Users() {
                         <UserAdd className="h-4 w-4 shrink-0" aria-hidden />
                         Thêm người dùng
                     </Link>
-                    <UserSearch
-                        value={searchInput}
-                        onChange={(e) => setSearchInput(e.target.value)}
-                        onClear={handleSearchClear}
-                    />
                 </div>
             </div>
 
