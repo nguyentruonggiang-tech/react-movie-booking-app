@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import LoadingOverlay from "@components/LoadingOverlay";
+import AuthThemeCorner from "../_components/AuthThemeCorner";
 import { actRegister } from "@pages/Auth/slice";
 import { getPathAfterLogin } from "@/utils/authRedirect";
 import { SITE_NAME } from "@constants";
@@ -109,12 +110,12 @@ export default function Register() {
 
         toast.success(
             <div className="text-left">
-                <p className="text-sm font-semibold text-white">
+                <p className="text-sm font-semibold text-slate-900 dark:text-white">
                     {accountLabel
                         ? `Đã tạo tài khoản "${accountLabel}"`
                         : "Đã tạo tài khoản"}
                 </p>
-                <p className="mt-1 text-xs text-slate-400">Đang chuyển đến trang đăng nhập…</p>
+                <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">Đang chuyển đến trang đăng nhập…</p>
             </div>,
             {
                 toastId: REGISTER_SUCCESS_TOAST_ID,
@@ -193,11 +194,12 @@ export default function Register() {
     };
 
     const inputClassName =
-        "block w-full rounded-lg border border-slate-700/80 bg-slate-950/90 px-4 py-3 text-sm text-white shadow-inner outline-none ring-red-500/0 transition placeholder:text-slate-500 focus:border-red-500/60 focus:ring-2 focus:ring-red-500/30 disabled:cursor-not-allowed disabled:opacity-60";
+        "block w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 shadow-inner outline-none ring-red-500/0 transition placeholder:text-slate-500 focus:border-red-500/60 focus:ring-2 focus:ring-red-500/30 disabled:cursor-not-allowed disabled:opacity-60 dark:border-slate-700/80 dark:bg-slate-950/90 dark:text-white dark:placeholder:text-slate-500";
 
     if (sessionUser?.accessToken) {
         return (
-            <div className="relative flex min-h-screen flex-1 flex-col overflow-hidden bg-[#030308] text-slate-100 antialiased md:flex-row">
+            <div className="relative flex min-h-screen flex-1 flex-col overflow-hidden bg-slate-100 text-slate-900 antialiased dark:bg-[#030308] dark:text-slate-100 md:flex-row">
+                <AuthThemeCorner />
                 <LoginBackground className="pointer-events-none absolute inset-0 z-0 h-full min-h-screen w-full" />
                 <LoadingOverlay message="Đang chuyển hướng…" />
             </div>
@@ -205,53 +207,54 @@ export default function Register() {
     }
 
     return (
-        <div className="relative flex min-h-screen flex-1 flex-col overflow-hidden bg-[#030308] text-slate-100 antialiased md:flex-row">
+        <div className="relative flex min-h-screen flex-1 flex-col overflow-hidden bg-slate-100 text-slate-900 antialiased dark:bg-[#030308] dark:text-slate-100 md:flex-row">
+            <AuthThemeCorner />
             <LoginBackground className="pointer-events-none absolute inset-0 z-0 h-full min-h-screen w-full" />
 
             <div className="relative z-10 hidden min-h-[220px] flex-none flex-col justify-end md:flex md:min-h-0 md:w-[46%] lg:w-[50%]" aria-hidden>
                 <div className="pointer-events-none flex h-full min-h-[520px] flex-col justify-end px-8 py-12 lg:px-12 lg:py-14">
-                    <div className="max-w-sm text-balance rounded-2xl border border-white/15 bg-slate-950/55 px-5 py-6 text-center shadow-xl shadow-black/30 backdrop-blur-md md:text-left">
-                        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-red-400/90 drop-shadow-sm">
+                    <div className="max-w-sm text-balance rounded-2xl border border-slate-200/90 bg-white/90 px-5 py-6 text-center shadow-xl shadow-slate-900/10 backdrop-blur-md dark:border-white/15 dark:bg-slate-950/55 dark:shadow-black/30 md:text-left">
+                        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-red-600 drop-shadow-sm dark:text-red-400/90">
                             {SITE_NAME}
                         </p>
-                        <h1 className="mt-3 text-2xl font-bold leading-snug text-white drop-shadow-md sm:text-3xl lg:text-[2rem] lg:leading-tight">
+                        <h1 className="mt-3 text-2xl font-bold leading-snug text-slate-900 drop-shadow-sm dark:text-white dark:drop-shadow-md sm:text-3xl lg:text-[2rem] lg:leading-tight">
                             Tạo tài khoản chỉ với vài bước
                         </h1>
-                        <p className="mt-3 text-sm leading-relaxed text-slate-300/95 drop-shadow-sm">
+                        <p className="mt-3 text-sm leading-relaxed text-slate-600 drop-shadow-sm dark:text-slate-300/95">
                             Đăng ký để đặt vé nhanh hơn và theo dõi lịch sử xem phim tại một nơi.
                         </p>
                     </div>
                 </div>
             </div>
 
-            <div className="relative z-10 flex flex-1 flex-col justify-center bg-[#030712]/80 px-6 py-10 shadow-[inset_1px_0_0_rgba(255,255,255,0.05)] backdrop-blur-[4px] sm:px-10 md:px-12 md:shadow-[-48px_0_96px_-32px_rgba(0,0,0,0.5)] lg:px-16">
+            <div className="relative z-10 flex flex-1 flex-col justify-center border-slate-200/80 bg-white/95 px-6 py-10 shadow-[inset_1px_0_0_rgba(15,23,42,0.06)] backdrop-blur-[4px] sm:px-10 md:px-12 md:shadow-[-48px_0_96px_-32px_rgba(15,23,42,0.12)] dark:border-transparent dark:bg-[#030712]/80 dark:shadow-[inset_1px_0_0_rgba(255,255,255,0.05)] dark:md:shadow-[-48px_0_96px_-32px_rgba(0,0,0,0.5)] lg:px-16">
                 <div
-                    className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_85%_70%_at_0%_20%,rgba(254,243,199,0.09),transparent_52%)]"
+                    className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_85%_70%_at_0%_20%,rgba(254,243,199,0.22),transparent_52%)] dark:bg-[radial-gradient(ellipse_85%_70%_at_0%_20%,rgba(254,243,199,0.09),transparent_52%)]"
                     aria-hidden
                 />
                 <div
-                    className="pointer-events-none absolute inset-0 bg-gradient-to-br from-indigo-950/30 via-transparent to-slate-950/40"
+                    className="pointer-events-none absolute inset-0 bg-gradient-to-br from-amber-50/70 via-transparent to-slate-100/85 dark:from-indigo-950/30 dark:via-transparent dark:to-slate-950/40"
                     aria-hidden
                 />
                 <div
-                    className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-black/10 to-black/35"
+                    className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-slate-300/20 to-slate-400/30 dark:via-black/10 dark:to-black/35"
                     aria-hidden
                 />
 
                 <div className="relative mx-auto w-full max-w-md">
                     <div className="mb-8 md:hidden">
-                        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-red-500">Đăng ký</p>
-                        <h2 className="mt-2 text-2xl font-bold text-white">Tạo tài khoản</h2>
+                        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-red-600 dark:text-red-500">Đăng ký</p>
+                        <h2 className="mt-2 text-2xl font-bold text-slate-900 dark:text-white">Tạo tài khoản</h2>
                     </div>
 
                     <div className="mb-8 hidden md:block">
-                        <h2 className="text-2xl font-bold text-white lg:text-3xl">Đăng ký</h2>
-                        <p className="mt-2 text-sm text-slate-400">Điền thông tin để tạo tài khoản.</p>
+                        <h2 className="text-2xl font-bold text-slate-900 dark:text-white lg:text-3xl">Đăng ký</h2>
+                        <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">Điền thông tin để tạo tài khoản.</p>
                     </div>
 
                     {registerError ? (
                         <div
-                            className="mb-6 rounded-lg border border-red-500/40 bg-red-950/40 px-4 py-3 text-sm text-red-100"
+                            className="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800 dark:border-red-500/40 dark:bg-red-950/40 dark:text-red-100"
                             role="alert"
                         >
                             {registerError}
@@ -265,7 +268,7 @@ export default function Register() {
                         aria-busy={registerLoading}
                     >
                         <div>
-                            <label htmlFor="register-taiKhoan" className="mb-1.5 block text-sm font-medium text-slate-200">
+                            <label htmlFor="register-taiKhoan" className="mb-1.5 block text-sm font-semibold text-slate-800 dark:text-slate-100">
                                 Tên đăng nhập
                             </label>
                             <input
@@ -284,7 +287,7 @@ export default function Register() {
                         </div>
 
                         <div>
-                            <label htmlFor="register-matKhau" className="mb-1.5 block text-sm font-medium text-slate-200">
+                            <label htmlFor="register-matKhau" className="mb-1.5 block text-sm font-semibold text-slate-800 dark:text-slate-100">
                                 Mật khẩu
                             </label>
                             <div className="relative">
@@ -304,7 +307,7 @@ export default function Register() {
                                     type="button"
                                     onClick={() => setShowPassword((prev) => !prev)}
                                     disabled={registerLoading}
-                                    className="absolute inset-y-0 right-0 flex w-11 items-center justify-center text-slate-400 transition hover:text-slate-200 disabled:cursor-not-allowed disabled:opacity-50"
+                                    className="absolute inset-y-0 right-0 flex w-11 items-center justify-center text-slate-500 transition hover:text-slate-800 disabled:cursor-not-allowed disabled:opacity-50 dark:text-slate-400 dark:hover:text-slate-200"
                                     aria-label={showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
                                     aria-pressed={showPassword}
                                 >
@@ -350,7 +353,7 @@ export default function Register() {
                         <div>
                             <label
                                 htmlFor="register-confirmPassword"
-                                className="mb-1.5 block text-sm font-medium text-slate-200"
+                                className="mb-1.5 block text-sm font-semibold text-slate-800 dark:text-slate-100"
                             >
                                 Xác nhận mật khẩu
                             </label>
@@ -371,7 +374,7 @@ export default function Register() {
                                     type="button"
                                     onClick={() => setShowPassword((prev) => !prev)}
                                     disabled={registerLoading}
-                                    className="absolute inset-y-0 right-0 flex w-11 items-center justify-center text-slate-400 transition hover:text-slate-200 disabled:cursor-not-allowed disabled:opacity-50"
+                                    className="absolute inset-y-0 right-0 flex w-11 items-center justify-center text-slate-500 transition hover:text-slate-800 disabled:cursor-not-allowed disabled:opacity-50 dark:text-slate-400 dark:hover:text-slate-200"
                                     aria-label={showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
                                     aria-pressed={showPassword}
                                 >
@@ -417,7 +420,7 @@ export default function Register() {
                         </div>
 
                         <div>
-                            <label htmlFor="register-hoTen" className="mb-1.5 block text-sm font-medium text-slate-200">
+                            <label htmlFor="register-hoTen" className="mb-1.5 block text-sm font-semibold text-slate-800 dark:text-slate-100">
                                 Họ tên
                             </label>
                             <input
@@ -436,7 +439,7 @@ export default function Register() {
                         </div>
 
                         <div>
-                            <label htmlFor="register-email" className="mb-1.5 block text-sm font-medium text-slate-200">
+                            <label htmlFor="register-email" className="mb-1.5 block text-sm font-semibold text-slate-800 dark:text-slate-100">
                                 Email
                             </label>
                             <input
@@ -455,7 +458,7 @@ export default function Register() {
                         </div>
 
                         <div>
-                            <label htmlFor="register-soDt" className="mb-1.5 block text-sm font-medium text-slate-200">
+                            <label htmlFor="register-soDt" className="mb-1.5 block text-sm font-semibold text-slate-800 dark:text-slate-100">
                                 Số điện thoại
                             </label>
                             <input
@@ -486,11 +489,11 @@ export default function Register() {
                         </button>
                     </form>
 
-                    <p className="mt-8 text-center text-sm text-slate-400">
+                    <p className="mt-8 text-center text-sm text-slate-600 dark:text-slate-400">
                         Đã có tài khoản?{" "}
                         <Link
                             to="/login"
-                            className="font-medium text-red-400 underline-offset-2 transition hover:text-red-300 hover:underline"
+                            className="font-medium text-red-600 underline-offset-2 transition hover:text-red-700 hover:underline dark:text-red-400 dark:hover:text-red-300"
                         >
                             Đăng nhập
                         </Link>
