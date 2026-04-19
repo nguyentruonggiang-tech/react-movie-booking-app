@@ -31,6 +31,11 @@ export default function ProfileBookingCard({ ticket }) {
         ticket?.thoiLuongPhim != null && Number.isFinite(Number(ticket.thoiLuongPhim))
             ? `${Number(ticket.thoiLuongPhim)} phút`
             : "—";
+    const ticketCodeRaw = ticket?.maVe;
+    const maVeDisplay =
+        ticketCodeRaw != null && String(ticketCodeRaw).trim() !== ""
+            ? String(ticketCodeRaw).trim()
+            : "—";
 
     return (
         <article className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-lg dark:border-zinc-800 dark:bg-zinc-900/90 dark:shadow-black/20">
@@ -99,7 +104,8 @@ export default function ProfileBookingCard({ ticket }) {
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 gap-4 border-t border-zinc-200 pt-4 dark:border-zinc-800/80 sm:grid-cols-2">
+                    <div className="grid grid-cols-1 gap-4 border-t border-zinc-200 pt-4 dark:border-zinc-800/80 sm:grid-cols-2 lg:grid-cols-3">
+                        <InfoCell label="Mã vé" value={maVeDisplay} />
                         <InfoCell label="Đặt lúc" value={bookingTimeText(ngayDat)} />
                         <InfoCell label="Ghế" value={seatNamesLine(ticket)} />
                     </div>
