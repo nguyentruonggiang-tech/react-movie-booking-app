@@ -297,7 +297,7 @@ export default function FilmForm({
                                             }
                                             className="rounded-md border border-rose-500 bg-rose-50 px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wide text-rose-800 transition hover:bg-rose-100 dark:border-rose-600/70 dark:bg-rose-600/15 dark:text-rose-200 dark:hover:bg-rose-600/25"
                                         >
-                                            Đổi
+                                            Đổi ảnh
                                         </button>
                                         <button
                                             type="button"

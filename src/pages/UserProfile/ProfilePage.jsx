@@ -18,8 +18,9 @@ import {
 } from "./slice";
 
 const shellClassHome =
-    "mx-auto w-full max-w-6xl px-4 pb-16 pt-4 text-slate-100 sm:px-6 lg:px-8";
-const shellClassAdmin = "mx-auto w-full max-w-6xl text-zinc-100";
+    "mx-auto w-full max-w-6xl px-4 pb-16 pt-4 text-slate-900 dark:text-slate-100 sm:px-6 lg:px-8";
+const shellClassAdmin =
+    "mx-auto w-full max-w-6xl text-zinc-900 dark:text-zinc-100";
 
 export default function ProfilePage({ variant = "home" }) {
     const dispatch = useDispatch();
@@ -63,14 +64,14 @@ export default function ProfilePage({ variant = "home" }) {
     return (
         <div className={isHome ? shellClassHome : shellClassAdmin}>
             <nav
-                className={`text-sm ${isHome ? "text-slate-500" : "text-zinc-500"}`}
+                className={`text-sm ${isHome ? "text-slate-600 dark:text-slate-500" : "text-zinc-600 dark:text-zinc-500"}`}
                 aria-label="Breadcrumb"
             >
                 {isHome ? (
                     <>
                         <Link
                             to="/"
-                            className="transition hover:text-rose-400"
+                            className="transition hover:text-rose-600 dark:hover:text-rose-400"
                         >
                             Trang chủ
                         </Link>
@@ -82,24 +83,28 @@ export default function ProfilePage({ variant = "home" }) {
                     <>
                         <Link
                             to="/admin"
-                            className="transition hover:text-rose-400"
+                            className="transition hover:text-rose-600 dark:hover:text-rose-400"
                         >
                             Quản trị
                         </Link>
-                        <span className="mx-2 text-zinc-600" aria-hidden>
+                        <span className="mx-2 text-zinc-500 dark:text-zinc-600" aria-hidden>
                             &gt;
                         </span>
                     </>
                 )}
                 <span
-                    className={isHome ? "text-slate-300" : "text-zinc-300"}
+                    className={
+                        isHome
+                            ? "text-slate-700 dark:text-slate-300"
+                            : "text-zinc-800 dark:text-zinc-300"
+                    }
                     aria-current="page"
                 >
                     Tài khoản của tôi
                 </span>
             </nav>
 
-            <h1 className="mt-4 text-3xl font-bold tracking-tight text-white">
+            <h1 className="mt-4 text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
                 Hồ sơ người dùng
             </h1>
 

@@ -8,11 +8,11 @@ export default function ProfileBookingHistory({ tickets }) {
 
     if (danhSachVe.length === 0) {
         return (
-            <div className="rounded-2xl border border-dashed border-zinc-700 bg-zinc-900/40 p-10 text-center">
-                <p className="text-lg font-semibold text-zinc-200">
+            <div className="rounded-2xl border border-dashed border-zinc-300 bg-zinc-50 p-10 text-center dark:border-zinc-700 dark:bg-zinc-900/40">
+                <p className="text-lg font-semibold text-zinc-800 dark:text-zinc-200">
                     Chưa có vé đã đặt
                 </p>
-                <p className="mt-2 text-sm text-zinc-500">
+                <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-500">
                     Sau khi bạn đặt vé, danh sách sẽ hiển thị tại đây.
                 </p>
             </div>
@@ -21,8 +21,8 @@ export default function ProfileBookingHistory({ tickets }) {
 
     return (
         <div className="flex min-h-0 flex-col gap-4">
-            <div className="shrink-0 border-b border-zinc-800 pb-4">
-                <h2 className="text-2xl font-bold tracking-tight text-white">
+            <div className="shrink-0 border-b border-zinc-200 pb-4 dark:border-zinc-800">
+                <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">
                     Lịch sử đặt vé
                 </h2>
             </div>

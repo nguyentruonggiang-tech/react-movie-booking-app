@@ -13,11 +13,14 @@ const MIN_USERNAME_LENGTH = 6;
 const MIN_PASSWORD_LENGTH = 6;
 
 function inputShell(hasError) {
-    return `w-full rounded-md border bg-zinc-950/50 px-3 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-1 ${
-        hasError
-            ? "border-red-500 focus:border-red-500 focus:ring-red-500/40"
-            : "border-zinc-700 focus:border-rose-500 focus:ring-rose-500"
-    }`;
+    const base =
+        "w-full rounded-md border bg-white px-3 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-1 " +
+        "dark:bg-zinc-950/50 dark:text-zinc-100 dark:placeholder:text-zinc-500";
+    const ok =
+        "border-zinc-300 focus:border-rose-500 focus:ring-rose-500 dark:border-zinc-700 dark:focus:border-rose-500 dark:focus:ring-rose-500";
+    const err =
+        "border-red-500 focus:border-red-500 focus:ring-red-500/40 dark:border-red-500";
+    return `${base} ${hasError ? err : ok}`;
 }
 
 function emptyProfileFormFields() {
@@ -165,16 +168,16 @@ export default function ProfileDetailsForm({ profile }) {
 
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="rounded-xl border border-zinc-800 bg-zinc-900 shadow-sm shadow-black/20">
-                <div className="flex flex-col gap-6 border-b border-zinc-800 p-5 sm:flex-row sm:items-start sm:p-6">
+            <div className="rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900 dark:shadow-black/20">
+                <div className="flex flex-col gap-6 border-b border-zinc-200 p-5 sm:flex-row sm:items-start sm:p-6 dark:border-zinc-800">
                     <div
-                        className="flex h-20 w-20 shrink-0 items-center justify-center rounded-xl border-2 border-rose-500/80 bg-zinc-950 text-2xl font-bold uppercase text-rose-100"
+                        className="flex h-20 w-20 shrink-0 items-center justify-center rounded-xl border-2 border-rose-500/80 bg-rose-50 text-2xl font-bold uppercase text-rose-800 dark:bg-zinc-950 dark:text-rose-100"
                         aria-hidden
                     >
                         {displayName.slice(0, 2) || "?"}
                     </div>
                     <div className="min-w-0 flex-1">
-                        <h2 className="text-xl font-bold text-white sm:text-2xl">
+                        <h2 className="text-xl font-bold text-zinc-900 sm:text-2xl dark:text-white">
                             {displayName}
                         </h2>
                     </div>
@@ -183,8 +186,8 @@ export default function ProfileDetailsForm({ profile }) {
                 <div className="space-y-5 p-5 sm:p-6">
                     <div className="grid min-w-0 grid-cols-1 gap-5 md:grid-cols-2">
                         <label className="block min-w-0">
-                            <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white">
-                                Tên đăng nhập <span className="text-red-400">*</span>
+                            <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-zinc-800 dark:text-white">
+                                Tên đăng nhập <span className="text-red-600 dark:text-red-400">*</span>
                             </span>
                             <input
                                 name="taiKhoan"
@@ -194,14 +197,14 @@ export default function ProfileDetailsForm({ profile }) {
                                 className={`${inputShell(Boolean(fieldErrors.taiKhoan))} cursor-not-allowed opacity-90`}
                             />
                             {fieldErrors.taiKhoan ? (
-                                <p className="mt-1 text-xs text-red-400">
+                                <p className="mt-1 text-xs text-red-600 dark:text-red-400">
                                     {fieldErrors.taiKhoan}
                                 </p>
                             ) : null}
                         </label>
                         <label className="block min-w-0">
-                            <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white">
-                                Email <span className="text-red-400">*</span>
+                            <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-zinc-800 dark:text-white">
+                                Email <span className="text-red-600 dark:text-red-400">*</span>
                             </span>
                             <input
                                 type="email"
@@ -213,14 +216,14 @@ export default function ProfileDetailsForm({ profile }) {
                                 className={inputShell(Boolean(fieldErrors.email))}
                             />
                             {fieldErrors.email ? (
-                                <p className="mt-1 text-xs text-red-400">
+                                <p className="mt-1 text-xs text-red-600 dark:text-red-400">
                                     {fieldErrors.email}
                                 </p>
                             ) : null}
                         </label>
                         <label className="block min-w-0">
-                            <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white">
-                                Mật khẩu <span className="text-red-400">*</span>
+                            <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-zinc-800 dark:text-white">
+                                Mật khẩu <span className="text-red-600 dark:text-red-400">*</span>
                             </span>
                             <div className="relative w-full min-w-0">
                                 <input
@@ -237,7 +240,7 @@ export default function ProfileDetailsForm({ profile }) {
                                 <button
                                     type="button"
                                     onClick={() => setShowPassword((prev) => !prev)}
-                                    className="absolute inset-y-0 right-0 flex w-10 items-center justify-center text-zinc-500 transition hover:text-zinc-200"
+                                    className="absolute inset-y-0 right-0 flex w-10 items-center justify-center text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200"
                                     aria-label={
                                         showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"
                                     }
@@ -280,14 +283,14 @@ export default function ProfileDetailsForm({ profile }) {
                                 </button>
                             </div>
                             {fieldErrors.matKhau ? (
-                                <p className="mt-1 text-xs text-red-400">
+                                <p className="mt-1 text-xs text-red-600 dark:text-red-400">
                                     {fieldErrors.matKhau}
                                 </p>
                             ) : null}
                         </label>
                         <label className="block min-w-0">
-                            <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white">
-                                Số điện thoại <span className="text-red-400">*</span>
+                            <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-zinc-800 dark:text-white">
+                                Số điện thoại <span className="text-red-600 dark:text-red-400">*</span>
                             </span>
                             <input
                                 name="soDT"
@@ -299,14 +302,14 @@ export default function ProfileDetailsForm({ profile }) {
                                 className={inputShell(Boolean(fieldErrors.soDT))}
                             />
                             {fieldErrors.soDT ? (
-                                <p className="mt-1 text-xs text-red-400">
+                                <p className="mt-1 text-xs text-red-600 dark:text-red-400">
                                     {fieldErrors.soDT}
                                 </p>
                             ) : null}
                         </label>
                         <label className="block min-w-0">
-                            <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white">
-                                Họ tên <span className="text-red-400">*</span>
+                            <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-zinc-800 dark:text-white">
+                                Họ tên <span className="text-red-600 dark:text-red-400">*</span>
                             </span>
                             <input
                                 name="hoTen"
@@ -317,14 +320,14 @@ export default function ProfileDetailsForm({ profile }) {
                                 className={inputShell(Boolean(fieldErrors.hoTen))}
                             />
                             {fieldErrors.hoTen ? (
-                                <p className="mt-1 text-xs text-red-400">
+                                <p className="mt-1 text-xs text-red-600 dark:text-red-400">
                                     {fieldErrors.hoTen}
                                 </p>
                             ) : null}
                         </label>
                     </div>
 
-                    <div className="flex justify-end border-t border-zinc-800 pt-5">
+                    <div className="flex justify-end border-t border-zinc-200 pt-5 dark:border-zinc-800">
                         <button
                             type="submit"
                             disabled={updateLoading}
