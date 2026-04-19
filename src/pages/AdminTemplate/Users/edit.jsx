@@ -139,18 +139,18 @@ export default function EditUser() {
         return (
             <div className="mx-auto w-full max-w-6xl">
                 <div className="mb-8 animate-pulse">
-                    <div className="h-4 w-56 rounded bg-zinc-700" />
-                    <div className="mt-4 h-10 w-72 max-w-full rounded bg-zinc-700" />
-                    <div className="mt-3 h-1 w-20 rounded-full bg-zinc-700" />
+                    <div className="h-4 w-56 rounded bg-zinc-300 dark:bg-zinc-700" />
+                    <div className="mt-4 h-10 w-72 max-w-full rounded bg-zinc-300 dark:bg-zinc-700" />
+                    <div className="mt-3 h-1 w-20 rounded-full bg-zinc-300 dark:bg-zinc-700" />
                 </div>
-                <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-5 sm:p-6">
+                <div className="rounded-xl border border-zinc-200 bg-white p-5 sm:p-6 dark:border-zinc-800 dark:bg-zinc-900">
                     <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-                        <div className="h-10 rounded bg-zinc-800" />
-                        <div className="h-10 rounded bg-zinc-800" />
-                        <div className="h-10 rounded bg-zinc-800" />
-                        <div className="h-10 rounded bg-zinc-800" />
-                        <div className="h-10 rounded bg-zinc-800" />
-                        <div className="h-10 rounded bg-zinc-800" />
+                        <div className="h-10 rounded bg-zinc-200 dark:bg-zinc-800" />
+                        <div className="h-10 rounded bg-zinc-200 dark:bg-zinc-800" />
+                        <div className="h-10 rounded bg-zinc-200 dark:bg-zinc-800" />
+                        <div className="h-10 rounded bg-zinc-200 dark:bg-zinc-800" />
+                        <div className="h-10 rounded bg-zinc-200 dark:bg-zinc-800" />
+                        <div className="h-10 rounded bg-zinc-200 dark:bg-zinc-800" />
                     </div>
                 </div>
             </div>
@@ -160,15 +160,15 @@ export default function EditUser() {
     return (
         <div className="mx-auto w-full max-w-6xl">
             <div className="mb-8">
-                <p className="text-sm text-zinc-400">Quản trị &gt; Quản lý người dùng</p>
+                <p className="text-sm text-zinc-600 dark:text-zinc-400">Quản trị &gt; Quản lý người dùng</p>
                 <div className="mt-2 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                     <div>
-                        <h1 className="text-4xl font-black uppercase tracking-tight text-white">
+                        <h1 className="text-4xl font-black uppercase tracking-tight text-zinc-900 dark:text-white">
                             Sửa người dùng
                         </h1>
-                        <p className="mt-2 max-w-2xl text-sm text-zinc-400">
+                        <p className="mt-2 max-w-2xl text-sm text-zinc-600 dark:text-zinc-400">
                             Cập nhật thông tin và mật khẩu cho{" "}
-                            <span className="font-semibold text-zinc-200">
+                            <span className="font-semibold text-zinc-800 dark:text-zinc-200">
                                 {detail.taiKhoan}
                             </span>
                             .
@@ -176,7 +176,7 @@ export default function EditUser() {
                     </div>
                     <Link
                         to="/admin/users"
-                        className="inline-flex shrink-0 items-center rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-zinc-200 transition hover:border-rose-500 hover:text-white"
+                        className="inline-flex shrink-0 items-center rounded-lg border border-zinc-300 bg-white px-3 py-2 text-xs font-semibold uppercase tracking-wide text-zinc-800 transition hover:border-rose-500 hover:text-rose-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:text-white"
                     >
                         <ChevronLeft className="mr-1 h-3.5 w-3.5" aria-hidden />
                         Danh sách người dùng

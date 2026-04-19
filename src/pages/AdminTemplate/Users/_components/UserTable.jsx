@@ -32,7 +32,7 @@ function roleBadgeClass(maLoaiNguoiDung) {
     if (code === USER_ROLE_CUSTOMER) {
         return "bg-sky-600/90 text-white";
     }
-    return "bg-zinc-700 text-zinc-200";
+    return "bg-zinc-200 text-zinc-800 dark:bg-zinc-700 dark:text-zinc-200";
 }
 
 /**
@@ -86,32 +86,32 @@ export default function UserTable({
     return (
         <div className="overflow-x-auto">
             <table className="w-full min-w-[720px] text-left text-sm">
-                <thead className="bg-zinc-800">
-                    <tr className="border-b border-zinc-800/90">
-                        <th className="w-14 align-middle px-5 py-4 text-xs font-semibold uppercase tracking-wide text-zinc-400">
+                <thead className="bg-zinc-100 dark:bg-zinc-800">
+                    <tr className="border-b border-zinc-200/90 dark:border-zinc-800/90">
+                        <th className="w-14 align-middle px-5 py-4 text-xs font-semibold uppercase tracking-wide text-zinc-600 dark:text-zinc-400">
                             STT
                         </th>
-                        <th className="align-middle px-5 py-4 text-xs font-semibold uppercase tracking-wide text-zinc-400">
+                        <th className="align-middle px-5 py-4 text-xs font-semibold uppercase tracking-wide text-zinc-600 dark:text-zinc-400">
                             Tài khoản
                         </th>
-                        <th className="align-middle px-5 py-4 text-xs font-semibold uppercase tracking-wide text-zinc-400">
+                        <th className="align-middle px-5 py-4 text-xs font-semibold uppercase tracking-wide text-zinc-600 dark:text-zinc-400">
                             Họ tên
                         </th>
-                        <th className="align-middle px-5 py-4 text-xs font-semibold uppercase tracking-wide text-zinc-400">
+                        <th className="align-middle px-5 py-4 text-xs font-semibold uppercase tracking-wide text-zinc-600 dark:text-zinc-400">
                             Email
                         </th>
-                        <th className="align-middle px-5 py-4 text-xs font-semibold uppercase tracking-wide text-zinc-400">
+                        <th className="align-middle px-5 py-4 text-xs font-semibold uppercase tracking-wide text-zinc-600 dark:text-zinc-400">
                             Điện thoại
                         </th>
-                        <th className="align-middle px-5 py-4 text-center text-xs font-semibold uppercase tracking-wide text-zinc-400">
+                        <th className="align-middle px-5 py-4 text-center text-xs font-semibold uppercase tracking-wide text-zinc-600 dark:text-zinc-400">
                             Vai trò
                         </th>
-                        <th className="align-middle px-5 py-4 text-right text-xs font-semibold uppercase tracking-wide text-zinc-400">
+                        <th className="align-middle px-5 py-4 text-right text-xs font-semibold uppercase tracking-wide text-zinc-600 dark:text-zinc-400">
                             Thao tác
                         </th>
                     </tr>
                 </thead>
-                <tbody className="divide-y divide-zinc-800/70 bg-zinc-900">
+                <tbody className="divide-y divide-zinc-200/80 bg-white dark:divide-zinc-800/70 dark:bg-zinc-900">
                     {items.map((user, index) => {
                         const taiKhoan = user?.taiKhoan ?? "";
                         const editPath = `/admin/users/edit/${encodeURIComponent(String(taiKhoan))}`;
@@ -123,29 +123,29 @@ export default function UserTable({
 
                         return (
                             <tr key={`user-${taiKhoan || user?.email}`} className="align-middle">
-                                <td className="w-14 align-middle whitespace-nowrap px-5 py-3 tabular-nums text-zinc-200">
+                                <td className="w-14 align-middle whitespace-nowrap px-5 py-3 tabular-nums text-zinc-700 dark:text-zinc-200">
                                     {serialNumber}
                                 </td>
                                 <td className="align-middle px-5 py-3">
                                     <Link
                                         to={editPath}
-                                        className="block min-w-0 truncate font-medium text-white hover:text-rose-400"
+                                        className="block min-w-0 truncate font-medium text-zinc-900 hover:text-rose-600 dark:text-white dark:hover:text-rose-400"
                                         title={taiKhoan}
                                     >
                                         {taiKhoan || "—"}
                                     </Link>
                                 </td>
-                                <td className="max-w-[12rem] align-middle px-5 py-3 text-zinc-200">
+                                <td className="max-w-[12rem] align-middle px-5 py-3 text-zinc-800 dark:text-zinc-200">
                                     <span className="line-clamp-2" title={user?.hoTen}>
                                         {user?.hoTen?.trim() || "—"}
                                     </span>
                                 </td>
-                                <td className="max-w-[14rem] align-middle px-5 py-3 text-zinc-300">
+                                <td className="max-w-[14rem] align-middle px-5 py-3 text-zinc-700 dark:text-zinc-300">
                                     <span className="line-clamp-2 break-all" title={user?.email}>
                                         {user?.email?.trim() || "—"}
                                     </span>
                                 </td>
-                                <td className="whitespace-nowrap px-5 py-3 align-middle tabular-nums text-zinc-300">
+                                <td className="whitespace-nowrap px-5 py-3 align-middle tabular-nums text-zinc-700 dark:text-zinc-300">
                                     {formatPhoneDisplay(user?.soDt)}
                                 </td>
                                 <td className="align-middle px-5 py-3 text-center">
@@ -160,7 +160,7 @@ export default function UserTable({
                                     <div className="flex flex-wrap items-center justify-end gap-2">
                                         <Link
                                             to={editPath}
-                                            className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-zinc-300 transition hover:bg-zinc-800/70 hover:text-rose-400"
+                                            className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-zinc-600 transition hover:bg-zinc-200 hover:text-rose-600 dark:text-zinc-300 dark:hover:bg-zinc-800/70 dark:hover:text-rose-400"
                                             title="Sửa"
                                         >
                                             <Edit className="h-4 w-4 shrink-0" aria-hidden />

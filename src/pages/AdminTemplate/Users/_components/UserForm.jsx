@@ -114,17 +114,17 @@ export default function UserForm({
     };
 
     const inputShell = (hasError) =>
-        `w-full rounded-md border bg-zinc-950/50 px-3 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-1 ${
+        `w-full rounded-md border bg-white px-3 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-500 focus:outline-none focus:ring-1 dark:bg-zinc-950/50 dark:text-zinc-100 dark:placeholder:text-zinc-500 ${
             hasError
                 ? "border-red-500 focus:border-red-500 focus:ring-red-500/40"
-                : "border-zinc-700 focus:border-rose-500 focus:ring-rose-500"
+                : "border-zinc-300 focus:border-rose-500 focus:ring-rose-500 dark:border-zinc-700"
         }`;
 
     const selectShell = (hasError) =>
-        `w-full cursor-pointer appearance-none rounded-md border bg-zinc-950/50 px-3 py-2.5 pr-8 text-sm text-zinc-100 focus:outline-none focus:ring-1 ${
+        `w-full cursor-pointer appearance-none rounded-md border bg-white px-3 py-2.5 pr-8 text-sm text-zinc-900 focus:outline-none focus:ring-1 dark:bg-zinc-950/50 dark:text-zinc-100 ${
             hasError
                 ? "border-red-500 focus:border-red-500 focus:ring-red-500/40"
-                : "border-zinc-700 focus:border-rose-500 focus:ring-rose-500"
+                : "border-zinc-300 focus:border-rose-500 focus:ring-rose-500 dark:border-zinc-700"
         }`;
 
     const safeRoleOptions = useMemo(
@@ -136,16 +136,16 @@ export default function UserForm({
         <form onSubmit={handleSubmit}>
             <fieldset
                 disabled={isSubmitting}
-                className="m-0 space-y-5 rounded-xl border border-zinc-800 bg-zinc-900 p-5 sm:p-6"
+                className="m-0 space-y-5 rounded-xl border border-zinc-200 bg-white p-5 sm:p-6 dark:border-zinc-800 dark:bg-zinc-900"
             >
                 {roleTypesError ? (
-                    <div className="flex flex-col gap-2 rounded-md border border-amber-600/50 bg-amber-950/20 px-4 py-3 text-sm text-amber-100 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="flex flex-col gap-2 rounded-md border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-950 sm:flex-row sm:items-center sm:justify-between dark:border-amber-600/50 dark:bg-amber-950/20 dark:text-amber-100">
                         <span>{String(roleTypesError)}</span>
                         {typeof onRetryRoleTypes === "function" ? (
                             <button
                                 type="button"
                                 onClick={onRetryRoleTypes}
-                                className="shrink-0 rounded-md border border-amber-500/60 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-amber-100 transition hover:bg-amber-900/40"
+                                className="shrink-0 rounded-md border border-amber-500/70 bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-amber-900 transition hover:bg-amber-100 dark:border-amber-500/60 dark:bg-transparent dark:text-amber-100 dark:hover:bg-amber-900/40"
                             >
                                 Thử lại
                             </button>
@@ -154,8 +154,8 @@ export default function UserForm({
                 ) : null}
 
                 {error ? (
-                    <div className="flex items-center gap-2 rounded-md border border-red-500 bg-red-500/10 px-4 py-2 text-sm text-red-300">
-                        <span className="text-red-400" aria-hidden>
+                    <div className="flex items-center gap-2 rounded-md border border-red-300 bg-red-50 px-4 py-2 text-sm text-red-800 dark:border-red-500 dark:bg-red-500/10 dark:text-red-300">
+                        <span className="text-red-600 dark:text-red-400" aria-hidden>
                             !
                         </span>
                         <span>{String(error)}</span>
@@ -164,8 +164,8 @@ export default function UserForm({
 
                 <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                     <label className="block">
-                        <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white">
-                            Tên đăng nhập <span className="text-red-400">*</span>
+                        <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-zinc-800 dark:text-white">
+                            Tên đăng nhập <span className="text-red-600 dark:text-red-400">*</span>
                         </span>
                         <input
                             name="taiKhoan"
@@ -179,13 +179,13 @@ export default function UserForm({
                             }`}
                         />
                         {fieldErrors.taiKhoan ? (
-                            <p className="mt-1 text-xs text-red-400">{fieldErrors.taiKhoan}</p>
+                            <p className="mt-1 text-xs text-red-600 dark:text-red-400">{fieldErrors.taiKhoan}</p>
                         ) : null}
                     </label>
 
                     <label className="block">
-                        <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white">
-                            Email <span className="text-red-400">*</span>
+                        <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-zinc-800 dark:text-white">
+                            Email <span className="text-red-600 dark:text-red-400">*</span>
                         </span>
                         <input
                             type="email"
@@ -193,17 +193,17 @@ export default function UserForm({
                             value={formValues.email}
                             onChange={handleTextChange}
                             autoComplete="email"
-                            placeholder="vidu@email.com"
+                            placeholder="email@example.com"
                             className={inputShell(Boolean(fieldErrors.email))}
                         />
                         {fieldErrors.email ? (
-                            <p className="mt-1 text-xs text-red-400">{fieldErrors.email}</p>
+                            <p className="mt-1 text-xs text-red-600 dark:text-red-400">{fieldErrors.email}</p>
                         ) : null}
                     </label>
 
                     <label className="block">
-                        <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white">
-                            Mật khẩu <span className="text-red-400">*</span>
+                        <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-zinc-800 dark:text-white">
+                            Mật khẩu <span className="text-red-600 dark:text-red-400">*</span>
                         </span>
                         <div className="relative">
                             <input
@@ -219,7 +219,7 @@ export default function UserForm({
                                 type="button"
                                 onClick={() => setShowPassword((prev) => !prev)}
                                 disabled={isSubmitting}
-                                className="absolute inset-y-0 right-0 flex w-10 items-center justify-center text-zinc-500 transition hover:text-zinc-200 disabled:cursor-not-allowed disabled:opacity-50"
+                                className="absolute inset-y-0 right-0 flex w-10 items-center justify-center text-zinc-500 transition hover:text-zinc-800 disabled:cursor-not-allowed disabled:opacity-50 dark:hover:text-zinc-200"
                                 aria-label={
                                     showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"
                                 }
@@ -262,13 +262,13 @@ export default function UserForm({
                             </button>
                         </div>
                         {fieldErrors.matKhau ? (
-                            <p className="mt-1 text-xs text-red-400">{fieldErrors.matKhau}</p>
+                            <p className="mt-1 text-xs text-red-600 dark:text-red-400">{fieldErrors.matKhau}</p>
                         ) : null}
                     </label>
 
                     <label className="block">
-                        <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white">
-                            Số điện thoại <span className="text-red-400">*</span>
+                        <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-zinc-800 dark:text-white">
+                            Số điện thoại <span className="text-red-600 dark:text-red-400">*</span>
                         </span>
                         <input
                             name="soDt"
@@ -280,13 +280,13 @@ export default function UserForm({
                             className={inputShell(Boolean(fieldErrors.soDt))}
                         />
                         {fieldErrors.soDt ? (
-                            <p className="mt-1 text-xs text-red-400">{fieldErrors.soDt}</p>
+                            <p className="mt-1 text-xs text-red-600 dark:text-red-400">{fieldErrors.soDt}</p>
                         ) : null}
                     </label>
 
                     <label className="block">
-                        <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white">
-                            Họ tên <span className="text-red-400">*</span>
+                        <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-zinc-800 dark:text-white">
+                            Họ tên <span className="text-red-600 dark:text-red-400">*</span>
                         </span>
                         <input
                             name="hoTen"
@@ -297,13 +297,13 @@ export default function UserForm({
                             className={inputShell(Boolean(fieldErrors.hoTen))}
                         />
                         {fieldErrors.hoTen ? (
-                            <p className="mt-1 text-xs text-red-400">{fieldErrors.hoTen}</p>
+                            <p className="mt-1 text-xs text-red-600 dark:text-red-400">{fieldErrors.hoTen}</p>
                         ) : null}
                     </label>
 
                     <label className="block">
-                        <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white">
-                            Loại người dùng <span className="text-red-400">*</span>
+                        <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-zinc-800 dark:text-white">
+                            Loại người dùng <span className="text-red-600 dark:text-red-400">*</span>
                         </span>
                         <select
                             name="maLoaiNguoiDung"
@@ -332,17 +332,17 @@ export default function UserForm({
                             })}
                         </select>
                         {fieldErrors.maLoaiNguoiDung ? (
-                            <p className="mt-1 text-xs text-red-400">
+                            <p className="mt-1 text-xs text-red-600 dark:text-red-400">
                                 {fieldErrors.maLoaiNguoiDung}
                             </p>
                         ) : null}
                     </label>
                 </div>
 
-                <div className="flex flex-wrap items-center justify-end gap-3 border-t border-zinc-800 pt-4">
+                <div className="flex flex-wrap items-center justify-end gap-3 border-t border-zinc-200 pt-4 dark:border-zinc-800">
                     <Link
                         to={cancelTo}
-                        className="rounded-xl border border-zinc-600 bg-transparent px-4 py-2.5 text-sm font-semibold text-zinc-200 transition hover:border-zinc-500 hover:text-white"
+                        className="rounded-xl border border-zinc-300 bg-transparent px-4 py-2.5 text-sm font-semibold text-zinc-700 transition hover:border-zinc-400 hover:bg-zinc-50 hover:text-zinc-900 dark:border-zinc-600 dark:text-zinc-200 dark:hover:border-zinc-500 dark:hover:bg-transparent dark:hover:text-white"
                     >
                         Hủy
                     </Link>
