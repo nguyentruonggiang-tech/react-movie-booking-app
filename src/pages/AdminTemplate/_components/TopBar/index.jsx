@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
+import ThemeToggle from "@components/ThemeToggle";
+import { useAppTheme } from "@/hooks/useAppTheme";
 import { actLogout } from "@pages/Auth/slice";
 
 function getAvatarInitials(hoTen, taiKhoan) {
@@ -29,12 +31,13 @@ const USER_MENU_ID = "admin-user-menu";
 
 /** Dropdown rows — aligned with admin zinc palette + Home header interaction pattern */
 const userDropdownLinkClass =
-    "inline-flex w-full items-center rounded-md p-2 text-zinc-200 transition-colors hover:bg-zinc-800/80 hover:text-white";
+    "inline-flex w-full items-center rounded-md p-2 text-zinc-800 transition-colors hover:bg-zinc-100 hover:text-zinc-950 dark:text-zinc-200 dark:hover:bg-zinc-800/80 dark:hover:text-white";
 
 const userDropdownSignOutClass =
-    "inline-flex w-full cursor-pointer items-center rounded-md p-2 text-left text-red-300 transition-colors hover:bg-red-600/15 hover:text-red-200";
+    "inline-flex w-full cursor-pointer items-center rounded-md p-2 text-left text-red-700 transition-colors hover:bg-red-50 dark:text-red-300 dark:hover:bg-red-600/15 dark:hover:text-red-200";
 
 export default function TopBar() {
+    const mode = useAppTheme();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = useSelector((state) => state.authLoginReducer?.data);
@@ -75,7 +78,12 @@ export default function TopBar() {
     }
 
     return (
-        <header className="flex h-14 shrink-0 items-center justify-end border-b border-zinc-800 bg-zinc-900/80 px-6 lg:px-8">
+        <header className="flex h-14 shrink-0 items-center justify-end gap-3 border-b border-zinc-200 bg-white/95 px-6 dark:border-zinc-800 dark:bg-zinc-900/80 lg:px-8">
+            <ThemeToggle
+                compact
+                variant={mode === "dark" ? "onDarkPanel" : "default"}
+                className="me-auto"
+            />
             <div className="relative" ref={wrapRef}>
                 <button
                     type="button"
@@ -100,12 +108,14 @@ export default function TopBar() {
                         id={USER_MENU_ID}
                         role="menu"
                         aria-labelledby="admin-user-menu-button"
-                        className="absolute end-0 top-full z-50 mt-1.5 w-44 rounded-lg border border-zinc-700/80 bg-zinc-950/98 shadow-lg shadow-black/40 backdrop-blur-md"
+                        className="absolute end-0 top-full z-50 mt-1.5 w-44 rounded-lg border border-zinc-200 bg-white shadow-lg shadow-zinc-900/10 backdrop-blur-md dark:border-zinc-700/80 dark:bg-zinc-950/98 dark:shadow-black/40"
                     >
-                        <div className="border-b border-zinc-800 px-4 py-3 text-sm">
-                            <span className="block font-medium text-white">{displayName}</span>
+                        <div className="border-b border-zinc-200 px-4 py-3 text-sm dark:border-zinc-800">
+                            <span className="block font-medium text-zinc-900 dark:text-white">{displayName}</span>
                             {accountEmail ? (
-                                <span className="mt-0.5 block truncate text-zinc-400">{accountEmail}</span>
+                                <span className="mt-0.5 block truncate text-zinc-600 dark:text-zinc-400">
+                                    {accountEmail}
+                                </span>
                             ) : null}
                         </div>
                         <ul className="p-2 text-sm font-medium">

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import ThemeToggle from "@components/ThemeToggle";
 import { actLogout } from "@pages/Auth/slice";
 import { SITE_NAME } from "@constants";
 import { HOME_HEADER_BAR_CLASS } from "../../constants";
@@ -41,14 +42,16 @@ function authDesktopSignUpClass(isActive) {
     if (isActive) {
         return (
             base +
-            "border border-white/25 bg-white/10 text-white " +
-            "hover:border-white/40 hover:bg-white/15"
+            "border border-slate-300 bg-slate-100 text-slate-900 " +
+            "hover:border-slate-400 hover:bg-slate-200 " +
+            "dark:border-white/25 dark:bg-white/10 dark:text-white dark:hover:border-white/40 dark:hover:bg-white/15"
         );
     }
     return (
         base +
-        "border border-white/15 bg-transparent text-slate-200 " +
-        "hover:border-white/30 hover:bg-white/5 hover:text-white"
+        "border border-slate-300 bg-transparent text-slate-700 " +
+        "hover:border-slate-400 hover:bg-slate-100 hover:text-slate-900 " +
+        "dark:border-white/15 dark:bg-transparent dark:text-slate-200 dark:hover:border-white/30 dark:hover:bg-white/5 dark:hover:text-white"
     );
 }
 
@@ -68,9 +71,11 @@ function userMenuAvatarInitials(displayLabel, loginName) {
 
 /* Flowbite-style dropdown rows (semantic tokens from docs → slate/red in this build) */
 const userDropdownLinkClass =
-    "inline-flex w-full items-center rounded-md p-2 text-slate-200 transition-colors hover:bg-white/10 hover:text-white";
+    "inline-flex w-full items-center rounded-md p-2 text-slate-800 transition-colors hover:bg-slate-100 hover:text-slate-950 " +
+    "dark:text-slate-200 dark:hover:bg-white/10 dark:hover:text-white";
 const userDropdownSignOutClass =
-    "inline-flex w-full cursor-pointer items-center rounded-md p-2 text-left text-red-300 transition-colors hover:bg-red-600/15 hover:text-red-200";
+    "inline-flex w-full cursor-pointer items-center rounded-md p-2 text-left text-red-700 transition-colors hover:bg-red-50 " +
+    "dark:text-red-300 dark:hover:bg-red-600/15 dark:hover:text-red-200";
 const LOGOUT_SUCCESS_TOAST_ID = "logout-success";
 
 function UserAccountDropdownPanel({
@@ -82,10 +87,12 @@ function UserAccountDropdownPanel({
 }) {
     return (
         <>
-            <div className="border-b border-white/10 px-4 py-3 text-sm">
-                <span className="block font-medium text-white">{displayName}</span>
+            <div className="border-b border-slate-200 px-4 py-3 text-sm dark:border-white/10">
+                <span className="block font-medium text-slate-900 dark:text-white">{displayName}</span>
                 {accountEmail ? (
-                    <span className="mt-0.5 block truncate text-sm text-slate-400">{accountEmail}</span>
+                    <span className="mt-0.5 block truncate text-sm text-slate-600 dark:text-slate-400">
+                        {accountEmail}
+                    </span>
                 ) : null}
             </div>
             <ul className="p-2 text-sm font-medium" aria-labelledby={menuLabelledById}>
@@ -118,17 +125,18 @@ function navMainLinkClass(isActive) {
     if (isActive) {
         return (
             "flex w-full items-center rounded-md px-3 py-2.5 text-sm font-semibold text-red-600 transition-colors " +
-            "bg-red-600/15 hover:bg-red-600/25 active:bg-red-600/30 " +
+            "bg-red-50 hover:bg-red-100 active:bg-red-200/80 dark:bg-red-600/15 dark:hover:bg-red-600/25 dark:active:bg-red-600/30 " +
             "md:w-auto md:rounded-none md:bg-transparent md:px-0 md:py-0 md:text-base md:font-bold md:text-red-600 md:opacity-100 " +
             "md:hover:bg-transparent md:hover:text-red-600 md:hover:opacity-100 md:active:bg-transparent " +
             `${navDesktopUnderline} md:after:scale-x-100`
         );
     }
     return (
-        "flex w-full items-center rounded-md px-3 py-2.5 text-sm text-white transition-colors " +
-        "hover:bg-red-600/15 hover:text-white hover:font-semibold active:bg-red-600/25 " +
+        "flex w-full items-center rounded-md px-3 py-2.5 text-sm text-slate-800 transition-colors " +
+        "hover:bg-red-600/10 hover:text-red-700 hover:font-semibold active:bg-red-600/15 " +
+        "dark:text-white dark:hover:bg-red-600/15 dark:hover:text-white dark:active:bg-red-600/25 " +
         "md:w-auto md:rounded-none md:bg-transparent md:px-0 md:py-0 md:text-base md:font-normal " +
-        "md:text-slate-200 md:opacity-100 " +
+        "md:text-slate-700 md:opacity-100 dark:md:text-slate-200 " +
         "md:hover:bg-transparent md:hover:text-red-600 md:hover:opacity-100 md:hover:font-normal md:active:bg-transparent " +
         `${navDesktopUnderline} md:after:scale-x-0 md:hover:after:scale-x-100`
     );
@@ -214,7 +222,7 @@ export default function Header() {
 
     return (
         <nav
-            className={`fixed start-0 top-0 z-[100] w-full border-b border-white/10 bg-slate-950/95 font-sans shadow-sm backdrop-blur-md ${HOME_HEADER_BAR_CLASS}`}
+            className={`fixed start-0 top-0 z-[100] w-full border-b border-slate-200 bg-white/95 font-sans shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-slate-950/95 ${HOME_HEADER_BAR_CLASS}`}
         >
             <div className="relative mx-auto flex h-full w-full max-w-screen-xl flex-wrap items-center justify-between gap-y-2 px-4 md:px-8">
                 <NavLink
@@ -228,12 +236,13 @@ export default function Header() {
                 </NavLink>
 
                 <div className="relative z-20 flex shrink-0 items-center space-x-2 md:order-2 md:space-x-3 rtl:space-x-reverse">
+                    <ThemeToggle compact className="shrink-0" />
                     {isAuthenticated ? (
                         <>
                             <div ref={mobileUserMenuRef} className="relative flex items-center md:hidden">
                                 <button
                                     type="button"
-                                    className="box-border flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-slate-800 text-sm [-webkit-tap-highlight-color:transparent] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-red-500/50 active:bg-slate-800/90 md:me-0"
+                                    className="box-border flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-slate-200 text-sm [-webkit-tap-highlight-color:transparent] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-red-500/50 active:bg-slate-300/90 dark:bg-slate-800 dark:active:bg-slate-800/90 md:me-0"
                                     id="user-menu-button-mobile"
                                     aria-expanded={userMenuOpen}
                                     aria-haspopup="menu"
@@ -253,7 +262,7 @@ export default function Header() {
                                 </button>
                                 {userMenuOpen ? (
                                     <div
-                                        className="absolute end-0 top-full z-50 mt-1.5 w-44 rounded-base border border-white/15 bg-slate-950/98 shadow-lg backdrop-blur-md"
+                                        className="absolute end-0 top-full z-50 mt-1.5 w-44 rounded-base border border-slate-200 bg-white/98 shadow-lg backdrop-blur-md dark:border-white/15 dark:bg-slate-950/98"
                                         id="user-dropdown-mobile"
                                         role="menu"
                                     >
@@ -280,7 +289,7 @@ export default function Header() {
                                 >
                                     <button
                                         type="button"
-                                        className="box-border flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-slate-800 text-sm [-webkit-tap-highlight-color:transparent] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-red-500/50 md:me-0"
+                                        className="box-border flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-slate-200 text-sm [-webkit-tap-highlight-color:transparent] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-red-500/50 dark:bg-slate-800 md:me-0"
                                         id="user-menu-button"
                                         aria-expanded={userMenuOpen || desktopUserHovered}
                                         aria-haspopup="menu"
@@ -311,7 +320,7 @@ export default function Header() {
                                     </button>
                                     {userMenuOpen || desktopUserHovered ? (
                                         <div
-                                            className="absolute end-0 top-full z-50 mt-0 w-44 -translate-y-px rounded-base border border-white/15 bg-slate-950/98 shadow-lg backdrop-blur-md"
+                                            className="absolute end-0 top-full z-50 mt-0 w-44 -translate-y-px rounded-base border border-slate-200 bg-white/98 shadow-lg backdrop-blur-md dark:border-white/15 dark:bg-slate-950/98"
                                             id="user-dropdown"
                                             role="menu"
                                         >
@@ -343,7 +352,7 @@ export default function Header() {
                     <button
                         ref={hamburgerRef}
                         type="button"
-                        className="inline-flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-base border border-transparent p-2 text-sm text-slate-300 [-webkit-tap-highlight-color:transparent] transition-colors hover:border-white/10 hover:bg-white/10 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-red-500/50 active:bg-white/5 md:hidden"
+                        className="inline-flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-base border border-transparent p-2 text-sm text-slate-600 [-webkit-tap-highlight-color:transparent] transition-colors hover:border-slate-200 hover:bg-slate-100 hover:text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-red-500/50 active:bg-slate-200/80 dark:text-slate-300 dark:hover:border-white/10 dark:hover:bg-white/10 dark:hover:text-white dark:active:bg-white/5 md:hidden"
                         data-collapse-toggle="navbar-main"
                         onClick={() => {
                             setUserMenuOpen(false);
@@ -380,7 +389,8 @@ export default function Header() {
                     className={
                         "order-3 w-full md:order-1 md:flex md:w-auto md:flex-1 md:items-center md:justify-center " +
                         "max-md:absolute max-md:inset-x-0 max-md:top-full max-md:z-[101] " +
-                        "max-md:rounded-base max-md:border max-md:border-white/10 max-md:bg-slate-900/95 max-md:p-4 max-md:shadow-lg " +
+                        "max-md:rounded-base max-md:border max-md:border-slate-200 max-md:bg-white/98 max-md:p-4 max-md:shadow-lg " +
+                        "dark:max-md:border-white/10 dark:max-md:bg-slate-900/95 " +
                         "md:border-0 md:bg-transparent md:p-0 md:shadow-none " +
                         (menuOpen ? "max-md:block" : "max-md:hidden") +
                         " md:block"
@@ -405,7 +415,7 @@ export default function Header() {
                         {!isAuthenticated ? (
                             <>
                                 <li className="list-none px-3 md:hidden" aria-hidden="true">
-                                    <div className="my-2 h-px w-full bg-white/15" />
+                                    <div className="my-2 h-px w-full bg-slate-200 dark:bg-white/15" />
                                 </li>
                                 <li className="list-none md:hidden">
                                     <NavLink to="/register" className={({ isActive }) => navMainLinkClass(isActive)}>

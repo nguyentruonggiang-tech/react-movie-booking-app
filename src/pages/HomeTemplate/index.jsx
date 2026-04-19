@@ -12,11 +12,11 @@ export default function HomeTemplate() {
     const location = useLocation();
     const homeShellBackgroundClass = isMovieDetailPathname(location.pathname)
         ? "bg-transparent"
-        : "bg-slate-950";
+        : "bg-slate-50 dark:bg-slate-950";
 
     return (
         <div
-            className={`flex min-h-screen flex-col ${homeShellBackgroundClass} text-slate-100 antialiased`}
+            className={`flex min-h-screen flex-col ${homeShellBackgroundClass} text-slate-900 antialiased dark:text-slate-100`}
         >
             <Header />
 

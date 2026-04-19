@@ -7,8 +7,8 @@ import Sidebar from "./_components/Sidebar";
 
 export default function AdminTemplate() {
     return (
-        <div className="flex min-h-screen bg-zinc-950 text-zinc-100">
-            <aside className="w-64 shrink-0 border-r border-zinc-800 bg-zinc-900">
+        <div className="flex min-h-screen bg-zinc-100 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
+            <aside className="w-64 shrink-0 border-r border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900">
                 <Sidebar />
             </aside>
             <div className="flex min-w-0 flex-1 flex-col">

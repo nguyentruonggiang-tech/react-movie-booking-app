@@ -1,12 +1,13 @@
-// ===== COLORS =====
+// ===== COLORS (light + dark) =====
 const ROSE_BG = {
-    expanded: "bg-rose-950/35",
-    onRoute: "bg-rose-950/45",
+    expanded: "bg-rose-100/80 dark:bg-rose-950/35",
+    onRoute: "bg-rose-200/90 dark:bg-rose-950/45",
 };
 
 // ===== COMMON =====
 const PARENT_SHELL =
-    "ring-1 ring-rose-900/35 shadow-inner shadow-black/25 hover:bg-rose-950/55 hover:text-white hover:ring-rose-800/45";
+    "ring-1 ring-rose-300/50 shadow-inner shadow-zinc-200/40 hover:bg-rose-100/90 hover:text-rose-950 hover:ring-rose-400/60 " +
+    "dark:ring-rose-900/35 dark:shadow-inner dark:shadow-black/25 dark:hover:bg-rose-950/55 dark:hover:text-white dark:hover:ring-rose-800/45";
 
 // ===== NAV CONFIG =====
 export const adminSidebarNav = {
@@ -19,22 +20,22 @@ export const adminSidebarNav = {
 
     // row
     rowInactive:
-        "text-zinc-400 hover:bg-zinc-800/80 hover:text-zinc-100",
+        "text-zinc-600 hover:bg-zinc-200/90 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/80 dark:hover:text-zinc-100",
 
     rowActive:
-        "bg-rose-600 text-white shadow-md shadow-rose-900/40",
+        "bg-rose-600 text-white shadow-md shadow-rose-900/25 dark:shadow-rose-900/40",
 
     // parent states
     parent: {
-        onRoute: `${ROSE_BG.onRoute} ${PARENT_SHELL} text-zinc-50`,
-        expanded: `${ROSE_BG.expanded} ${PARENT_SHELL} text-zinc-200`,
+        onRoute: `${ROSE_BG.onRoute} ${PARENT_SHELL} text-rose-950 dark:text-zinc-50`,
+        expanded: `${ROSE_BG.expanded} ${PARENT_SHELL} text-rose-900 dark:text-zinc-200`,
         collapsed:
-            "bg-transparent text-zinc-400 ring-0 shadow-none hover:bg-zinc-800/80 hover:text-zinc-100",
+            "bg-transparent text-zinc-600 ring-0 shadow-none hover:bg-zinc-200/90 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/80 dark:hover:text-zinc-100",
     },
 
     // sub item
     subItemInactive:
-        "text-zinc-400 hover:bg-zinc-800/75 hover:text-zinc-100 [&_svg]:text-zinc-500 [&_svg]:opacity-90",
+        "text-zinc-600 hover:bg-zinc-200/85 hover:text-zinc-900 [&_svg]:text-zinc-500 [&_svg]:opacity-90 dark:text-zinc-400 dark:hover:bg-zinc-800/75 dark:hover:text-zinc-100 dark:[&_svg]:text-zinc-500",
 
     subItemActiveIcons:
         "text-white [&_svg]:text-white [&_svg]:opacity-100",
@@ -47,7 +48,7 @@ export const adminSidebarNav = {
 
     // layout
     submenuIndent:
-        "mt-0.5 space-y-0.5 border-l border-zinc-700/80 py-1 pl-2",
+        "mt-0.5 space-y-0.5 border-l border-zinc-300 py-1 pl-2 dark:border-zinc-700/80",
 };
 export function adminSidebarParentTriggerClass({
     isOnRoute,

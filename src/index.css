@@ -1,4 +1,8 @@
 @import "tailwindcss";
+
+/* Tailwind v4: dark: theo class trên html, không theo OS khi user chọn sáng */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @import "flowbite/src/themes/default";
 @plugin "flowbite/plugin";
 @source "../node_modules/flowbite";

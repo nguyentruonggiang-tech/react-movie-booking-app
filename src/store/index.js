@@ -13,9 +13,11 @@ import { authLoginReducer, authRegisterReducer } from "@pages/Auth/slice";
 import { filmsReducer } from "@pages/AdminTemplate/Films/slice";
 import { usersReducer } from "@pages/AdminTemplate/Users/slice";
 import { profileReducer } from "@pages/UserProfile/slice";
+import themeReducer from "./themeSlice";
 
 const store = configureStore({
     reducer: {
+        theme: themeReducer,
         authLoginReducer,
         authRegisterReducer,
         films: filmsReducer,

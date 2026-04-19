@@ -57,7 +57,7 @@ export default function Sidebar() {
 
     return (
         <div className="flex h-full min-h-screen flex-col py-4">
-            <div className="border-b border-zinc-800 px-4 pb-2">
+            <div className="border-b border-zinc-200 px-4 pb-2 dark:border-zinc-800">
                 <p className="mb-2 text-justify text-2xl font-bold uppercase tracking-tight text-rose-600">
                     {SITE_NAME}
                 </p>
@@ -201,7 +201,7 @@ export default function Sidebar() {
                 </div>
             </nav>
 
-            <div className="mt-auto space-y-3 border-t border-zinc-800 px-4 pt-6">
+            <div className="mt-auto space-y-3 border-t border-zinc-200 px-4 pt-6 dark:border-zinc-800">
                 <button
                     type="button"
                     className={`${itemBase} w-full ${rowInactive} border border-transparent`}
