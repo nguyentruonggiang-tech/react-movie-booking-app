@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Grid } from "flowbite-react-icons/outline";
-import { toast } from "react-toastify";
 import ThemeToggle from "@components/ThemeToggle";
+import { notifySuccess } from "@shared/lib/toast";
 import { actLogout } from "@pages/Auth/slice";
 import { SITE_NAME, USER_ROLE_ADMIN } from "@constants";
 import { HOME_HEADER_BAR_CLASS } from "../../constants";
@@ -176,9 +176,7 @@ export default function Header() {
         setDesktopUserHovered(false);
         setMenuOpen(false);
         dispatch(actLogout());
-        toast.success("Đăng xuất thành công.", {
-            toastId: LOGOUT_SUCCESS_TOAST_ID,
-        });
+        notifySuccess("Đăng xuất thành công.", { toastId: LOGOUT_SUCCESS_TOAST_ID });
         navigate("/", { replace: true });
     };
 
