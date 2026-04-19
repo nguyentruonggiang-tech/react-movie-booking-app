@@ -22,6 +22,11 @@ export const adminSidebarNav = {
     rowInactive:
         "text-zinc-600 hover:bg-zinc-200/90 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/80 dark:hover:text-zinc-100",
 
+    footerItemBase:
+        "flex w-full items-center gap-3 rounded-md border border-transparent px-3 py-2.5 text-sm font-semibold transition-colors",
+    footerRowInactive:
+        "text-zinc-800 hover:bg-zinc-200/90 hover:text-zinc-950 dark:text-zinc-200 dark:hover:bg-zinc-800/85 dark:hover:text-white [&_svg]:text-zinc-700 dark:[&_svg]:text-zinc-300",
+
     rowActive:
         "bg-rose-600 text-white shadow-md shadow-rose-900/25 dark:shadow-rose-900/40",
 

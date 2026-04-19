@@ -18,22 +18,25 @@ export default function FilmTable({ data, loading, onDelete, deletingMaPhim }) {
             <>
                 {/* Loading header */}
                 <div
-                    className="border-b border-zinc-800/80 bg-zinc-800 px-5 py-4"
+                    className="border-b border-zinc-200/90 bg-zinc-100 px-5 py-4 dark:border-zinc-800/80 dark:bg-zinc-800"
                     aria-hidden
                 >
-                    <div className="h-3 w-48 max-w-full rounded bg-zinc-700/40" />
+                    <div className="h-3 w-48 max-w-full rounded bg-zinc-300/80 dark:bg-zinc-700/40" />
                 </div>
                 {/* Loading table rows */}
-                <div className="bg-zinc-900 px-5 py-3">
+                <div className="bg-white px-5 py-3 dark:bg-zinc-900">
                     <FilmSkeleton />
                 </div>
                 {/* Loading pagination */}
-                <div className="flex items-center justify-between border-t border-zinc-800/70 bg-zinc-900 px-5 py-4" aria-hidden>
-                    <div className="h-3 w-24 rounded bg-zinc-700/40" />
+                <div
+                    className="flex items-center justify-between border-t border-zinc-200/80 bg-zinc-50 px-5 py-4 dark:border-zinc-800/70 dark:bg-zinc-900"
+                    aria-hidden
+                >
+                    <div className="h-3 w-24 rounded bg-zinc-300/80 dark:bg-zinc-700/40" />
                     <div className="flex gap-3">
-                        <div className="h-8 w-8 rounded bg-zinc-700/40" />
-                        <div className="h-8 w-8 rounded bg-zinc-700/40" />
-                        <div className="h-8 w-8 rounded bg-zinc-700/40" />
+                        <div className="h-8 w-8 rounded bg-zinc-300/80 dark:bg-zinc-700/40" />
+                        <div className="h-8 w-8 rounded bg-zinc-300/80 dark:bg-zinc-700/40" />
+                        <div className="h-8 w-8 rounded bg-zinc-300/80 dark:bg-zinc-700/40" />
                     </div>
                 </div>
             </>
@@ -47,23 +50,23 @@ export default function FilmTable({ data, loading, onDelete, deletingMaPhim }) {
     return (
         <div className="overflow-x-auto">
             <table className="w-full min-w-[680px] text-left text-sm">
-                <thead className="bg-zinc-800">
-                    <tr className="border-b border-zinc-800/90">
-                        <th className="px-5 py-4 text-xs font-semibold uppercase tracking-wide text-zinc-400">
+                <thead className="bg-zinc-100 dark:bg-zinc-800">
+                    <tr className="border-b border-zinc-200/90 dark:border-zinc-800/90">
+                        <th className="px-5 py-4 text-xs font-semibold uppercase tracking-wide text-zinc-600 dark:text-zinc-400">
                             Phim
                         </th>
-                        <th className="px-5 py-4 text-xs font-semibold uppercase tracking-wide text-zinc-400">
+                        <th className="px-5 py-4 text-xs font-semibold uppercase tracking-wide text-zinc-600 dark:text-zinc-400">
                             Ngày khởi chiếu
                         </th>
-                        <th className="min-w-[5.5rem] whitespace-nowrap px-4 py-4 text-center text-xs font-semibold uppercase tracking-wide text-zinc-400">
+                        <th className="min-w-[5.5rem] whitespace-nowrap px-4 py-4 text-center text-xs font-semibold uppercase tracking-wide text-zinc-600 dark:text-zinc-400">
                             Đánh giá
                         </th>
-                        <th className="px-5 py-4 text-right text-xs font-semibold uppercase tracking-wide text-zinc-400">
+                        <th className="px-5 py-4 text-right text-xs font-semibold uppercase tracking-wide text-zinc-600 dark:text-zinc-400">
                             Thao tác
                         </th>
                     </tr>
                 </thead>
-                <tbody className="divide-y divide-zinc-800/70 bg-zinc-900">
+                <tbody className="divide-y divide-zinc-200/80 bg-white dark:divide-zinc-800/70 dark:bg-zinc-900">
                     {items.map((film) => (
                         <tr key={film.maPhim} className="align-middle">
                             <td className="px-5 py-3 align-top">
@@ -83,7 +86,7 @@ export default function FilmTable({ data, loading, onDelete, deletingMaPhim }) {
                                     <div className="flex min-h-12 min-w-0 max-w-[13rem] flex-1 flex-col justify-between gap-1 sm:max-w-[15rem]">
                                         <Link
                                             to={`/admin/films/edit/${film.maPhim}`}
-                                            className="line-clamp-2 text-sm font-medium leading-tight text-white hover:text-rose-400"
+                                            className="line-clamp-2 text-sm font-medium leading-tight text-zinc-900 hover:text-rose-600 dark:text-white dark:hover:text-rose-400"
                                             title={film.tenPhim}
                                         >
                                             {film.tenPhim}
@@ -97,8 +100,8 @@ export default function FilmTable({ data, loading, onDelete, deletingMaPhim }) {
                                                         key={field}
                                                         className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${
                                                             on
-                                                                ? "bg-rose-600/25 text-rose-200"
-                                                                : "bg-zinc-800/90 text-zinc-500 opacity-80"
+                                                                ? "bg-rose-100 text-rose-800 dark:bg-rose-600/25 dark:text-rose-200"
+                                                                : "bg-zinc-200/90 text-zinc-600 opacity-90 dark:bg-zinc-800/90 dark:text-zinc-500 dark:opacity-80"
                                                         }`}
                                                     >
                                                         {label}
@@ -109,23 +112,23 @@ export default function FilmTable({ data, loading, onDelete, deletingMaPhim }) {
                                     </div>
                                 </div>
                             </td>
-                            <td className="px-5 py-3 text-zinc-300">
+                            <td className="px-5 py-3 text-zinc-700 dark:text-zinc-300">
                                 <span className="inline-flex items-center gap-1.5">
                                     <CalendarMonth
-                                        className="h-4 w-4 shrink-0 text-rose-500"
+                                        className="h-4 w-4 shrink-0 text-rose-600 dark:text-rose-500"
                                         aria-hidden
                                     />
                                     {formatDateDisplay(film.ngayKhoiChieu)}
                                 </span>
                             </td>
-                            <td className="min-w-[5.5rem] whitespace-nowrap px-4 py-3 text-center tabular-nums text-zinc-200">
+                            <td className="min-w-[5.5rem] whitespace-nowrap px-4 py-3 text-center tabular-nums text-zinc-800 dark:text-zinc-200">
                                 <RatingBadge value={film.danhGia} />
                             </td>
                             <td className="px-5 py-3">
                                 <div className="flex flex-wrap items-center justify-end gap-2">
                                     <Link
                                         to={`/admin/films/edit/${film.maPhim}`}
-                                        className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-zinc-300 transition hover:bg-zinc-800/70 hover:text-rose-400"
+                                        className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-zinc-600 transition hover:bg-zinc-200 hover:text-rose-600 dark:text-zinc-300 dark:hover:bg-zinc-800/70 dark:hover:text-rose-400"
                                         title="Sửa"
                                     >
                                         <Edit className="h-4 w-4 shrink-0" aria-hidden />
@@ -136,14 +139,14 @@ export default function FilmTable({ data, loading, onDelete, deletingMaPhim }) {
                                         disabled={
                                             loading || deletingMaPhim === film.maPhim
                                         }
-                                        className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-zinc-300 transition hover:bg-zinc-800/70 hover:text-red-400 disabled:cursor-not-allowed disabled:opacity-40 cursor-pointer"
+                                        className="inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-zinc-600 transition hover:bg-zinc-200 hover:text-red-600 disabled:cursor-not-allowed disabled:opacity-40 dark:text-zinc-300 dark:hover:bg-zinc-800/70 dark:hover:text-red-400"
                                         onClick={() => onDelete?.(film)}
                                     >
                                         <TrashBin className="h-4 w-4" aria-hidden />
                                     </button>
                                     <Link
                                         to={`/admin/films/showtime/${film.maPhim}`}
-                                        className="inline-flex items-center gap-1.5 rounded-lg border border-rose-600 bg-rose-600/10 px-3 py-1.5 text-xs font-semibold text-rose-300 transition hover:bg-rose-600/20"
+                                        className="inline-flex items-center gap-1.5 rounded-lg border border-rose-600 bg-rose-50 px-3 py-1.5 text-xs font-semibold text-rose-700 transition hover:bg-rose-100 dark:bg-rose-600/10 dark:text-rose-300 dark:hover:bg-rose-600/20"
                                     >
                                         <CalendarPlus
                                             className="h-3.5 w-3.5 shrink-0"

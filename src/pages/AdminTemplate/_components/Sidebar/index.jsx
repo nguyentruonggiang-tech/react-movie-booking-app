@@ -52,7 +52,7 @@ export default function Sidebar() {
         navigate("/login", { replace: true });
     }
 
-    const { itemBase, rowInactive, iconMd, iconSm, submenuIndent } =
+    const { itemBase, iconMd, iconSm, submenuIndent, footerItemBase, footerRowInactive } =
         adminSidebarNav;
 
     return (
@@ -204,7 +204,7 @@ export default function Sidebar() {
             <div className="mt-auto space-y-3 border-t border-zinc-200 px-4 pt-6 dark:border-zinc-800">
                 <button
                     type="button"
-                    className={`${itemBase} w-full ${rowInactive} border border-transparent`}
+                    className={`${footerItemBase} ${footerRowInactive}`}
                     onClick={() => {}}
                 >
                     <BarsIcon className={iconMd} aria-hidden />
@@ -212,7 +212,7 @@ export default function Sidebar() {
                 </button>
                 <button
                     type="button"
-                    className={`${itemBase} w-full ${rowInactive}`}
+                    className={`${footerItemBase} ${footerRowInactive}`}
                     onClick={handleLogout}
                 >
                     <ArrowRightIcon className={iconMd} aria-hidden />

@@ -234,14 +234,14 @@ export default function FilmForm({
                 className="m-0 grid w-full grid-cols-1 gap-6 border-0 p-0 xl:grid-cols-12 xl:items-stretch"
             >
                     <aside className="xl:col-span-4 xl:h-full">
-                        <div className="flex h-full flex-col rounded-xl border border-zinc-800 bg-zinc-900 p-4">
+                        <div className="flex h-full flex-col rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
                             <button
                                 type="button"
                                 onClick={() => posterInputRef.current?.click()}
-                                className={`group relative block w-full flex-1 overflow-hidden rounded-xl border bg-zinc-950 transition ${
+                                className={`group relative block w-full flex-1 overflow-hidden rounded-xl border bg-zinc-50 transition dark:bg-zinc-950 ${
                                     fieldErrors.posterFile
                                         ? "border-red-500 hover:border-red-400"
-                                        : "border-zinc-700 hover:border-rose-500/70"
+                                        : "border-zinc-300 hover:border-rose-500/80 dark:border-zinc-700 dark:hover:border-rose-500/70"
                                 }`}
                             >
                                 {posterDisplaySrc ? (
@@ -256,25 +256,25 @@ export default function FilmForm({
                                             }}
                                         />
                                         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-3 text-left">
-                                            <p className="text-center text-xs font-semibold uppercase tracking-wide text-white">
+                                            <p className="text-center text-xs font-semibold uppercase tracking-wide text-zinc-800 dark:text-white">
                                                 Bấm để đổi poster
                                             </p>
                                         </div>
                                     </>
                                 ) : (
                                     <div className="flex h-full flex-col items-center justify-center gap-3 px-4 text-center">
-                                        <div className="flex h-14 w-14 items-center justify-center rounded-full border border-zinc-600 bg-zinc-800 text-2xl text-zinc-200">
+                                        <div className="flex h-14 w-14 items-center justify-center rounded-full border border-zinc-300 bg-zinc-200 text-2xl text-zinc-700 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200">
                                             +
                                         </div>
-                                        <p className="text-lg font-bold text-white">
+                                        <p className="text-lg font-bold text-zinc-900 dark:text-white">
                                             Tải poster{" "}
-                                            <span className="text-red-400">*</span>
+                                            <span className="text-red-600 dark:text-red-400">*</span>
                                         </p>
-                                        <p className="text-sm text-zinc-300">
+                                        <p className="text-sm text-zinc-600 dark:text-zinc-300">
                                             JPG, PNG, GIF (khuyến nghị 1000x1500px, tối đa {POSTER_FILE_MAX_SIZE_MB}MB)
                                         </p>
 
-                                        <span className="rounded-lg border border-zinc-600 bg-zinc-800 px-4 py-2 text-sm font-semibold text-zinc-100 transition group-hover:border-rose-500 group-hover:text-white">
+                                        <span className="rounded-lg border border-zinc-400 bg-white px-4 py-2 text-sm font-semibold text-zinc-800 transition group-hover:border-rose-500 group-hover:text-rose-700 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100 dark:group-hover:text-white">
                                             Chọn file
                                         </span>
                                     </div>
@@ -295,14 +295,14 @@ export default function FilmForm({
                                             onClick={() =>
                                                 posterInputRef.current?.click()
                                             }
-                                            className="rounded-md border border-rose-600/70 bg-rose-600/15 px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wide text-rose-200 transition hover:bg-rose-600/25"
+                                            className="rounded-md border border-rose-500 bg-rose-50 px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wide text-rose-800 transition hover:bg-rose-100 dark:border-rose-600/70 dark:bg-rose-600/15 dark:text-rose-200 dark:hover:bg-rose-600/25"
                                         >
                                             Đổi
                                         </button>
                                         <button
                                             type="button"
                                             onClick={handleRemovePoster}
-                                            className="rounded-md border border-zinc-600 bg-zinc-800/60 px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wide text-zinc-200 transition hover:border-zinc-500 hover:bg-zinc-800"
+                                            className="rounded-md border border-zinc-300 bg-zinc-100 px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wide text-zinc-800 transition hover:border-zinc-400 hover:bg-zinc-200 dark:border-zinc-600 dark:bg-zinc-800/60 dark:text-zinc-200 dark:hover:border-zinc-500 dark:hover:bg-zinc-800"
                                         >
                                             Xóa ảnh
                                         </button>
@@ -314,16 +314,16 @@ export default function FilmForm({
                                 )}
                             </div>
                             {fieldErrors.posterFile ? (
-                                <p className="mt-1 text-center text-xs text-red-400">
+                                <p className="mt-1 text-center text-xs text-red-600 dark:text-red-400">
                                     {fieldErrors.posterFile}
                                 </p>
                             ) : null}
                         </div>
                     </aside>
 
-                    <section className="space-y-5 rounded-xl border border-zinc-800 bg-zinc-900 p-5 xl:col-span-8 xl:h-full">
+                    <section className="space-y-5 rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900 xl:col-span-8 xl:h-full">
                         {error ? (
-                            <div className="mb-4 flex items-center gap-2 rounded-md border border-red-500 bg-red-500/10 px-4 py-2 text-sm text-red-300">
+                            <div className="mb-4 flex items-center gap-2 rounded-md border border-red-300 bg-red-50 px-4 py-2 text-sm text-red-800 dark:border-red-500 dark:bg-red-500/10 dark:text-red-300">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="20"
@@ -331,7 +331,7 @@ export default function FilmForm({
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
-                                    className="h-5 w-5 flex-shrink-0 text-red-400"
+                                    className="h-5 w-5 flex-shrink-0 text-red-600 dark:text-red-400"
                                 >
                                     <path
                                         strokeLinecap="round"
@@ -345,22 +345,22 @@ export default function FilmForm({
                         ) : null}
 
                         <label className="block">
-                            <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white">
-                                Tên phim <span className="text-red-400">*</span>
+                            <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-zinc-800 dark:text-white">
+                                Tên phim <span className="text-red-600 dark:text-red-400">*</span>
                             </span>
                             <input
                                 name="tenPhim"
                                 value={formValues.tenPhim}
                                 onChange={handleTextChange}
                                 placeholder="Nhập tên phim chính thức…"
-                                className={`w-full rounded-md border bg-zinc-950/50 px-3 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-1 ${
+                                className={`w-full rounded-md border bg-white px-3 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-500 focus:outline-none focus:ring-1 dark:bg-zinc-950/50 dark:text-zinc-100 dark:placeholder:text-zinc-500 ${
                                     fieldErrors.tenPhim
                                         ? "border-red-500 focus:border-red-500 focus:ring-red-500/40"
-                                        : "border-zinc-700 focus:border-rose-500 focus:ring-rose-500"
+                                        : "border-zinc-300 focus:border-rose-500 focus:ring-rose-500 dark:border-zinc-700"
                                 }`}
                             />
                             {fieldErrors.tenPhim ? (
-                                <p className="mt-1 text-xs text-red-400">
+                                <p className="mt-1 text-xs text-red-600 dark:text-red-400">
                                     {fieldErrors.tenPhim}
                                 </p>
                             ) : null}
@@ -368,14 +368,14 @@ export default function FilmForm({
 
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                             <label className="block">
-                                <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white">
-                                    Ngày khởi chiếu <span className="text-red-400">*</span>
+                                <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-zinc-800 dark:text-white">
+                                    Ngày khởi chiếu <span className="text-red-600 dark:text-red-400">*</span>
                                 </span>
                                 <div
-                                    className={`flex items-center overflow-hidden rounded-md border bg-zinc-950/50 ${
+                                    className={`flex items-center overflow-hidden rounded-md border bg-white dark:bg-zinc-950/50 ${
                                         fieldErrors.ngayKhoiChieu
                                             ? "border-red-500 focus-within:border-red-500 focus-within:ring-1 focus-within:ring-red-500/40"
-                                            : "border-zinc-700 focus-within:border-rose-500 focus-within:ring-1 focus-within:ring-rose-500"
+                                            : "border-zinc-300 focus-within:border-rose-500 focus-within:ring-1 focus-within:ring-rose-500 dark:border-zinc-700"
                                     }`}
                                 >
                                     <input
@@ -384,19 +384,19 @@ export default function FilmForm({
                                         name="ngayKhoiChieu"
                                         value={formValues.ngayKhoiChieu}
                                         onChange={handleTextChange}
-                                        className="w-full appearance-none border-none bg-transparent px-3 py-2.5 text-sm text-zinc-100 [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:pointer-events-none [&::-webkit-calendar-picker-indicator]:opacity-0 focus:border-none focus:outline-none focus:ring-0 focus:shadow-none focus-visible:ring-0 focus-visible:shadow-none"
+                                        className="w-full appearance-none border-none bg-transparent px-3 py-2.5 text-sm text-zinc-900 [color-scheme:light] [&::-webkit-calendar-picker-indicator]:pointer-events-none [&::-webkit-calendar-picker-indicator]:opacity-0 focus:border-none focus:outline-none focus:ring-0 focus:shadow-none focus-visible:ring-0 focus-visible:shadow-none dark:text-zinc-100 dark:[color-scheme:dark]"
                                     />
                                     <button
                                         type="button"
                                         onClick={handleOpenReleaseDatePicker}
-                                        className="inline-flex h-[42px] w-[42px] shrink-0 items-center justify-center border-l border-zinc-700/80 text-zinc-100 transition hover:bg-zinc-800/60 hover:text-white"
+                                        className="inline-flex h-[42px] w-[42px] shrink-0 items-center justify-center border-l border-zinc-300 text-zinc-700 transition hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-700/80 dark:text-zinc-100 dark:hover:bg-zinc-800/60 dark:hover:text-white"
                                         aria-label="Mở chọn ngày khởi chiếu"
                                     >
                                         <CalendarMonth className="h-4 w-4" aria-hidden />
                                     </button>
                                 </div>
                                 {fieldErrors.ngayKhoiChieu ? (
-                                    <p className="mt-1 text-xs text-red-400">
+                                    <p className="mt-1 text-xs text-red-600 dark:text-red-400">
                                         {fieldErrors.ngayKhoiChieu}
                                     </p>
                                 ) : null}
@@ -404,7 +404,7 @@ export default function FilmForm({
 
                             <label className="block">
                                 <div className="mb-2 flex items-center justify-between">
-                                    <span className="block text-xs font-semibold uppercase tracking-wide text-white">
+                                    <span className="block text-xs font-semibold uppercase tracking-wide text-zinc-800 dark:text-white">
                                         Đánh giá
                                     </span>
                                     <RatingBadge value={clampNumber(formValues.danhGia, 1, 10)} />
@@ -417,7 +417,7 @@ export default function FilmForm({
                                     name="danhGia"
                                     value={clampNumber(formValues.danhGia, 1, 10)}
                                     onChange={handleTextChange}
-                                    className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-zinc-700 accent-rose-400 [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-rose-400 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-rose-400"
+                                    className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-zinc-200 accent-rose-500 dark:bg-zinc-700 dark:accent-rose-400 [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-rose-500 dark:[&::-moz-range-thumb]:bg-rose-400 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-rose-500 dark:[&::-webkit-slider-thumb]:bg-rose-400"
                                 />
                                 <div className="relative mt-1 h-4 text-[11px] text-zinc-500">
                                     <span className="absolute left-0">1</span>
@@ -430,7 +430,7 @@ export default function FilmForm({
                         </div>
 
                         <label className="block">
-                            <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white">
+                            <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-zinc-800 dark:text-white">
                                 URL trailer
                             </span>
                             <input
@@ -438,12 +438,12 @@ export default function FilmForm({
                                 value={formValues.trailer}
                                 onChange={handleTextChange}
                                 placeholder="https://youtube.com/..."
-                                className="w-full rounded-md border border-zinc-700 bg-zinc-950/50 px-3 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 focus:border-rose-500 focus:outline-none focus:ring-1 focus:ring-rose-500"
+                                className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-500 focus:border-rose-500 focus:outline-none focus:ring-1 focus:ring-rose-500 dark:border-zinc-700 dark:bg-zinc-950/50 dark:text-zinc-100 dark:placeholder:text-zinc-500"
                             />
                         </label>
 
                         <label className="block">
-                            <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white">
+                            <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-zinc-800 dark:text-white">
                                 Mô tả
                             </span>
                             <textarea
@@ -452,14 +452,14 @@ export default function FilmForm({
                                 value={formValues.moTa}
                                 onChange={handleTextChange}
                                 placeholder="Nhập mô tả hấp dẫn cho khán giả…"
-                                className="w-full rounded-md border border-zinc-700 bg-zinc-950/50 px-3 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 focus:border-rose-500 focus:outline-none focus:ring-1 focus:ring-rose-500"
+                                className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-500 focus:border-rose-500 focus:outline-none focus:ring-1 focus:ring-rose-500 dark:border-zinc-700 dark:bg-zinc-950/50 dark:text-zinc-100 dark:placeholder:text-zinc-500"
                             />
                         </label>
 
                         <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
                             <label className="flex flex-col gap-1">
                                 <span className="inline-flex items-center gap-2">
-                                    <span className="text-xs font-semibold uppercase tracking-wide text-zinc-200">
+                                    <span className="text-xs font-semibold uppercase tracking-wide text-zinc-700 dark:text-zinc-200">
                                         Đang chiếu
                                     </span>
                                     <span className="relative inline-flex h-6 w-11 items-center">
@@ -470,14 +470,14 @@ export default function FilmForm({
                                             onChange={handleCheckboxChange}
                                             className="peer sr-only"
                                         />
-                                        <span className="h-6 w-11 rounded-xl bg-zinc-700 transition-colors peer-checked:bg-rose-600" />
+                                        <span className="h-6 w-11 rounded-xl bg-zinc-300 transition-colors peer-checked:bg-rose-600 dark:bg-zinc-700" />
                                         <span className="pointer-events-none absolute left-0.5 top-0.5 h-5 w-5 rounded-lg bg-white transition-transform peer-checked:translate-x-5" />
                                     </span>
                                 </span>
                             </label>
                             <label className="flex flex-col gap-1">
                                 <span className="inline-flex items-center gap-2">
-                                    <span className="text-xs font-semibold uppercase tracking-wide text-zinc-200">
+                                    <span className="text-xs font-semibold uppercase tracking-wide text-zinc-700 dark:text-zinc-200">
                                         Sắp chiếu
                                     </span>
                                     <span className="relative inline-flex h-6 w-11 items-center">
@@ -488,14 +488,14 @@ export default function FilmForm({
                                             onChange={handleCheckboxChange}
                                             className="peer sr-only"
                                         />
-                                        <span className="h-6 w-11 rounded-xl bg-zinc-700 transition-colors peer-checked:bg-rose-600" />
+                                        <span className="h-6 w-11 rounded-xl bg-zinc-300 transition-colors peer-checked:bg-rose-600 dark:bg-zinc-700" />
                                         <span className="pointer-events-none absolute left-0.5 top-0.5 h-5 w-5 rounded-lg bg-white transition-transform peer-checked:translate-x-5" />
                                     </span>
                                 </span>
                             </label>
                             <label className="flex flex-col gap-1">
                                 <span className="inline-flex items-center gap-2">
-                                    <span className="text-xs font-semibold uppercase tracking-wide text-zinc-200">
+                                    <span className="text-xs font-semibold uppercase tracking-wide text-zinc-700 dark:text-zinc-200">
                                         Nổi bật
                                     </span>
                                     <span className="relative inline-flex h-6 w-11 items-center">
@@ -506,16 +506,16 @@ export default function FilmForm({
                                             onChange={handleCheckboxChange}
                                             className="peer sr-only"
                                         />
-                                        <span className="h-6 w-11 rounded-xl bg-zinc-700 transition-colors peer-checked:bg-rose-600" />
+                                        <span className="h-6 w-11 rounded-xl bg-zinc-300 transition-colors peer-checked:bg-rose-600 dark:bg-zinc-700" />
                                         <span className="pointer-events-none absolute left-0.5 top-0.5 h-5 w-5 rounded-lg bg-white transition-transform peer-checked:translate-x-5" />
                                     </span>
                                 </span>
                             </label>
                         </div>
-                        <div className="flex items-center justify-end gap-3 border-t border-zinc-800 pt-4">
+                        <div className="flex items-center justify-end gap-3 border-t border-zinc-200 pt-4 dark:border-zinc-800">
                             <Link
                                 to="/admin/films"
-                                className="rounded-xl border border-transparent px-4 py-2 text-sm font-medium text-zinc-300 transition hover:text-white"
+                                className="rounded-xl border border-transparent px-4 py-2 text-sm font-medium text-zinc-600 transition hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white"
                             >
                                 Hủy
                             </Link>

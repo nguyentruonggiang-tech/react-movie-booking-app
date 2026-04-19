@@ -14,7 +14,7 @@ export default function Pagination({
     className = "",
 }) {
     const rootClassName = [
-        "flex flex-col items-center justify-between gap-4 border-t border-zinc-700/50 bg-zinc-800 px-4 py-3 text-sm sm:flex-row",
+        "flex flex-col items-center justify-between gap-4 border-t border-zinc-200/90 bg-zinc-50 px-4 py-3 text-sm sm:flex-row dark:border-zinc-700/50 dark:bg-zinc-800",
         className,
     ]
         .filter(Boolean)
@@ -23,15 +23,15 @@ export default function Pagination({
     return (
         <div className={rootClassName}>
             {rangeSummary ? (
-                <p className="text-zinc-500">{rangeSummary}</p>
+                <p className="text-zinc-600 dark:text-zinc-500">{rangeSummary}</p>
             ) : (
-                <p className="text-zinc-500">
+                <p className="text-zinc-600 dark:text-zinc-500">
                     Hiển thị{" "}
-                    <span className="font-medium tabular-nums text-white">
+                    <span className="font-medium tabular-nums text-zinc-900 dark:text-white">
                         {rangeStart}–{rangeEnd}
                     </span>{" "}
                     trong tổng{" "}
-                    <span className="font-medium tabular-nums text-white">{totalCount}</span>{" "}
+                    <span className="font-medium tabular-nums text-zinc-900 dark:text-white">{totalCount}</span>{" "}
                     {itemLabel}
                 </p>
             )}
@@ -40,21 +40,21 @@ export default function Pagination({
                     type="button"
                     disabled={currentPage <= 1 || loading}
                     onClick={onPrevious}
-                    className="inline-flex items-center justify-center rounded-lg border border-zinc-700 px-3 py-1.5 text-zinc-300 transition enabled:hover:border-rose-500 enabled:hover:text-rose-500 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40"
+                    className="inline-flex cursor-pointer items-center justify-center rounded-lg border border-zinc-300 px-3 py-1.5 text-zinc-700 transition enabled:hover:border-rose-500 enabled:hover:text-rose-600 disabled:cursor-not-allowed disabled:opacity-40 dark:border-zinc-700 dark:text-zinc-300 dark:enabled:hover:text-rose-500"
                     aria-label="Trang trước"
                 >
                     <ChevronLeft className="h-4 w-4" aria-hidden />
                 </button>
-                <span className="text-zinc-500">
+                <span className="text-zinc-600 dark:text-zinc-500">
                     Trang{" "}
-                    <span className="font-medium tabular-nums text-white">{currentPage}</span> /{" "}
-                    <span className="font-medium tabular-nums text-white">{totalPages}</span>
+                    <span className="font-medium tabular-nums text-zinc-900 dark:text-white">{currentPage}</span> /{" "}
+                    <span className="font-medium tabular-nums text-zinc-900 dark:text-white">{totalPages}</span>
                 </span>
                 <button
                     type="button"
                     disabled={currentPage >= totalPages || loading}
                     onClick={onNext}
-                    className="inline-flex items-center justify-center rounded-lg border border-zinc-700 px-3 py-1.5 text-zinc-300 transition enabled:hover:border-rose-500 enabled:hover:text-rose-500 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40"
+                    className="inline-flex cursor-pointer items-center justify-center rounded-lg border border-zinc-300 px-3 py-1.5 text-zinc-700 transition enabled:hover:border-rose-500 enabled:hover:text-rose-600 disabled:cursor-not-allowed disabled:opacity-40 dark:border-zinc-700 dark:text-zinc-300 dark:enabled:hover:text-rose-500"
                     aria-label="Trang sau"
                 >
                     <ChevronRight className="h-4 w-4" aria-hidden />

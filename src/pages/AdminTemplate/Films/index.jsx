@@ -107,8 +107,8 @@ export default function Films() {
         <div>
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-white">Danh sách phim</h1>
-                    <p className="mt-1 text-sm text-zinc-400">
+                    <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">Danh sách phim</h1>
+                    <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
                         Quản lý thư viện phim và lịch chiếu hệ thống
                     </p>
                 </div>
@@ -137,7 +137,7 @@ export default function Films() {
                 ) : null}
 
                 {!error && loading ? (
-                    <div className="overflow-hidden rounded-xl border border-zinc-800">
+                    <div className="overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800">
                         <FilmTable data={[]} loading deletingMaPhim={null} />
                     </div>
                 ) : null}
@@ -160,7 +160,7 @@ export default function Films() {
                 ) : null}
 
                 {!error && !loading && items.length > 0 ? (
-                    <div className="overflow-hidden rounded-xl border border-zinc-800">
+                    <div className="overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800">
                         <FilmTable
                             data={items}
                             loading={false}

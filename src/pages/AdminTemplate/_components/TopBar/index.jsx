@@ -78,13 +78,13 @@ export default function TopBar() {
     }
 
     return (
-        <header className="flex h-14 shrink-0 items-center justify-end gap-3 border-b border-zinc-200 bg-white/95 px-6 dark:border-zinc-800 dark:bg-zinc-900/80 lg:px-8">
+        <header className="flex h-14 shrink-0 items-center justify-end gap-2 border-b border-zinc-200 bg-white/95 px-6 dark:border-zinc-800 dark:bg-zinc-900/80 lg:px-8">
             <ThemeToggle
                 compact
                 variant={mode === "dark" ? "onDarkPanel" : "default"}
-                className="me-auto"
+                className="shrink-0"
             />
-            <div className="relative" ref={wrapRef}>
+            <div className="relative shrink-0" ref={wrapRef}>
                 <button
                     type="button"
                     id="admin-user-menu-button"
