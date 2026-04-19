@@ -77,7 +77,7 @@ function MovieCard({ movie }) {
 
             <div className="relative mt-6">
                 <NavLink to={detailTo}>
-                    <h3 className="font-sans text-xl font-bold text-white transition-colors group-hover:text-red-500">
+                    <h3 className="font-sans text-xl font-bold text-slate-900 transition-colors group-hover:text-red-600 dark:text-white dark:group-hover:text-red-500">
                         {title}
                     </h3>
                 </NavLink>

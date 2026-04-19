@@ -13,7 +13,8 @@ import ColumnSkeleton from "./_components/ColumnSkeleton";
 import ColumnEmpty from "./_components/ColumnEmpty";
 
 const emptyTheaterColumn =
-    "flex h-[640px] max-h-[640px] flex-col items-center justify-center rounded-xl border border-white/10 bg-zinc-900/60 p-4 text-center";
+    "flex h-[640px] max-h-[640px] flex-col items-center justify-center rounded-xl border border-slate-200 bg-slate-50 p-4 text-center " +
+    "dark:border-white/10 dark:bg-zinc-900/60";
 
 export default function Theater() {
     const dispatch = useDispatch();
@@ -87,7 +88,7 @@ export default function Theater() {
         >
             <h2
                 id="theater-heading"
-                className="mb-8 text-4xl font-black uppercase tracking-tight text-white"
+                className="mb-8 text-4xl font-black uppercase tracking-tight text-slate-900 dark:text-white"
             >
                 Hệ thống rạp
             </h2>

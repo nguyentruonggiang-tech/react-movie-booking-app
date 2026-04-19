@@ -4,7 +4,7 @@ export default function TheaterSystemList({
     onSelectSystem,
 }) {
     return (
-        <div className="h-[640px] max-h-[640px] w-full max-w-full min-w-0 rounded-xl border border-white/10 bg-zinc-900/60 p-3">
+        <div className="h-[640px] max-h-[640px] w-full max-w-full min-w-0 rounded-xl border border-slate-200 bg-white p-3 shadow-sm dark:border-white/10 dark:bg-zinc-900/60 dark:shadow-none">
             <div className="theater-scrollbar h-full space-y-3 overflow-y-auto overflow-x-hidden pr-1">
                 {theaterSystems.map((item, index) => {
                     const isActive = item.maHeThongRap === selectedSystemCode;
@@ -16,8 +16,8 @@ export default function TheaterSystemList({
                             onClick={() => onSelectSystem(item.maHeThongRap)}
                             className={`flex h-14 w-14 cursor-pointer items-center justify-center rounded-lg border transition ${
                                 isActive
-                                    ? "border-red-500 bg-red-600/20"
-                                    : "border-white/10 bg-zinc-800 hover:border-red-500"
+                                    ? "border-red-500 bg-red-50 dark:bg-red-600/20"
+                                    : "border-slate-200 bg-slate-50 hover:border-red-400 dark:border-white/10 dark:bg-zinc-800 dark:hover:border-red-500"
                             }`}
                             title={item.tenHeThongRap}
                         >

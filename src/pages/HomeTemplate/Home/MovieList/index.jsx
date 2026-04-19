@@ -22,9 +22,9 @@ function MovieListSkeleton() {
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
             {Array.from({ length: 8 }).map((_, i) => (
                 <div key={`sk-${i}`} className="animate-pulse">
-                    <div className="aspect-[2/3] rounded-xl bg-zinc-800" />
-                    <div className="mt-6 h-6 w-3/4 rounded bg-zinc-800" />
-                    <div className="mt-2 h-4 w-full rounded bg-zinc-800/80" />
+                    <div className="aspect-[2/3] rounded-xl bg-slate-200 dark:bg-zinc-800" />
+                    <div className="mt-6 h-6 w-3/4 rounded bg-slate-200 dark:bg-zinc-800" />
+                    <div className="mt-2 h-4 w-full rounded bg-slate-300/80 dark:bg-zinc-800/80" />
                 </div>
             ))}
         </div>
@@ -61,7 +61,7 @@ export default function MovieList() {
                 <div>
                     <h2
                         id="movie-list-heading"
-                        className="mb-4 font-sans text-4xl font-black uppercase tracking-tight text-white"
+                        className="mb-4 font-sans text-4xl font-black uppercase tracking-tight text-slate-900 dark:text-white"
                     >
                         Danh sách phim
                     </h2>
@@ -71,7 +71,7 @@ export default function MovieList() {
                             className={`cursor-pointer font-sans pb-2 text-lg font-bold transition-colors ${
                                 tab === TAB_PLAYING
                                     ? "border-b-2 border-red-500 text-red-500"
-                                    : "text-zinc-500 hover:text-white"
+                                    : "text-slate-600 hover:text-red-600 dark:text-zinc-500 dark:hover:text-white"
                             }`}
                             onClick={() => setTab(TAB_PLAYING)}
                         >
@@ -82,7 +82,7 @@ export default function MovieList() {
                             className={`cursor-pointer font-sans pb-2 text-lg font-bold transition-colors ${
                                 tab === TAB_UPCOMING
                                     ? "border-b-2 border-red-500 text-red-500"
-                                    : "text-zinc-500 hover:text-white"
+                                    : "text-slate-600 hover:text-red-600 dark:text-zinc-500 dark:hover:text-white"
                             }`}
                             onClick={() => setTab(TAB_UPCOMING)}
                         >

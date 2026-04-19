@@ -29,9 +29,9 @@ export default function MovieCard({ movie }) {
     );
 
     return (
-        <div className="rounded-xl border border-white/10 bg-zinc-800/70 p-4">
+        <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-white/10 dark:bg-zinc-800/70">
             <div className="flex gap-4">
-                <div className="group/poster h-24 w-16 shrink-0 overflow-hidden rounded-md bg-zinc-900 ring-offset-2 ring-offset-zinc-900">
+                <div className="group/poster h-24 w-16 shrink-0 overflow-hidden rounded-md bg-slate-200 ring-offset-2 ring-offset-white dark:bg-zinc-900 dark:ring-offset-zinc-900">
                     {detailTo ? (
                         <NavLink
                             to={detailTo}
@@ -48,12 +48,12 @@ export default function MovieCard({ movie }) {
                     {detailTo ? (
                         <NavLink
                             to={detailTo}
-                            className="line-clamp-1 block text-base font-bold text-white transition hover:text-red-400 focus-visible:rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500"
+                            className="line-clamp-1 block text-base font-bold text-slate-900 transition hover:text-red-600 focus-visible:rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500 dark:text-white dark:hover:text-red-400"
                         >
                             {displayTitle}
                         </NavLink>
                     ) : (
-                        <p className="line-clamp-1 text-base font-bold text-white">
+                        <p className="line-clamp-1 text-base font-bold text-slate-900 dark:text-white">
                             {displayTitle}
                         </p>
                     )}
