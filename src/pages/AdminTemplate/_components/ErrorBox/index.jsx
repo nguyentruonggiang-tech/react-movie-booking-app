@@ -9,17 +9,19 @@ function resolveErrorMessage(message) {
 }
 
 const ALERT_ROOT =
-    "w-full max-w-2xl mx-auto p-4 mb-4 text-sm text-fg-danger-strong rounded-base bg-red-900/70 border border-red-700/60";
+    "mx-auto mb-4 w-full max-w-2xl rounded-base border border-red-200 bg-red-50 p-4 text-sm text-red-900 " +
+    "dark:border-red-700/60 dark:bg-red-900/70 dark:text-red-50";
 
 const BTN_PRIMARY =
     "inline-flex items-center justify-center gap-1.5 rounded-md border border-transparent bg-red-600 px-3 py-1.5 text-xs font-medium leading-5 text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-500/35";
 
 const LINK_SECONDARY =
-    "inline-flex items-center justify-center rounded-md border border-red-500/35 bg-red-950/20 px-3 py-1.5 text-xs font-medium text-red-100 hover:bg-red-950/55 focus:outline-none focus:ring-4 focus:ring-red-500/25";
+    "inline-flex items-center justify-center rounded-md border border-red-300 bg-white px-3 py-1.5 text-xs font-medium text-red-700 hover:bg-red-50 focus:outline-none focus:ring-4 focus:ring-red-500/25 " +
+    "dark:border-red-500/35 dark:bg-red-950/20 dark:text-red-100 dark:hover:bg-red-950/55";
 
 /** Warning glyph via Tailwind utilities only (no inline SVG). */
 const ICON_WARNING_CLASS =
-    "me-2 mt-0.5 inline-flex h-4 w-4 shrink-0 items-center justify-center text-base font-normal leading-none text-red-400";
+    "me-2 mt-0.5 inline-flex h-4 w-4 shrink-0 items-center justify-center text-base font-normal leading-none text-red-600 dark:text-red-400";
 
 
 export default function ErrorBox({
@@ -40,10 +42,10 @@ export default function ErrorBox({
                             ⚠
                         </span>
                         <span className="sr-only">Lỗi</span>
-                        <h3 className="font-medium text-red-50">{title}</h3>
+                        <h3 className="font-medium text-red-900 dark:text-red-50">{title}</h3>
                     </div>
                 </div>
-                <div className="mb-2 mt-2 leading-relaxed text-red-200/95">{errorText}</div>
+                <div className="mb-2 mt-2 leading-relaxed text-red-800 dark:text-red-200/95">{errorText}</div>
                 <div className="mt-4 flex flex-wrap items-center gap-2">
                     {onRetry ? (
                         <button type="button" onClick={onRetry} className={BTN_PRIMARY}>
