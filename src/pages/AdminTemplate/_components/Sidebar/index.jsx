@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import {
-    ArrowRightIcon,
-    BarsIcon,
-    CalendarIcon,
-} from "flowbite-react/icons";
+import { ArrowRightIcon, CalendarIcon } from "flowbite-react/icons";
 import {
     ChevronDown,
+    Cog,
     Plus,
     RectangleList,
     Users,
@@ -56,14 +53,15 @@ export default function Sidebar() {
         adminSidebarNav;
 
     return (
-        <div className="flex h-full min-h-screen flex-col py-4">
-            <div className="border-b border-zinc-200 px-4 pb-2 dark:border-zinc-800">
-                <p className="mb-2 text-justify text-2xl font-bold uppercase tracking-tight text-rose-600">
+        <div className="flex h-full min-h-screen flex-col">
+            {/* Match TopBar height (h-14) so brand row aligns with main header */}
+            <div className="flex h-14 shrink-0 items-center border-b border-zinc-200 px-4 dark:border-zinc-800">
+                <p className="truncate text-lg font-bold uppercase leading-tight tracking-tight text-rose-600">
                     {SITE_NAME}
                 </p>
             </div>
 
-            <nav className="flex flex-1 flex-col gap-1 px-4 py-3">
+            <nav className="flex flex-1 flex-col gap-1 px-4 py-4">
                 <div className="rounded-md">
                     <button
                         type="button"
@@ -201,13 +199,18 @@ export default function Sidebar() {
                 </div>
             </nav>
 
-            <div className="mt-auto space-y-3 border-t border-zinc-200 px-4 pt-6 dark:border-zinc-800">
+            <div
+                className={
+                    "mt-auto space-y-3 border-t border-rose-200/80 bg-zinc-50/90 px-6 py-5 " +
+                    "dark:border-rose-950/40 dark:bg-zinc-900/50"
+                }
+            >
                 <button
                     type="button"
                     className={`${footerItemBase} ${footerRowInactive}`}
                     onClick={() => {}}
                 >
-                    <BarsIcon className={iconMd} aria-hidden />
+                    <Cog className={iconMd} aria-hidden />
                     Cài đặt
                 </button>
                 <button
