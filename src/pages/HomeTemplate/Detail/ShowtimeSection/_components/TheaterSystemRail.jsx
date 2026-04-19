@@ -25,8 +25,8 @@ function TheaterSystemRail({
                                 }
                                 className={`flex h-14 w-14 cursor-pointer items-center justify-center rounded-lg border transition ${
                                     isActive
-                                        ? "border-red-500 bg-red-600/20"
-                                        : "border-white/10 bg-zinc-800 hover:border-red-500"
+                                        ? "border-red-500 bg-red-50 dark:bg-red-600/20"
+                                        : "border-slate-200 bg-slate-50 hover:border-red-400 dark:border-white/10 dark:bg-zinc-800 dark:hover:border-red-500"
                                 }`}
                                 title={system.tenHeThongRap}
                             >

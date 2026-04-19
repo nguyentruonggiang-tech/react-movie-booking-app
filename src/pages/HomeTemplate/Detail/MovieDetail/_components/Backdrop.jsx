@@ -13,13 +13,13 @@ export default function Backdrop({ posterUrl }) {
                     <img
                         src={posterUrl}
                         alt=""
-                        className="h-full w-full scale-110 object-cover opacity-60 blur-[18px]"
+                        className="h-full w-full scale-110 object-cover opacity-35 blur-[18px] dark:opacity-60"
                         onError={() => setIsImageError(true)}
                     />
-                    <div className="absolute inset-0 bg-[#0c0e12]/64" />
+                    <div className="absolute inset-0 bg-white/82 dark:bg-[#0c0e12]/64" />
                 </>
             ) : (
-                <div className="h-full w-full bg-gradient-to-br from-zinc-950 via-[#0c0e12] to-black" />
+                <div className="h-full w-full bg-gradient-to-br from-slate-100 via-slate-200 to-slate-300 dark:from-zinc-950 dark:via-[#0c0e12] dark:to-black" />
             )}
         </div>
     );

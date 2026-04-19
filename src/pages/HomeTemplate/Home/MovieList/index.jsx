@@ -61,7 +61,7 @@ export default function MovieList() {
                 <div>
                     <h2
                         id="movie-list-heading"
-                        className="mb-4 font-sans text-4xl font-black uppercase tracking-tight text-slate-900 dark:text-white"
+                        className="mb-4 pb-1 font-sans text-4xl font-black uppercase leading-normal tracking-tight text-slate-900 dark:text-white"
                     >
                         Danh sách phim
                     </h2>

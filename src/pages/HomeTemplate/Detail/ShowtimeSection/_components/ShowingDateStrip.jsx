@@ -8,10 +8,10 @@ function ShowingDateStrip({
     onSelectShowingDateKey,
 }) {
     return (
-        <header className="shrink-0 space-y-3 border-b border-white/10 pb-3">
+        <header className="shrink-0 space-y-3 border-b border-slate-200 pb-3 dark:border-white/10">
             <div className="-mx-1 flex gap-1 overflow-x-auto pb-1 gap-2">
                 {!sortedShowingDateKeys.length && (
-                    <p className="px-1 py-2 text-sm text-zinc-500">
+                    <p className="px-1 py-2 text-sm text-slate-500 dark:text-zinc-500">
                         Chuỗi rạp này chưa có suất chiếu.
                     </p>
                 )}
@@ -27,17 +27,17 @@ function ShowingDateStrip({
                             key={dateKey}
                             type="button"
                             onClick={() => onSelectShowingDateKey(dateKey)}
-                            className={`flex min-w-[4.5rem] shrink-0 flex-col items-center rounded-lg p-2 text-center transition border cursor-pointer ${
+                            className={`flex min-w-[4.5rem] shrink-0 cursor-pointer flex-col items-center rounded-lg border p-2 text-center transition ${
                                 isActive
-                                    ? "text-red-500 border-red-500"
-                                    : "text-zinc-300 border-white/10 hover:border-red-500 hover:bg-zinc-800/80"
+                                    ? "border-red-500 text-red-500"
+                                    : "border-slate-200 text-slate-700 hover:border-red-400 hover:bg-slate-100 dark:border-white/10 dark:text-zinc-300 dark:hover:border-red-500 dark:hover:bg-zinc-800/80"
                             }`}
                         >
                             <span
                                 className={`text-xs font-medium leading-tight ${
                                     isActive
                                         ? "text-red-500"
-                                        : "text-white"
+                                        : "text-slate-800 dark:text-white"
                                 }`}
                             >
                                 {weekdayLabel}
@@ -46,7 +46,7 @@ function ShowingDateStrip({
                                 className={`text-lg font-bold tabular-nums ${
                                     isActive
                                         ? "text-red-500"
-                                        : "text-white"
+                                        : "text-slate-900 dark:text-white"
                                 }`}
                             >
                                 {dayOfMonth}/{monthNum}

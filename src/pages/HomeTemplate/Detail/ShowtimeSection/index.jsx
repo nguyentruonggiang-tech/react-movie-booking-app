@@ -95,12 +95,12 @@ const ShowtimeSection = () => {
 
     return (
         <section
-            className="relative z-10 mx-auto mt-10 w-full min-w-0 max-w-7xl overflow-x-hidden px-8 pb-6 md:pb-8"
+            className="relative z-10 mx-auto mt-10 w-full min-w-0 max-w-7xl overflow-x-clip px-8 pb-6 md:pb-8"
             aria-labelledby="movie-showtimes-heading"
         >
             <h2
                 id="movie-showtimes-heading"
-                className="mb-8 text-4xl font-black uppercase tracking-tight text-white"
+                className="mb-8 pb-1 text-4xl font-black uppercase leading-normal tracking-tight text-slate-900 dark:text-white"
             >
                 Lịch chiếu
             </h2>

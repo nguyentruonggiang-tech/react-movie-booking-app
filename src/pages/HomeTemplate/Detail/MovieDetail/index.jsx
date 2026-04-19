@@ -51,7 +51,7 @@ export default function MovieDetail() {
     }
 
     return (
-        <div className="relative overflow-hidden bg-[#0c0e12]">
+        <div className="relative overflow-hidden bg-slate-100 dark:bg-[#0c0e12]">
             <Backdrop posterUrl={data.hinhAnh} />
             <MovieInfo data={data} />
         </div>

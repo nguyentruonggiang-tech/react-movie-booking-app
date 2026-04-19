@@ -88,7 +88,7 @@ export default function Theater() {
         >
             <h2
                 id="theater-heading"
-                className="mb-8 text-4xl font-black uppercase tracking-tight text-slate-900 dark:text-white"
+                className="mb-8 pb-1 text-4xl font-black uppercase leading-normal tracking-tight text-slate-900 dark:text-white"
             >
                 Hệ thống rạp
             </h2>

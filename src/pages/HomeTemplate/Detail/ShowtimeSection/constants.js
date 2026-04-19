@@ -12,6 +12,6 @@ export const WEEKDAY_LABELS_VI = [
 ];
 
 export const SHOWTIME_COLUMN_CLASS =
-    "h-[640px] max-h-[640px] w-full max-w-full min-w-0 rounded-xl border border-white/10 bg-zinc-900/60";
+    "h-[640px] max-h-[640px] w-full max-w-full min-w-0 rounded-xl border border-slate-200 bg-white shadow-sm dark:border-white/10 dark:bg-zinc-900/60 dark:shadow-none";
 
 export const SHOWTIME_NO_IMAGE_URL = noImageSvgUrl;
