@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Grid } from "flowbite-react-icons/outline";
 import { toast } from "react-toastify";
 import ThemeToggle from "@components/ThemeToggle";
 import { actLogout } from "@pages/Auth/slice";
-import { SITE_NAME } from "@constants";
+import { SITE_NAME, USER_ROLE_ADMIN } from "@constants";
 import { HOME_HEADER_BAR_CLASS } from "../../constants";
 
 const DEFAULT_DISPLAY_NAME = "Tài khoản";
@@ -77,6 +78,12 @@ const userDropdownSignOutClass =
     "inline-flex w-full cursor-pointer items-center rounded-md p-2 text-left text-red-700 transition-colors hover:bg-red-50 " +
     "dark:text-red-300 dark:hover:bg-red-600/15 dark:hover:text-red-200";
 const LOGOUT_SUCCESS_TOAST_ID = "logout-success";
+
+const headerAdminLinkClass =
+    "inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-slate-300 text-slate-700 transition " +
+    "hover:border-red-500/55 hover:bg-red-600/10 hover:text-red-700 " +
+    "focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-red-500/50 " +
+    "dark:border-white/15 dark:text-slate-200 dark:hover:border-red-400/45 dark:hover:bg-red-600/15 dark:hover:text-white";
 
 function UserAccountDropdownPanel({
     displayName,
@@ -159,6 +166,7 @@ export default function Header() {
     const hamburgerRef = useRef(null);
 
     const isAuthenticated = Boolean(authUser?.accessToken || authUser?.taiKhoan);
+    const isAdminSession = authUser?.maLoaiNguoiDung === USER_ROLE_ADMIN;
     const displayName = authUser?.hoTen?.trim() || DEFAULT_DISPLAY_NAME;
     const accountEmail = authUser?.email?.trim() || authUser?.taiKhoan?.trim() || "";
     const avatarInitials = userMenuAvatarInitials(displayName, authUser?.taiKhoan);
@@ -237,6 +245,16 @@ export default function Header() {
 
                 <div className="relative z-20 flex shrink-0 items-center space-x-2 md:order-2 md:space-x-3 rtl:space-x-reverse">
                     <ThemeToggle compact className="shrink-0" />
+                    {isAuthenticated && isAdminSession ? (
+                        <NavLink
+                            to="/admin"
+                            className={headerAdminLinkClass}
+                            aria-label="Vào trang quản trị"
+                            title="Quản trị"
+                        >
+                            <Grid className="h-5 w-5 shrink-0" aria-hidden />
+                        </NavLink>
+                    ) : null}
                     {isAuthenticated ? (
                         <>
                             <div ref={mobileUserMenuRef} className="relative flex items-center md:hidden">
