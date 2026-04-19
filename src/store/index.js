@@ -13,6 +13,7 @@ import { authLoginReducer, authRegisterReducer } from "@pages/Auth/slice";
 import { filmsReducer } from "@pages/AdminTemplate/Films/slice";
 import { usersReducer } from "@pages/AdminTemplate/Users/slice";
 import { profileReducer } from "@pages/UserProfile/slice";
+import { adminShowtimeReducer } from "@pages/AdminTemplate/ShowTime/slice";
 import themeReducer from "./themeSlice";
 
 const store = configureStore({
@@ -23,6 +24,7 @@ const store = configureStore({
         films: filmsReducer,
         users: usersReducer,
         profile: profileReducer,
+        adminShowtime: adminShowtimeReducer,
         bannerReducer,
         movieReducer,
         theaterSystemsReducer,
