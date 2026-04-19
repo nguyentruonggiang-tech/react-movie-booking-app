@@ -11,6 +11,7 @@ import {
     fetchShowtimeCumRapTheoHeThong,
     fetchShowtimeHeThongRap,
 } from "../slice";
+import { formatDate } from "@utils/dateUtils";
 import { errTextClass, inputClass, labelClass } from "./constants";
 
 export default function CreateShowtimeForm({ ngayChieu, onNgayChieuChange }) {
@@ -37,6 +38,8 @@ export default function CreateShowtimeForm({ ngayChieu, onNgayChieuChange }) {
     const clusters = Array.isArray(showtimeClustersState?.data)
         ? showtimeClustersState.data
         : [];
+
+    const minScreeningDateIso = formatDate(new Date());
 
     useEffect(() => {
         dispatch(fetchShowtimeHeThongRap());
@@ -79,8 +82,13 @@ export default function CreateShowtimeForm({ ngayChieu, onNgayChieuChange }) {
             next.giaVe = "Nhập giá vé hợp lệ.";
         }
 
+        const day = String(ngayChieu ?? "").trim();
+        if (!next.ngayChieu && /^\d{4}-\d{2}-\d{2}$/.test(day) && day < minScreeningDateIso) {
+            next.ngayChieu = "Chỉ được chọn hôm nay hoặc ngày tương lai.";
+        }
+
         const ngayGio = buildNgayChieuGioChieu();
-        if (!ngayGio) {
+        if (!ngayGio && !next.ngayChieu) {
             next.ngayChieu = "Ngày/giờ không hợp lệ.";
         }
 
