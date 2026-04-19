@@ -18,7 +18,6 @@ function resolveTheme(themeMode = "auto") {
         if (rootClassList.contains("dark")) return "dark";
         if (rootClassList.contains("light")) return "light";
     }
-
     return "light";
 }
 
