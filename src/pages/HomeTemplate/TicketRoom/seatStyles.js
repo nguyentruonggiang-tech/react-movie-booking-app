@@ -93,7 +93,7 @@ export const SEAT_LEGEND_ITEMS = [
     },
     {
         key: "booked",
-        label: "Booked",
+        label: "Đã đặt",
         boxClass:
             "rounded-md border border-zinc-400 bg-white text-xs font-black text-red-600 shadow-sm shadow-black/15 ring-1 ring-inset ring-red-500/20",
         symbol: "X",

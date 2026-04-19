@@ -48,15 +48,15 @@ export default function Seat({ ghe, row, readOnly = false }) {
                     event.preventDefault();
                 }
             }}
-            aria-label={`Seat ${ghe.soGhe}${
+            aria-label={`Ghế ${ghe.soGhe}${
                 daDat
-                    ? " booked"
+                    ? ", đã đặt"
                     : daCoNguoiChon
-                      ? " held by another user"
+                      ? ", đang được người khác giữ"
                       : dangChon
-                        ? " selected"
+                        ? ", đã chọn"
                         : readOnly
-                          ? " (preview)"
+                          ? " (chỉ xem)"
                           : ""
             }`}
         >
